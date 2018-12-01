@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="main,game" >
+	<e:Image id="bg" source="bg_jpg" fillMode="repeat" left="0" right="0" height="1600" y="0"/>
+	<e:Rect width="600" fillColor="0x424242" horizontalCenter="0" top="0" bottom="0"/>
+	<e:Group id="errorMC" x="20" y="0" width="600" height="200">
+		<e:Rect fillColor="0xff0000" fillAlpha="0.2" left="0" right="0" top="0" bottom="0"/>
+		<e:Label id="errorText" text="90" x="300" width="150" textAlign="center" bottom="30" size="70" scaleY="2" stroke="2"/>
+	</e:Group>
+	<e:Image id="line2" source="road_png" y="0" fillMode="repeat" horizontalCenter="150" height="1600"/>
+	<e:Image id="line1" source="road_png" y="0" fillMode="repeat" height="1600" horizontalCenter="-150"/>
+	<e:Rect width="15" height="1136" y="0" fillColor="0xffffff" horizontalCenter="0" top.game="0" bottom.game="0" top.main="0" bottom.main="0"/>
+	<e:Group id="treeGroup" left="0" right="0" top="0" bottom="0" locked="true">
+	</e:Group>
+	<e:Image id="titleMC" source="title_png" y="120" horizontalCenter="0" visible.game="false"/>
+	<e:Image id="startBtn" source="btn_start_png" horizontalCenter="0" bottom="160" visible.game="false"/>
+	<e:Group bottom="20" horizontalCenter="0" visible.game="false">
+		<e:Image id="rankBtn" source="rank_btn_png" x="216" y="200"/>
+		<e:Image id="levelBtn" source="level_btn_png" x="0" y="350"/>
+		<e:Image id="skinBtn" source="skin_btn_png" x="1116" y="0"/>
+		<e:Image id="settingBtn" source="setting_btn_png" x="700" y="183"/>
+		<e:layout>
+			<e:HorizontalLayout gap="50"/>
+		</e:layout>
+	</e:Group>
+	<e:Group id="levelGroup" x="204" bottom="280" visible.game="false">
+		<e:Image source="black_bg_png" scale9Grid="36,7,16,42" left="0" right="0" top="0" bottom="0"/>
+		<e:Label id="levelText" text="挑点关卡：16" stroke="3" left="30" right="30" top="5" bottom="5" verticalAlign="middle" textAlign="center"/>
+	</e:Group>
+	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
+	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false"/>
+	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false"/>
+	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game"/>
+	<e:Group x="170" bottom="80" includeIn="game">
+		<e:Image source="clock_bg_png" y="0" horizontalCenter="0"/>
+		<e:Image source="car_clock_png" y="1" x="1"/>
+		<e:Group horizontalCenter="0" y="90">
+			<e:Label id="speedText" text="300" y="0" size="30" x="0" stroke="2"/>
+			<e:Label text="km/h" y="0" size="20" x="0" stroke="2" textColor="0xffffff" height="22"/>
+			<e:layout>
+			<e:HorizontalLayout verticalAlign="bottom" gap="5"/>
+			</e:layout>
+		</e:Group>
+		<e:Image id="needle" source="car_clock_line_png" x="152" y="155" anchorOffsetX="8" anchorOffsetY="8" rotation="0"/>
+		<e:Group id="limitGroup" includeIn="game" y="175" width="204" horizontalCenter="0">
+			<e:Rect width="204" height="12" x="0" y="0" fillColor="0x282828"/>
+			<e:Rect id="rateMC2" width="100" height="8" x="2" y="2" fillColor="0xff0000"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

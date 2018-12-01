@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="LevelItemSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="127" height="145" states="lock,current" >
+	<e:Image source="chapter_item1_png" x="0" y="0" source.current="chapter_item2_png"/>
+	<e:Label id="indexText" text="20" includeIn="current" size="60" bold="true" horizontalCenter="0" verticalCenter="-15.5"/>
+	<e:Group includeIn="current" y="95" horizontalCenter="0">
+		<e:Image id="s0" source="chapter_star4_png" includeIn="current" x="0" y="0"/>
+		<e:Image source="chapter_star4_png" includeIn="current" x="10" y="10" id="s1"/>
+		<e:Image source="chapter_star4_png" includeIn="current" x="20" y="20" id="s2"/>
+		<e:layout>
+			<e:HorizontalLayout gap="-4"/>
+		</e:layout>
+	</e:Group>
+</e:Skin>

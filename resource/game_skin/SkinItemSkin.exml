@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="SkinItemSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="180" height="260" states="lock,normal" >
+	<e:Image id="bg" source="skin_item_png" scale9Grid="17,21,103,130" left="0" right="0" top="0" bottom="0"/>
+	<e:Image id="carMC" source="car_temp_png" y="5" scaleX="0.5" scaleY="0.5" horizontalCenter="0"/>
+	<e:Label id="desText" text="时速:150KM\n加速:15KM/秒\n制动:30KM/秒" includeIn="normal" size="23" lineSpacing="10" x="20" bottom="10"/>
+	<e:Label id="rateText" text="Label" size="22" horizontalCenter="0" bottom="80" includeIn="lock"/>
+	<e:Group x="30" height="18" scaleX="0.5" scaleY="0.5" bottom="65" includeIn="lock">
+		<e:Image source="progress_img_png" x="0" y="0"/>
+		<e:Image id="barMC" source="progress_bg_png" x="0" y="0" scale9Grid="10,2,219,14"/>
+	</e:Group>
+	<e:Button id="btn" label="获取" x="30" skinName="Btn4Skin" height="45" width="120" bottom="10" includeIn="lock"/>
+	<e:Image id="usingMC" source="using_mc_png" y="72.33" horizontalCenter="0" includeIn="normal"/>
+</e:Skin>

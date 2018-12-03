@@ -364,6 +364,37 @@ class MyTool {
         },cd)
 
     }
+
+    public static getSector(r: number = 100,startFrom: number = 0,angle: number = 360,color: number = 0xff0000,alpha=1,shape?: egret.Shape): egret.Shape {
+        if(!shape)
+            shape = new egret.Shape();
+        var x: number = 0;
+        var y: number = 0;
+        shape.graphics.clear();
+        shape.graphics.beginFill(color,alpha);
+        //shape.graphics.lineStyle(0, 0xff0000);
+        shape.graphics.moveTo(x,y);
+        angle = (Math.abs(angle) > 360) ? 360 : angle;
+        var n: number = Math.ceil(Math.abs(angle) / 45);
+        var angleA: number = angle / n;
+        angleA = angleA * Math.PI / 180;
+        startFrom = startFrom * Math.PI / 180;
+        shape.graphics.lineTo(x + r * Math.cos(startFrom),y + r * Math.sin(startFrom));
+        for(var i = 1;i <= n;i++) {
+            startFrom += angleA;
+            var angleMid = startFrom - angleA / 2;
+            var bx = x + r / Math.cos(angleA / 2) * Math.cos(angleMid);
+            var by = y + r / Math.cos(angleA / 2) * Math.sin(angleMid);
+            var cx = x + r * Math.cos(startFrom);
+            var cy = y + r * Math.sin(startFrom);
+            shape.graphics.curveTo(bx,by,cx,cy);
+        }
+        if(angle != 360) {
+            shape.graphics.lineTo(x,y);
+        }
+        shape.graphics.endFill();
+        return shape;
+    }
 }
 
 

@@ -15,11 +15,25 @@ class SkinUI extends game.BaseWindow{
         this.skinName = "SkinUISkin";
     }
 
+    public childrenCreated() {
+        this.addBtnEvent(this.closeBtn,this.hide)
+        this.scroller.viewport = this.list;
+        this.list.itemRenderer = SkinItem;
+    }
+
     public show() {
         super.show();
     }
 
-    public childrenCreated() {
+    public onShow(){
+        this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewList)
+        var arr = [];
+        for(var i=0;i<GameData.MaxCar;i++)
+            arr.push(i+1)
+        this.list.dataProvider = new eui.ArrayCollection(arr)
+    }
 
+    private renewList(){
+        MyTool.renewList(this.list)
     }
 }

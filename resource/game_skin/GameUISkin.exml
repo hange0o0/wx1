@@ -17,9 +17,9 @@
 		<e:Image id="rankBtn" source="rank_btn_png" x="216" y="200"/>
 		<e:Image id="levelBtn" source="level_btn_png" x="0" y="350"/>
 		<e:Image id="skinBtn" source="skin_btn_png" x="1116" y="0"/>
-		<e:Image id="settingBtn" source="setting_btn_png" x="700" y="183"/>
+		<e:Image id="settingBtn" x="700" y="183" source="sound_on_btn_png"/>
 		<e:layout>
-			<e:HorizontalLayout gap="50"/>
+			<e:HorizontalLayout gap="45"/>
 		</e:layout>
 	</e:Group>
 	<e:Group id="levelGroup" x="204" bottom="280" visible.game="false">
@@ -29,8 +29,8 @@
 	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
 	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false"/>
 	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false"/>
-	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game"/>
-	<e:Group x="170" bottom="80" includeIn="game">
+	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="180" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
+	<e:Group id="meterGroup" x="170" bottom="80" includeIn="game" width="304" height="200">
 		<e:Image source="clock_bg_png" y="0" horizontalCenter="0"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>
 		<e:Group horizontalCenter="0" y="90">
@@ -45,5 +45,9 @@
 			<e:Rect width="204" height="12" x="0" y="0" fillColor="0x282828"/>
 			<e:Rect id="rateMC2" width="100" height="8" x="2" y="2" fillColor="0xff0000"/>
 		</e:Group>
+	</e:Group>
+	<e:Group id="exitBtn" includeIn="game" y="20" x="20">
+		<e:Image source="game_top_png" x="0" y="0"/>
+		<e:Label id="gameLevelText" text="LV.50" horizontalCenter="0" verticalCenter="0" bold="true"/>
 	</e:Group>
 </e:Skin>

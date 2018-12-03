@@ -5,13 +5,12 @@
 		<e:Image source="close_btn_png" horizontalCenter="0" verticalCenter="0"/>
 	</e:Group>
 	<e:Label text="我的车库" y="35" horizontalCenter="0.5" bold="true"/>
-	<e:Scroller id="scroller" width="560" horizontalCenter="0" top="115" bottom="20">
+	<e:Scroller id="scroller" horizontalCenter="0" top="115" bottom="20">
 		<e:Group>
-			<e:List id="list" left="0" top="0" bottom="0" right="0">
+			<e:List id="list" top="0" bottom="0" itemRendererSkinName="SkinItemSkin" x="0">
 				<e:layout>
 					<e:TileLayout requestedColumnCount="3" horizontalGap="10" verticalGap="15"/>
-				</e:layout>
-				
+				</e:layout>				
 			</e:List>
 		</e:Group>
 	</e:Scroller>

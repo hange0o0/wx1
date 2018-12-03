@@ -5,7 +5,7 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bg_jpg,car_png,road_png,tap_png,tree_1_png,tree_2_png,tree_3_png,tree_4_png,tree_5_png,tree_6_png,tree_7_png,tree_8_png,title_png,window_bg_png,skin_item_png,close_btn_png,skin_item2_png,btn_start_png,chapter_star2_png,chapter_item1_png,chapter_star1_png,chapter_star4_png,chapter_item2_png,chapter_star3_png,bg_1_png,bg_2_png,bg_3_png,bg_4_png,car_temp_png,progress_bg_png,progress_img_png,using_mc_png,setting_btn_png,level_btn_png,skin_btn_png,rank_btn_png,black_bg_png,game_top_png,car_clock_png,car_clock_line_png,clock_bg_png",
+			"keys":"bg_jpg,car_png,road_png,tap_png,tree_1_png,tree_2_png,tree_3_png,tree_4_png,tree_5_png,tree_6_png,tree_7_png,tree_8_png,title_png,window_bg_png,skin_item_png,close_btn_png,skin_item2_png,btn_start_png,chapter_star2_png,chapter_item1_png,chapter_star1_png,chapter_star4_png,chapter_item2_png,chapter_star3_png,bg_1_png,bg_2_png,bg_3_png,bg_4_png,car_temp_png,progress_bg_png,progress_img_png,using_mc_png,level_btn_png,skin_btn_png,rank_btn_png,black_bg_png,game_top_png,car_clock_png,car_clock_line_png,clock_bg_png,sound_off_btn_png,sound_on_btn_png",
 			"name":"game"
 		}
 	],
@@ -176,11 +176,6 @@
 			"url":"game_assets/using_mc.png"
 		},
 		{
-			"name":"setting_btn_png",
-			"type":"image",
-			"url":"game_assets/setting_btn.png"
-		},
-		{
 			"name":"level_btn_png",
 			"type":"image",
 			"url":"game_assets/level_btn.png"
@@ -219,6 +214,16 @@
 			"name":"clock_bg_png",
 			"type":"image",
 			"url":"game_assets/clock_bg.png"
+		},
+		{
+			"name":"sound_off_btn_png",
+			"type":"image",
+			"url":"game_assets/sound_off_btn.png"
+		},
+		{
+			"name":"sound_on_btn_png",
+			"type":"image",
+			"url":"game_assets/sound_on_btn.png"
 		}
 	]
 }

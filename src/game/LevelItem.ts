@@ -12,10 +12,16 @@ class LevelItem extends game.BaseItem{
     }
 
     public childrenCreated() {
+          this.addBtnEvent(this,this.onClick)
+    }
 
+    private onClick(){
+        LevelUI.getInstance().hide();
+        GameUI.getInstance().startLevel(this.data)
     }
 
     public dataChanged():void{
-
+         this.indexText.text = this.data;
+        this.currentState = 'current'
     }
 }

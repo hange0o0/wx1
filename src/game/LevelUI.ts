@@ -16,11 +16,22 @@ class LevelUI extends game.BaseWindow{
         this.skinName = "LevelUISkin";
     }
 
+    public childrenCreated() {
+
+        this.addBtnEvent(this.closeBtn,this.hide)
+        this.scroller.viewport = this.list;
+        this.list.itemRenderer = LevelItem;
+    }
+
+
     public show() {
         super.show();
     }
 
-    public childrenCreated() {
-
+    public onShow(){
+        var arr = [];
+        for(var i=0;i<GameData.MaxLevel;i++)
+            arr.push(i+1)
+        this.list.dataProvider = new eui.ArrayCollection(arr)
     }
 }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ResultUISkin" width="400" height="600" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group y="0" horizontalCenter="0">
-		<e:Image source="chapter_star1_png" x="0" y="0"/>
-		<e:Image source="chapter_star1_png" x="10" y="10"/>
-		<e:Image source="chapter_star1_png" x="20" y="20"/>
+		<e:Image id="s0" source="chapter_star1_png" x="0" y="0"/>
+		<e:Image id="s1" source="chapter_star1_png" x="10" y="10"/>
+		<e:Image id="s2" source="chapter_star1_png" x="20" y="20"/>
 		<e:layout>
 		<e:HorizontalLayout gap="10"/>
 		</e:layout>
 	</e:Group>
-	<e:Label id="timeText" text="14%" y="194" size="60" horizontalCenter="0.5" bold="true" textColor="0xFFFFFF"/>
+	<e:Label id="timeText" text="14%" y="205" size="60" horizontalCenter="0.5" bold="true" textColor="0xFFFFFF"/>
 	<e:Label text="当前用时" y="164" size="24" horizontalCenter="1" textColor="0xCBCACA"/>
-	<e:Label id="nextText" text="下一关已解锁" y="264" size="24" horizontalCenter="1" textColor="0x96fffb"/>
+	<e:Label id="nextText" text="下一关已解锁" y="280" size="24" horizontalCenter="1" textColor="0x96fffb"/>
 	<e:Button id="shartBtn" label="炫耀一下" skinName="Btn4Skin" width="160" horizontalCenter="0" bottom="135"/>
 	<e:Button id="nextBtn" label="下一关" width="160" horizontalCenter="0" skinName="Btn2Skin" bottom="60"/>
 	<e:Group id="backBtn" y="556" horizontalCenter="0">

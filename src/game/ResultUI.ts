@@ -12,12 +12,25 @@ class ResultUI extends game.BaseWindow{
     private nextBtn: eui.Button;
     private backBtn: eui.Group;
 
+    private useTime;
     public constructor() {
         super();
         this.skinName = "ResultUISkin";
     }
     public childrenCreated() {
         this.addBtnEvent(this.backBtn,this.hide)
+        this.addBtnEvent(this.nextBtn,this.onNext)
+        this.addBtnEvent(this.shartBtn,this.onShare)
+
+        this.shartBtn.visible = false;
+    }
+
+    private onShare(){
+
+    }
+    private onNext(){
+        this.hide();
+        GameUI.getInstance().onStart();
     }
 
     public hide(){
@@ -26,7 +39,25 @@ class ResultUI extends game.BaseWindow{
     }
 
     public show() {
-        super.show();
+        this.useTime = egret.getTimer() - GameData.getInstance().startTime;
+        CarManager.getInstance().sendSuccess(()=>{
+            super.show();
+        })
+    }
+
+    public onShow(){
+        var GD =  GameData.getInstance();
+        var star =  GD.getStarByLevel(GD.level,this.useTime)
+        for(var j=0;j<3;j++)
+        {
+            this['s'+j].source = star>j?'chapter_star2_png':'chapter_star1_png'
+        }
+        this.nextText.visible = GD.level == CarManager.getInstance().maxLevel;
+
+        var cd = this.useTime;
+        var cd2 =  Math.floor((cd%1000)/10)
+        cd = Math.floor(cd/1000)
+        this.timeText.text = DateUtil.getStringBySecond(cd).substr(-5) + '.' + ('00' + cd2).substr(-2)
     }
 
 

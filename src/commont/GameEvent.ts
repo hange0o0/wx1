@@ -1,39 +1,7 @@
 
 class GameEvent {
     public static client = {
-        energy_change:'energy_change',
-        coin_change:'coin_change',
-        diamond_change:'diamond_change',
-        force_change:'force_change',
-        hourcoin_change:'hourcoin_change',
-        mail_change:'mail_change',
-        pos_change:'pos_change',
-        tec_change:'tec_change',
-        prop_change:'prop_change',
-        hang_change:'hang_change',
-        card_change:'card_change',
-        head_change:'head_change',
-        hero_change:'hero_change',
-        task_change:'task_change',
-
-        fight_change:'fight_change',
-        pvp_change:'pvp_change',
-        PVP_END:'PVP_END',
-
-
-        pk_begin:'pk_begin',
-        pk_end:'pk_end',
-        info_change:'info_change',
-        slave_change:'slave_change',
-        view_change:'view_change',
-        active_change:'active_change',
-        active_end:'active_end',
-
-
-
-        //task_change:'task_change',
-        //card_change:'card_change',
-        //pk_end:'pk_end',
+        SKIN_CHANGE:'SKIN_CHANGE',
 
         red_change:'red_change',
         pass_day:'pass_day',

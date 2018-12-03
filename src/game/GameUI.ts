@@ -24,20 +24,26 @@ class GameUI extends game.BaseUI {
     private speedBtn: eui.Image;
     private readyText: eui.Label;
     private speedText: eui.Label;
+    private gameLevelText: eui.Label;
     private needle: eui.Image;
     private limitGroup: eui.Group;
+    private meterGroup: eui.Group;
+    private exitBtn: eui.Group;
     private rateMC2: eui.Rect;
 
 
 
-
+    public posRateMC = new egret.Shape()
+    public cdRateMC = new egret.Shape()
+    public alarmMC = new egret.Shape()
 
 
     private timer = new egret.Timer(1000/GameData.Frame);
     private carMC;
     private alarm = false
+    private lastDrawAlarm = 0
 
-    private speedState = 0;
+    //private speedState = 0;
     private treeArr1 = [];
     private treeArr2 = [];
     private treePool = [];
@@ -68,6 +74,15 @@ class GameUI extends game.BaseUI {
 
     public childrenCreated() {
         super.childrenCreated();
+
+        this.alarmMC.x = this.posRateMC.x = this.cdRateMC.x = 152
+        this.alarmMC.y = this.posRateMC.y = this.cdRateMC.y = 154
+
+        this.meterGroup.addChildAt(this.alarmMC,1)
+        this.meterGroup.addChildAt(this.posRateMC,0)
+        this.meterGroup.addChildAt(this.cdRateMC,0)
+
+        //this.meterGroup.addChild(this.posRateMC)
         //this.list.itemRenderer = InviteItem2;
         //this.slowBtn.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.on,this);
         //this.speedBtn.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onSpeed,this);
@@ -84,6 +99,7 @@ class GameUI extends game.BaseUI {
         this.addBtnEvent(this.levelBtn, this.onLevel);
         this.addBtnEvent(this.skinBtn, this.onSkin);
         this.addBtnEvent(this.settingBtn, this.onSetting);
+        this.addBtnEvent(this.exitBtn, this.reset);
 
         this.addBtnEvent(this.startBtn, this.onStart);
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.onE,this)
@@ -118,7 +134,7 @@ class GameUI extends game.BaseUI {
     }
 
     private onRank(){
-         RankUI.getInstance().show();
+        RankUI.getInstance().show();
     }
 
     private onLevel(){
@@ -138,38 +154,54 @@ class GameUI extends game.BaseUI {
 
 
 
-    private onSlow(){
-        this.speedState = -1;
+    //private onSlow(){
+    //    this.speedState = -1;
+    //}
+    //
+    //private onSpeed(){
+    //    this.speedState = 1;
+    //}
+
+    public onStart(){
+        this.startLevel(CarManager.getInstance().maxLevel + 1)
     }
 
-    private onSpeed(){
-        this.speedState = 1;
+    public renewCar(){
+        this.carMC.setCar(CarManager.getInstance().skinid);
     }
 
-    private onStart(){
-        GameData.getInstance().setCar(1)
-        GameData.getInstance().onGameStart(CarManager.getInstance().maxLevel + 1)
-        this.resetRed();
-        this.speedState = 0;
+    public startLevel(lv){
+        GameData.getInstance().setCar(CarManager.getInstance().skinid)
+        GameData.getInstance().onGameStart(lv)
+
+        this.touchID = {};
         this.currentState = 'game'
 
+        this.alarm = false
         this.limitGroup.visible = false;
+        this.posRateMC.visible = false;
+        this.cdRateMC.visible = false;
+        this.errorMC.visible = false;
+        this.alarmMC.visible = false;
 
+        this.gameLevelText.text = 'LV.' + lv
     }
 
     public onShow(){
         this.timer.start()
         this.reset();
+        this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewCar)
     }
 
     public reset(){
         this.currentState = 'main'
+        this.gameState = 0;
         this.line1.bottom = 0;
         this.line2.bottom = 0;
         this.bg.bottom = 0;
         this.errorMC.visible = false;
         this.levelText.text = '挑点关卡：' + (CarManager.getInstance().maxLevel + 1);
-
+        GameData.getInstance().isPlaying = false;
 
         for(var s in this.road) {
             var car = this.road[s].car;
@@ -182,6 +214,7 @@ class GameUI extends game.BaseUI {
 
 
     private onE(){
+        //var t = egret.getTimer();
         var GD = GameData.getInstance();
          if(!GD.isPlaying)
          {
@@ -192,7 +225,7 @@ class GameUI extends game.BaseUI {
                  var targetSpeed = this.gameState == 2?0:GD.baseSpeed;
                  if(GD.speed > targetSpeed)
                  {
-                     GD.decSpeed();
+                     GD.decSpeed(true);
                  }
                  this.speedText.text = Math.floor(GD.speed) + ''
                  this.onMoveBG(GD.speed);
@@ -203,15 +236,47 @@ class GameUI extends game.BaseUI {
              return;
          }
 
-        if(this.speedState == -1)
-            GD.decSpeed()
-        else if(this.speedState == 1)
-            GD.addSpeed()
+        if(GD.countDown)
+        {
+            var num = 3-Math.floor((egret.getTimer() - GD.startTime)/1000)
+            if(num <= 0)
+            {
+                GD.countDown = 0;
+                GD.startTime = egret.getTimer();//真正开始
+                this.readyText.text = '';
+                this.posRateMC.visible = true;
+                this.cdRateMC.visible = true;
+                this.resetRed();
+            }
+            else if(GD.countDown != num)
+            {
+                GD.countDown = num
+                this.readyText.text = '' + num;
+                egret.Tween.removeTweens(this.readyText)
+                this.readyText.scaleX = this.readyText.scaleY = 0
+                egret.Tween.get(this.readyText).to({scaleX:1.2,scaleY:1.2},250).to({scaleX:1,scaleY:1},250)
+            }
+        }
+
+        var isAdd = false;
+        var isDec = false;
+        for(var s in this.touchID)
+        {
+            var touch = this.touchID[s];
+            if(!isAdd && this.speedBtn.hitTestPoint(touch.x,touch.y))
+                isAdd = true;
+            if(!isDec && this.slowBtn.hitTestPoint(touch.x,touch.y))
+                isDec = true;
+        }
+        GD.addSpeed(isAdd);
+        GD.decSpeed(isDec)
 
         var speed = GD.speed;
         this.onMoveBG(speed);
         GD.onRunSpeed();
         var rate = Math.min(1,GD.passMeter/GD.maxLen);
+        if(this.posRateMC.visible)
+            MyTool.getSector(159,162,rate*216,0x000099,1,this.posRateMC)
         //this.rateMC.width = 260 *rate;
 
         var cd = (GD.maxTime + GD.startTime - egret.getTimer());
@@ -224,39 +289,69 @@ class GameUI extends game.BaseUI {
         }
         else if(rate >= 1)
         {
-            console.log(GD.passMeter,GD.maxLen)
             GD.isPlaying = false
             this.gameState = 1;
             ResultUI.getInstance().show();
             return;
         }
-        var cd2 =  Math.floor((cd%1000)/10)
-        cd = Math.floor(cd/1000)
+
+        if(this.cdRateMC.visible)
+        {
+            var cdRate = (egret.getTimer() - GD.startTime)/GD.maxTime;
+            MyTool.getSector(166,162,cdRate*216,0xFCD550,1,this.cdRateMC);
+        }
+
+
+        //var cd2 =  Math.floor((cd%1000)/10)
+        //cd = Math.floor(cd/1000)
         //this.cdText.text = DateUtil.getStringBySecond(cd).substr(-5) + '.' + ('00' + cd2).substr(-2)
 
         this.speedText.text = Math.floor(GD.speed) + ''
+        var speedDec = GD.speed/GD.maxSpeed*3
+        if(speedDec < 1)
+            speedDec = 0;
+        this.needle.rotation = 180 + GD.speed/160*180 + (Math.random()-0.5)*speedDec;
 
-         this.onOtherCarMove();
+        this.onOtherCarMove();
 
-        if(this.errorMC.visible)
+        if(!GD.countDown && this.errorMC.visible)
         {
             var oo = GD.redArr[0];
             var meter = oo.start - GD.passMeter //离红色的距离
-             this.errorMC.bottom = this.carMC.bottom + this.carMC.height +  GD.meterToPix(meter)
-            if(!this.alarm && meter <= GameData.AlertMeter && meter> 30)
+            var redLast = -oo.len - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);
+             this.errorMC.bottom = this.carMC.bottom + this.carMC.height*this.carMC.scaleY +  GD.meterToPix(meter)
+            if(!this.alarm && meter <= GameData.AlertMeter && GameData.AlertMeter/2)
             {
                 this.alarm = true;
-                this.limitGroup.visible = true;
-
+                this.lastDrawAlarm = 0
+                //console.log('1111111')
             }
-
-            if(this.alarm && meter <= 0)
+            if(this.alarm && meter <= redLast)
             {
                 this.alarm = false;
             }
-            this.limitGroup.visible = meter >=oo.len;
+            this.limitGroup.visible = this.alarm;
+            this.alarmMC.visible = this.alarm;
 
-            if(meter <=0 && meter >= -oo.len)//红块内
+            if(this.alarmMC.visible)
+            {
+                var cdRate = oo.speed/160;
+                if(oo.speed <= GD.speed)
+                    var draw = 1
+                else
+                    var draw = 2
+
+                if(this.lastDrawAlarm != draw)
+                {
+                    this.lastDrawAlarm = draw;
+                    if(draw == 1)
+                        MyTool.getSector(150,180,cdRate*180,0xFF0000,1,this.alarmMC);
+                    else
+                        MyTool.getSector(150,180,cdRate*180,0x00FF00,1,this.alarmMC);
+                }
+            }
+
+            if(meter <=0 && meter >= redLast)//红块内
             {
                 if(GD.speed > oo.speed)//超速
                 {
@@ -269,21 +364,22 @@ class GameUI extends game.BaseUI {
             else if(this.errorMC.bottom < -this.errorMC.height)
             {
                 GD.redArr.shift();
+                this.alarm = false;
                 this.resetRed();
             }
 
             if(this.limitGroup.visible)
             {
-                this.rateMC2.width = 200* (GameData.AlertMeter - meter)/GameData.AlertMeter
+                this.rateMC2.width = 200* Math.min((GameData.AlertMeter - meter)/GameData.AlertMeter,1)
                 //this.speedText2.textColor = GD.speed > oo.speed?0xFF0000:0x00ff00;
                 //this.speedText2.text = Math.floor(GD.speed) + '/' + oo.speed;
 
                 if(meter > 0)
                 {
                     //console.log(meter,(GD.speed*1000/3600))
-                    cd = meter / (GD.speed*1000/3600)
-                    cd2 =  Math.floor(cd*100)%100
-                    cd = Math.floor(cd)
+                    //cd = meter / (GD.speed*1000/3600)
+                    //cd2 =  Math.floor(cd*100)%100
+                    //cd = Math.floor(cd)
                     //this.cdText2.text = DateUtil.getStringBySecond(cd).substr(-5) + '.' + ('00' + cd2).substr(-2)
                 }
                 else
@@ -293,7 +389,7 @@ class GameUI extends game.BaseUI {
 
             }
         }
-
+        //console.log(egret.getTimer() - t)
     }
 
     private resetRed(){

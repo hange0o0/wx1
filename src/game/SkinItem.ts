@@ -44,8 +44,8 @@ class SkinItem extends game.BaseItem{
             this.setUsing(CarManager.getInstance().skinid == this.data);
             this.currentState = 'normal';
             this.setHtml(this.desText, this.createHtml('时速：',color) + carVO.maxSpeed+'KM\n'+
-                this.createHtml('加速：',color) + carVO.addSpeed+'KM/秒\n'+
-                    this.createHtml('制动：',color) + carVO.decSpeed+'KM/秒');
+                this.createHtml('加速：',color) + carVO.addSpeed+'KM\n'+
+                    this.createHtml('制动：',color) + carVO.decSpeed+'KM');
         }
         else
         {

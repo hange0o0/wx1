@@ -8,9 +8,10 @@ class GameData {
     public static speedRate = 0.25; //速度转像素的比例
     public static Frame = 60; //帧频
     public static MPV = 3600/1000 * 60 * 0.25; //米与象素转换的常量  =54
-    public static MaxLevel = 50; //关卡总数
+    public static MaxLevel = 30; //关卡总数
     public static MaxCar = 12; //关卡总数
-    public static AlertMeter = 50; //警告米数
+    public static AlertMeter = 100; //警告米数
+    public static FailDecTime = 10*1000; //碰到红线扣除的时间
 
 
     public isPlaying = false;
@@ -41,15 +42,15 @@ class GameData {
         1:{maxSpeed:100,addSpeed:5,decSpeed:15,buyType:0,buyValue:0},
         2:{maxSpeed:110,addSpeed:6,decSpeed:15,buyType:0,buyValue:0},
         3:{maxSpeed:120,addSpeed:7,decSpeed:18,buyType:0,buyValue:0},
-        4:{maxSpeed:125,addSpeed:8,decSpeed:18,buyType:0,buyValue:0},
-        5:{maxSpeed:130,addSpeed:8,decSpeed:20,buyType:0,buyValue:0},
-        6:{maxSpeed:135,addSpeed:9,decSpeed:25,buyType:0,buyValue:0},
-        7:{maxSpeed:140,addSpeed:9,decSpeed:20,buyType:0,buyValue:0},
-        8:{maxSpeed:145,addSpeed:10,decSpeed:20,buyType:0,buyValue:0},
-        9:{maxSpeed:150,addSpeed:10,decSpeed:25,buyType:0,buyValue:0},
+        4:{maxSpeed:125,addSpeed:8,decSpeed:20,buyType:0,buyValue:0},
+        5:{maxSpeed:130,addSpeed:8,decSpeed:25,buyType:0,buyValue:0},
+        6:{maxSpeed:135,addSpeed:9,decSpeed:30,buyType:0,buyValue:0},
+        7:{maxSpeed:140,addSpeed:9,decSpeed:25,buyType:0,buyValue:0},
+        8:{maxSpeed:145,addSpeed:10,decSpeed:25,buyType:0,buyValue:0},
+        9:{maxSpeed:150,addSpeed:10,decSpeed:30,buyType:0,buyValue:0},
         10:{maxSpeed:155,addSpeed:11,decSpeed:25,buyType:0,buyValue:0},
-        11:{maxSpeed:160,addSpeed:11,decSpeed:20,buyType:0,buyValue:0},
-        12:{maxSpeed:160,addSpeed:12,decSpeed:30,buyType:0,buyValue:0},
+        11:{maxSpeed:160,addSpeed:11,decSpeed:35,buyType:0,buyValue:0},
+        12:{maxSpeed:160,addSpeed:12,decSpeed:40,buyType:0,buyValue:0},
     }
 
     //米 转 象素
@@ -64,7 +65,7 @@ class GameData {
 
     public getStarByLevel(lv,useTime){
         var maxTime = this.getMaxTime(lv);
-        var rate = (maxTime - useTime)/maxTime
+        var rate = useTime/maxTime
         if(rate < 0.7)
             return 3;
         if(rate < 0.85)
@@ -112,10 +113,8 @@ class GameData {
             currentPos += addDec + Math.random()*addDec*0.4 + 10;
             var oo = {
                 start:currentPos,
-                speed:60 + Math.floor(Math.random()*4)*10,
-                len:this.pixToMeter(500+Math.random()*(1000 * (GameData.MaxLevel - this.level)/GameData.MaxLevel))
+                speed:60 + Math.floor(Math.random()*4)*10
             }
-            currentPos += oo.len;
             this.redArr.push(oo)
         }
         this.redArr.pop();

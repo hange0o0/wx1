@@ -1,8 +1,8 @@
 class RankUI extends game.BaseWindow{
 
-    private static _instance:LevelUI;
+    private static _instance:RankUI;
     public static getInstance() {
-        if (!this._instance) this._instance = new LevelUI();
+        if (!this._instance) this._instance = new RankUI();
         return this._instance;
     }
 

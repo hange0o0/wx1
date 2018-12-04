@@ -8,7 +8,6 @@ class GameUI extends game.BaseUI {
 
     private bg: eui.Image;
     private errorMC: eui.Group;
-    private errorText: eui.Label;
     private line2: eui.Image;
     private line1: eui.Image;
     private treeGroup: eui.Group;
@@ -30,6 +29,7 @@ class GameUI extends game.BaseUI {
     private meterGroup: eui.Group;
     private exitBtn: eui.Group;
     private rateMC2: eui.Rect;
+    private failMC: eui.Rect;
 
 
 
@@ -111,6 +111,16 @@ class GameUI extends game.BaseUI {
         this.carMC.horizontalCenter = 75
         this.carMC.bottom = 350;
 
+        this.failMC.visible = false
+    }
+
+    private showFailMC(){
+        this.failMC.visible = true
+        this.failMC.alpha = 0
+        egret.Tween.removeTweens(this.failMC)
+        egret.Tween.get(this.failMC).to({alpha:0.5},250).to({alpha:1},250).call(()=>{
+            this.failMC.visible = false
+        })
     }
 
     private onTouchBegin(e){
@@ -276,7 +286,8 @@ class GameUI extends game.BaseUI {
         GD.onRunSpeed();
         var rate = Math.min(1,GD.passMeter/GD.maxLen);
         if(this.posRateMC.visible)
-            MyTool.getSector(159,162,rate*216,0x000099,1,this.posRateMC)
+            MyTool.getSector(159,180,rate*180,0x000099,1,this.posRateMC)
+            //MyTool.getSector(159,162,rate*216,0x000099,1,this.posRateMC)
         //this.rateMC.width = 260 *rate;
 
         var cd = (GD.maxTime + GD.startTime - egret.getTimer());
@@ -298,7 +309,8 @@ class GameUI extends game.BaseUI {
         if(this.cdRateMC.visible)
         {
             var cdRate = (egret.getTimer() - GD.startTime)/GD.maxTime;
-            MyTool.getSector(166,162,cdRate*216,0xFCD550,1,this.cdRateMC);
+            MyTool.getSector(166,180,cdRate*180,0xFCD550,1,this.cdRateMC);
+            //MyTool.getSector(166,162,cdRate*216,0xFCD550,1,this.cdRateMC);
         }
 
 
@@ -318,7 +330,7 @@ class GameUI extends game.BaseUI {
         {
             var oo = GD.redArr[0];
             var meter = oo.start - GD.passMeter //离红色的距离
-            var redLast = -oo.len - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);
+            var redLast =  - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);
              this.errorMC.bottom = this.carMC.bottom + this.carMC.height*this.carMC.scaleY +  GD.meterToPix(meter)
             if(!this.alarm && meter <= GameData.AlertMeter && GameData.AlertMeter/2)
             {
@@ -345,9 +357,9 @@ class GameUI extends game.BaseUI {
                 {
                     this.lastDrawAlarm = draw;
                     if(draw == 1)
-                        MyTool.getSector(150,180,cdRate*180,0xFF0000,1,this.alarmMC);
+                        MyTool.getSector(100,180,cdRate*180,0xFF0000,1,this.alarmMC);
                     else
-                        MyTool.getSector(150,180,cdRate*180,0x00FF00,1,this.alarmMC);
+                        MyTool.getSector(100,180,cdRate*180,0x00FF00,1,this.alarmMC);
                 }
             }
 
@@ -355,10 +367,15 @@ class GameUI extends game.BaseUI {
             {
                 if(GD.speed > oo.speed)//超速
                 {
-                    GD.isPlaying = false
-                    this.gameState = 2;
-                    ResultFailUI.getInstance().show();
-                    return;
+                    GD.startTime -= GameData.FailDecTime
+                    this.showFailMC();
+
+                    GD.redArr.shift();
+                    this.alarm = false;
+                    this.resetRed();
+
+                    this.limitGroup.visible = this.alarm;
+                    this.alarmMC.visible = this.alarm;
                 }
             }
             else if(this.errorMC.bottom < -this.errorMC.height)
@@ -401,8 +418,6 @@ class GameUI extends game.BaseUI {
             return;
         }
         this.errorMC.visible = true;
-        this.errorMC.height =  GD.meterToPix(oo.len);
-        this.errorText.text = oo.speed;
     }
 
     private onOtherCarMove(){

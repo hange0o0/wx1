@@ -2,9 +2,8 @@
 <e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="main,game" >
 	<e:Image id="bg" source="bg_jpg" fillMode="repeat" left="0" right="0" height="1600" y="0"/>
 	<e:Rect width="600" fillColor="0x424242" horizontalCenter="0" top="0" bottom="0"/>
-	<e:Group id="errorMC" x="20" y="0" width="600" height="200">
-		<e:Rect fillColor="0xff0000" fillAlpha="0.2" left="0" right="0" top="0" bottom="0"/>
-		<e:Label id="errorText" text="90" x="300" width="150" textAlign="center" bottom="30" size="70" scaleY="2" stroke="2"/>
+	<e:Group id="errorMC" x="20" y="0" width="600" height="10" height.game="5">
+		<e:Rect fillColor="0xff0000" left="0" right="0" top="0" bottom="0"/>
 	</e:Group>
 	<e:Image id="line2" source="road_png" y="0" fillMode="repeat" horizontalCenter="150" height="1600"/>
 	<e:Image id="line1" source="road_png" y="0" fillMode="repeat" height="1600" horizontalCenter="-150"/>
@@ -29,9 +28,9 @@
 	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
 	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false"/>
 	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false"/>
-	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="180" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
-	<e:Group id="meterGroup" x="170" bottom="80" includeIn="game" width="304" height="200">
-		<e:Image source="clock_bg_png" y="0" horizontalCenter="0"/>
+	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
+	<e:Group id="meterGroup" x="170" bottom="50" includeIn="game" width="304" height="200">
+		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>
 		<e:Group horizontalCenter="0" y="90">
 			<e:Label id="speedText" text="300" y="0" size="30" x="0" stroke="2"/>
@@ -47,7 +46,14 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="exitBtn" includeIn="game" y="20" x="20">
-		<e:Image source="game_top_png" x="0" y="0"/>
-		<e:Label id="gameLevelText" text="LV.50" horizontalCenter="0" verticalCenter="0" bold="true"/>
+		<e:Image source="game_top_png" x="0" y="0" scale9Grid="18,22,114,54" height="70"/>
+		<e:Group horizontalCenter="0" verticalCenter="-3">
+			<e:Image source="gaming_back_png" x="0" y="0"/>
+			<e:Label id="gameLevelText" text="LV.50" bold="true" x="32" y="5" height="35" verticalAlign="bottom"/>
+			<e:layout>
+				<e:HorizontalLayout gap="10"/>
+			</e:layout>
+		</e:Group>
 	</e:Group>
+	<e:Rect id="failMC" includeIn="game" left="0" right="0" top="0" bottom="0" fillColor="0xff0000" fillAlpha="0.1" locked="true" visible="false"/>
 </e:Skin>

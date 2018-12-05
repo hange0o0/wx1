@@ -156,7 +156,9 @@ class GameUI extends game.BaseUI {
     }
 
     private onSetting(){
-
+        SoundManager.getInstance().soundPlaying = !SoundManager.getInstance().soundPlaying
+        SoundManager.getInstance().bgPlaying = !SoundManager.getInstance().bgPlaying
+        this.settingBtn.source = SoundManager.getInstance().bgPlaying?'sound_on_btn_png':'sound_off_btn_png'
     }
 
 
@@ -210,7 +212,7 @@ class GameUI extends game.BaseUI {
         this.line2.bottom = 0;
         this.bg.bottom = 0;
         this.errorMC.visible = false;
-        this.levelText.text = '挑点关卡：' + (CarManager.getInstance().maxLevel + 1);
+        this.levelText.text = '挑战关卡：' + (CarManager.getInstance().maxLevel + 1);
         GameData.getInstance().isPlaying = false;
 
         for(var s in this.road) {
@@ -269,17 +271,23 @@ class GameUI extends game.BaseUI {
         }
 
         var isAdd = false;
-        var isDec = false;
+        //var isDec = false;
+        var isDec = true;
         for(var s in this.touchID)
         {
-            var touch = this.touchID[s];
-            if(!isAdd && this.speedBtn.hitTestPoint(touch.x,touch.y))
-                isAdd = true;
-            if(!isDec && this.slowBtn.hitTestPoint(touch.x,touch.y))
-                isDec = true;
+            //var touch = this.touchID[s];
+            //if(!isAdd && this.speedBtn.hitTestPoint(touch.x,touch.y))
+            //    isAdd = true;
+            //if(!isDec && this.slowBtn.hitTestPoint(touch.x,touch.y))
+            //    isDec = true;
+
+            isAdd = true;
+            isDec = false;
         }
         GD.addSpeed(isAdd);
         GD.decSpeed(isDec)
+        if(GD.speed < GD.baseSpeed)
+            GD.speed = GD.baseSpeed
 
         var speed = GD.speed;
         this.onMoveBG(speed);

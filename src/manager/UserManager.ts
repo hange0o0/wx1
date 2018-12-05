@@ -121,4 +121,3 @@ class UserManager {
         return true;
     }
 }
-                                

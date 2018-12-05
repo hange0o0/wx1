@@ -25,6 +25,9 @@ class SkinItem extends game.BaseItem{
 
     private onBuy(e){
         e.stopImmediatePropagation()
+        CarManager.getInstance().buySkin(this.data,()=>{
+
+        });
     }
 
     private onClick(){
@@ -38,7 +41,7 @@ class SkinItem extends game.BaseItem{
     public dataChanged():void{
          var carVO = GameData.getInstance().carData[this.data];
         this.carMC.setCar(this.data)
-        if(true)
+        if(CarManager.getInstance().isHaveSkin(this.data))
         {
             var color = 0x99c5fd;
             this.setUsing(CarManager.getInstance().skinid == this.data);
@@ -50,6 +53,8 @@ class SkinItem extends game.BaseItem{
         else
         {
             this.currentState = 'lock';
+            var v = CarManager.getInstance().getSkinValue(this.data)
+            var max = 1;
             this.rateText.text = ''
             this.barMC.width = 240*1
         }

@@ -26,10 +26,10 @@
 		<e:Label id="levelText" text="挑点关卡：16" stroke="3" left="30" right="30" top="5" bottom="5" verticalAlign="middle" textAlign="center"/>
 	</e:Group>
 	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
-	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false"/>
-	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false"/>
+	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false" visible="false"/>
+	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false" visible="false"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
-	<e:Group id="meterGroup" x="170" bottom="50" includeIn="game" width="304" height="200">
+	<e:Group id="meterGroup" x="170" bottom="0" includeIn="game" width="304" height="200">
 		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>
 		<e:Group horizontalCenter="0" y="90">

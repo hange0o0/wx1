@@ -41,16 +41,16 @@ class GameData {
     public carData = {
         1:{maxSpeed:100,addSpeed:5,decSpeed:15,buyType:0,buyValue:0},
         2:{maxSpeed:110,addSpeed:6,decSpeed:15,buyType:0,buyValue:0},
-        3:{maxSpeed:120,addSpeed:7,decSpeed:18,buyType:0,buyValue:0},
-        4:{maxSpeed:125,addSpeed:8,decSpeed:20,buyType:0,buyValue:0},
-        5:{maxSpeed:130,addSpeed:8,decSpeed:25,buyType:0,buyValue:0},
-        6:{maxSpeed:135,addSpeed:9,decSpeed:30,buyType:0,buyValue:0},
-        7:{maxSpeed:140,addSpeed:9,decSpeed:25,buyType:0,buyValue:0},
-        8:{maxSpeed:145,addSpeed:10,decSpeed:25,buyType:0,buyValue:0},
-        9:{maxSpeed:150,addSpeed:10,decSpeed:30,buyType:0,buyValue:0},
-        10:{maxSpeed:155,addSpeed:11,decSpeed:25,buyType:0,buyValue:0},
-        11:{maxSpeed:160,addSpeed:11,decSpeed:35,buyType:0,buyValue:0},
-        12:{maxSpeed:160,addSpeed:12,decSpeed:40,buyType:0,buyValue:0},
+        3:{maxSpeed:120,addSpeed:7,decSpeed:20,buyType:0,buyValue:0},
+        4:{maxSpeed:125,addSpeed:8,decSpeed:25,buyType:0,buyValue:0},
+        5:{maxSpeed:130,addSpeed:8,decSpeed:30,buyType:0,buyValue:0},
+        6:{maxSpeed:135,addSpeed:9,decSpeed:35,buyType:0,buyValue:0},
+        7:{maxSpeed:140,addSpeed:9,decSpeed:30,buyType:0,buyValue:0},
+        8:{maxSpeed:145,addSpeed:10,decSpeed:30,buyType:0,buyValue:0},
+        9:{maxSpeed:150,addSpeed:10,decSpeed:35,buyType:0,buyValue:0},
+        10:{maxSpeed:155,addSpeed:11,decSpeed:30,buyType:0,buyValue:0},
+        11:{maxSpeed:160,addSpeed:11,decSpeed:40,buyType:0,buyValue:0},
+        12:{maxSpeed:160,addSpeed:12,decSpeed:45,buyType:0,buyValue:0},
     }
 
     //米 转 象素

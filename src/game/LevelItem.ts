@@ -16,12 +16,29 @@ class LevelItem extends game.BaseItem{
     }
 
     private onClick(){
-        LevelUI.getInstance().hide();
-        GameUI.getInstance().startLevel(this.data)
+        if(this.currentState == 'current')
+        {
+            LevelUI.getInstance().hide();
+            GameUI.getInstance().startLevel(this.data)
+        }
     }
 
     public dataChanged():void{
          this.indexText.text = this.data;
-        this.currentState = 'current'
+        var star = CarManager.getInstance().getLevelStar(this.data)
+        if(star || this.data == CarManager.getInstance().maxLevel + 1)
+        {
+            this.currentState = 'current'
+            console.log(star);
+            for(var i=0;i<3;i++)
+            {
+                 this['s' + i].source = i<star?'chapter_star4_png':'chapter_star3_png'
+            }
+        }
+        else
+        {
+            this.currentState = 'lock'
+        }
+
     }
 }

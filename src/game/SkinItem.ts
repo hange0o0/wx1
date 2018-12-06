@@ -25,21 +25,62 @@ class SkinItem extends game.BaseItem{
 
     private onBuy(e){
         e.stopImmediatePropagation()
-        CarManager.getInstance().buySkin(this.data,()=>{
+        if(this.btn.label == '解锁')
+        {
+            CarManager.getInstance().buySkin(this.data,()=>{
 
-        });
+            });
+            return;
+        }
+        var carVO = GameData.getInstance().carData[this.data];
+        switch(carVO.buyType)
+        {
+            case 0://默认
+                break
+            case 1:
+                SkinUI.getInstance().hide();
+                GameUI.getInstance().onStart()
+                break;
+            case 2:
+                break;
+            case 3:
+                //this.rateText.text = '邀请'+max+'个新用户'
+                break;
+            case 4:
+                //this.rateText.text = '观看广告'+max+'次'
+                //this.btn.label = '观看'
+                break;
+        }
+
     }
 
     private onClick(){
         if(CarManager.getInstance().skinid == this.data)
+            return;
+        if(!CarManager.getInstance().isHaveSkin(this.data))
             return;
         CarManager.getInstance().setCarSkin(this.data,()=>{
 
         });
     }
 
+    private onTimer(){
+         if(this.currentState == 'lock' && GameData.getInstance().carData[this.data].buyType == 2)
+            this.dataChanged();
+    }
+
     public dataChanged():void{
-         var carVO = GameData.getInstance().carData[this.data];
+        var openNum = CarManager.getInstance().skins.length;
+        if(this.data > openNum + 1)
+        {
+            this.currentState = 'lock2';
+            this.carMC.visible = false
+            this.cacheAsBitmap = false;
+            return;
+        }
+
+        var carVO = GameData.getInstance().carData[this.data];
+        this.carMC.visible = true
         this.carMC.setCar(this.data)
         if(CarManager.getInstance().isHaveSkin(this.data))
         {
@@ -52,18 +93,47 @@ class SkinItem extends game.BaseItem{
         }
         else
         {
+            this.cacheAsBitmap = false;
             this.currentState = 'lock';
             var v = CarManager.getInstance().getSkinValue(this.data)
-            var max = 1;
-            this.rateText.text = ''
-            this.barMC.width = 240*1
+            var max = carVO.buyValue;
+            this.btn.visible = true;
+            switch(carVO.buyType)
+            {
+                case 0://默认
+                    break
+                case 1:
+                    this.rateText.text = '完成第'+max+'关'
+                    this.btn.label = '前往'
+                    break
+                case 2:
+                    this.rateText.text = max + '小时后获得'
+                    this.btn.visible = false;
+                    break
+                case 3:
+                    this.rateText.text = '邀请'+max+'个新用户'
+                    this.btn.label = '邀请'
+                    break
+                case 4:
+                    this.rateText.text = '观看广告'+max+'次'
+                    this.btn.label = '观看'
+                    break
+            }
+            this.barMC.width = 240*Math.min(v/max,1)
+            if(v>=max)
+            {
+                this.btn.label = '解锁'
+                this.btn.visible = true;
+            }
         }
     }
 
     public setUsing(b){
+        //return;
         if(!b)
         {
             this.carMC.filters = [];
+            this.cacheAsBitmap = false;
             return;
         }
         var color:number = 0x33CCFF;        /// 光晕的颜色，十六进制，不包含透明度
@@ -77,5 +147,6 @@ class SkinItem extends game.BaseItem{
         var glowFilter:egret.GlowFilter = new egret.GlowFilter( color, alpha, blurX, blurY,
             strength, quality, inner, knockout );
         this.carMC.filters = [glowFilter];
+        this.cacheAsBitmap = true;
     }
 }

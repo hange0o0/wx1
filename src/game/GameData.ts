@@ -37,20 +37,23 @@ class GameData {
 
 
 
-
+    //1 = '完成第'+max+'关'
+    //2 = max + '小时后获得'
+    //3 = '邀请'+max+'个新用户'
+    //4 = '观看广告'+max+'次'
     public carData = {
-        1:{maxSpeed:100,addSpeed:5,decSpeed:15,buyType:0,buyValue:0},
-        2:{maxSpeed:110,addSpeed:6,decSpeed:15,buyType:0,buyValue:0},
-        3:{maxSpeed:120,addSpeed:7,decSpeed:20,buyType:0,buyValue:0},
-        4:{maxSpeed:125,addSpeed:8,decSpeed:25,buyType:0,buyValue:0},
-        5:{maxSpeed:130,addSpeed:8,decSpeed:30,buyType:0,buyValue:0},
-        6:{maxSpeed:135,addSpeed:9,decSpeed:35,buyType:0,buyValue:0},
-        7:{maxSpeed:140,addSpeed:9,decSpeed:30,buyType:0,buyValue:0},
-        8:{maxSpeed:145,addSpeed:10,decSpeed:30,buyType:0,buyValue:0},
-        9:{maxSpeed:150,addSpeed:10,decSpeed:35,buyType:0,buyValue:0},
-        10:{maxSpeed:155,addSpeed:11,decSpeed:30,buyType:0,buyValue:0},
-        11:{maxSpeed:160,addSpeed:11,decSpeed:40,buyType:0,buyValue:0},
-        12:{maxSpeed:160,addSpeed:12,decSpeed:45,buyType:0,buyValue:0},
+        1:{maxSpeed:100,addSpeed:5,decSpeed:15,buyType:0,buyValue:0,artid:1},
+        2:{maxSpeed:110,addSpeed:6,decSpeed:15,buyType:1,buyValue:3,artid:2},
+        3:{maxSpeed:120,addSpeed:7,decSpeed:20,buyType:2,buyValue:1,artid:3},
+        4:{maxSpeed:125,addSpeed:8,decSpeed:25,buyType:3,buyValue:1,artid:4},
+        5:{maxSpeed:130,addSpeed:8,decSpeed:30,buyType:1,buyValue:10,artid:5},
+        6:{maxSpeed:135,addSpeed:9,decSpeed:35,buyType:2,buyValue:3,artid:6},
+        7:{maxSpeed:140,addSpeed:9,decSpeed:30,buyType:3,buyValue:2,artid:7},
+        8:{maxSpeed:145,addSpeed:10,decSpeed:30,buyType:2,buyValue:6,artid:8},
+        9:{maxSpeed:150,addSpeed:10,decSpeed:35,buyType:2,buyValue:12,artid:9},
+        10:{maxSpeed:155,addSpeed:11,decSpeed:30,buyType:1,buyValue:20,artid:10},
+        11:{maxSpeed:160,addSpeed:11,decSpeed:40,buyType:3,buyValue:3,artid:11},
+        12:{maxSpeed:160,addSpeed:12,decSpeed:45,buyType:2,buyValue:24,artid:12},
     }
 
     //米 转 象素

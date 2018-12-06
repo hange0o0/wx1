@@ -22,6 +22,13 @@ class GameManager {
     public static container:egret.DisplayObjectContainer;
     public static loadStep
 
+    public static get uiHeight(){
+        return this.stage.stageHeight;
+    }
+    public static get uiWidth(){
+        return this.stage.stageWidth;
+    }
+
     public isWebGL(){
         return egret.Capabilities.renderMode == 'webgl';
     }
@@ -34,6 +41,8 @@ class GameManager {
     public stopTimer(){
         this.timeID.stop();
     }
+
+
 
     private onTouchMove(e){
         GameManager.stageX = e.stageX;

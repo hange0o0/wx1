@@ -27,6 +27,7 @@ class SkinUI extends game.BaseWindow{
 
     public onShow(){
         this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewList)
+        //this.addPanelOpenEvent(GameEvent.client.timer,this.onTimer)
         var arr = [];
         for(var i=0;i<GameData.MaxCar;i++)
             arr.push(i+1)
@@ -35,5 +36,9 @@ class SkinUI extends game.BaseWindow{
 
     private renewList(){
         MyTool.renewList(this.list)
+    }
+
+    private onTimer(){
+        MyTool.runListFun(this.list,'onTimer')
     }
 }

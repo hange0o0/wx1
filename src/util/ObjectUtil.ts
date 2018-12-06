@@ -6,6 +6,13 @@
 class ObjectUtil {
 	public constructor() {
 	}
+
+    public static join(paramList:any, joinStr:string="&"){
+        var arr = [];
+        for(var key in paramList)
+            arr.push(key + "=" + paramList[key]);
+        return arr.join(joinStr);
+    }
 		
 	public static arrayToObj(array:Array<any>, key:string, value:any):any{
     	key = key || "key";

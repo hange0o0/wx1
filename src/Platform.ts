@@ -9,6 +9,7 @@ declare interface Platform {
     getUserInfo(): Promise<any>;
 
     login(): Promise<any>
+    shareMessage(title, imgurl, path, success?, fail?)
 
 }
 
@@ -19,6 +20,7 @@ class DebugPlatform implements Platform {
     async login() {
 
     }
+    shareMessage(title, imgurl, path, success?, fail?){}
 }
 
 

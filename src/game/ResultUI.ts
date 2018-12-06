@@ -40,7 +40,7 @@ class ResultUI extends game.BaseWindow{
 
     public show() {
         this.useTime = egret.getTimer() - GameData.getInstance().startTime;
-        CarManager.getInstance().sendSuccess(()=>{
+        CarManager.getInstance().sendSuccess(this.useTime,()=>{
             super.show();
         })
     }

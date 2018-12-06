@@ -32,7 +32,8 @@ class CarMC extends eui.Group{
         MyTool.removeMC(this);
     }
 
-    public setCar(index):void{
+    public setCar(skinid):void{
+        var index = GameData.getInstance().carData[skinid].artid;
         var w = this.width
         var h = this.height
         var x = (index-1)%4

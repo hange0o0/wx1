@@ -342,7 +342,22 @@ class Main extends eui.UILayer {
         GameManager.stage = this.stage;
         GameManager.container = this;
         GameManager.getInstance().init();
-        GameUI.getInstance().show();
+
+        //GameUI.getInstance().show();
+        var wx = window['wx'];
+        if(!wx)
+        {
+            GameUI.getInstance().show();
+            return;
+        }
+
+        UserManager.getInstance().getUserInfo(()=>{
+            GameUI.getInstance().show();
+        });
+
+
+
+
         //if(_get['hide'])
         //    return;
         //SoundManager.getInstance().preLoad();
@@ -428,4 +443,74 @@ class Main extends eui.UILayer {
         //{
         //    LoginManager.getInstance().login(_get['openid'],'@password');
     }
+
+    //private getUserInfo(){
+    //    var wx = window['wx'];
+    //    return new Promise((resolve, reject) => {
+    //        let sysInfo = wx.getSystemInfoSync();
+    //        let sdkVersion = sysInfo.SDKVersion;
+    //        //sdkVersion = sdkVersion.replace(/\./g, "");
+    //        //sdkVersion = sdkVersion.substr(0, 3);
+    //        //let sdkVersionNum = parseInt(sdkVersion);
+    //        //console.log("platform获取用户授权:", sdkVersionNum);
+    //        //if (sdkVersionNum >= 201) {
+    //        if (sdkVersion >= "2.0.1") {
+    //            var button = wx.createUserInfoButton({
+    //                type: 'image',
+    //                text: '',
+    //                image: "resource/game_assets/wx_btn_info.png",
+    //                style: {
+    //                    left: 0,
+    //                    top: 0,
+    //                    width: 0,
+    //                    height: 0,
+    //                    backgroundColor: '#ff0000',
+    //                    color: '#ffffff',
+    //                }
+    //            });
+    //            button.onTap((res) => {
+    //                if (res.userInfo) {
+    //                    console.log("用户授权:", res);
+    //                    var userInfo = res.userInfo;
+    //                    var nickName = userInfo.nickName;
+    //                    var avatarUrl = userInfo.avatarUrl;
+    //                    var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+    //                    var province = userInfo.province;
+    //                    var city = userInfo.city;
+    //                    var country = userInfo.country;
+    //                    button.destroy();
+    //                    resolve(userInfo);
+    //                } else {
+    //                    console.log("拒绝授权");
+    //                }
+    //            });
+    //            button.show();
+    //        } else {
+    //            wx.getUserInfo({
+    //                withCredentials: true,
+    //                success: res => {
+    //                    var userInfo = res.userInfo;
+    //                    var nickName = userInfo.nickName;
+    //                    var avatarUrl = userInfo.avatarUrl;
+    //                    var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+    //                    var province = userInfo.province;
+    //                    var city = userInfo.city;
+    //                    var country = userInfo.country;
+    //                    resolve(userInfo);
+    //                },
+    //                fail: res => {
+    //                    wx.showModal({
+    //                        title: '友情提醒',
+    //                        content: '请允许微信获得授权!',
+    //                        confirmText: "授权",
+    //                        showCancel: false,
+    //                        success: res => {
+    //                            resolve(null);
+    //                        }
+    //                    });
+    //                }
+    //            });
+    //        }
+    //    })
+    //}
 }

@@ -12,7 +12,7 @@
 	</e:Group>
 	<e:Image id="titleMC" source="title_png" y="120" horizontalCenter="0" visible.game="false"/>
 	<e:Image id="startBtn" source="btn_start_png" horizontalCenter="0" bottom="160" visible.game="false"/>
-	<e:Group bottom="20" horizontalCenter="0" visible.game="false">
+	<e:Group id="bottomGroup" bottom="20" horizontalCenter="0" visible.game="false">
 		<e:Image id="rankBtn" source="rank_btn_png" x="216" y="200"/>
 		<e:Image id="levelBtn" source="level_btn_png" x="0" y="350"/>
 		<e:Image id="skinBtn" source="skin_btn_png" x="1116" y="0"/>
@@ -21,13 +21,14 @@
 			<e:HorizontalLayout gap="45"/>
 		</e:layout>
 	</e:Group>
-	<e:Group id="levelGroup" x="204" bottom="280" visible.game="false">
+	<e:Group id="levelGroup" bottom="280" visible.game="false" horizontalCenter="0">
 		<e:Image source="black_bg_png" scale9Grid="36,7,16,42" left="0" right="0" top="0" bottom="0"/>
 		<e:Label id="levelText" text="挑点关卡：16" stroke="3" left="30" right="30" top="5" bottom="5" verticalAlign="middle" textAlign="center"/>
 	</e:Group>
 	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
 	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false" visible="false"/>
 	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false" visible="false"/>
+	<e:Button id="debugBtn" label="debug" includeIn="main" x="30" y="30" skinName="Btn1Skin"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
 	<e:Group id="meterGroup" x="170" bottom="-2" includeIn="game" width="304" height="200">
 		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>

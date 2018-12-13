@@ -22,6 +22,7 @@
 		"resource/game_skin/commont/ui/AlertSkin.exml",
 		"resource/game_skin/commont/ui/BottomUISkin.exml",
 		"resource/game_skin/commont/ui/CommonNumInputSkin.exml",
+		"resource/game_skin/commont/ui/DebugUISkin.exml",
 		"resource/game_skin/commont/ui/DownListItemSkin.exml",
 		"resource/game_skin/commont/ui/DownListSkin.exml",
 		"resource/game_skin/commont/ui/LeftListSkin.exml",

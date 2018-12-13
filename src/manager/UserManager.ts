@@ -13,111 +13,138 @@ class UserManager {
 
 
 
-    public gameid: string = _get['gameid'] || 'test';
-    public landid: string;
-
-    public hourcoin: number;
+    public gameid: string;
     public nick: string;
     public head: string;
-    public type: number;
-
-    public diamond: number;
-    public uid: number;
-    public level: number;
-    public opentime: number;
-    public tec_force:number;
-    public last_land: number;
-
-    public energy: any;
-    public openData: any;
-    public pk_common: any;
-    public coin: number;
-
-
-    public maxEnergy = 60;
-    public maxLevel = 50;
-
-    public closeVersion = 0;
-    public closeTime = 0;
+    public dbid: string;
+    public gender: number;
+    public isScope: boolean = false;
 
 
     public fill(data:any):void{
-        this.gameid = data.gameid;
-        this.landid = data.land_key;
-        this.nick = data.nick;
-        this.head = data.head;
-        this.uid = data.uid;
-        this.type = data.type;
-        this.pk_common = data.pk_common;
-        this.hourcoin = data.hourcoin;
-        this.coin = data.coin;
-        this.opentime = data.opentime;
-        this.level = data.level;
-        this.tec_force = data.tec_force;
-        this.last_land = data.last_land;
-        this.diamond = data.diamond;
-        this.energy = data.energy; //  '{"v":0,"t":0,"rmb":0}'
-        this.openData = data.openData; //  '{"v":0,"t":0,"rmb":0}'
-
-
-
-        //CardManager.getInstance().init(data.card)
-        //PosManager.getInstance().init(data)
-        //HangManager.getInstance().init(data.hang)
-        //ActiveManager.getInstance().init(data.active)
-        //TecManager.getInstance().init(data.tec)
-        //PropManager.getInstance().init(data.prop)
+        this.dbid = data._id;
+        CarManager.getInstance().initData(data);
     }
 
+    public renewInfo(userInfo){
+        this.isScope = true;
+        this.nick = userInfo.nickName
+        this.head = userInfo.avatarUrl
+        this.gender = userInfo.gender || 1 //性别 0：未知、1：男、2：女
+    }
 
-    //public onOpenDataChange(){
-    //    var mailTime = UM.openData.mailtime
-    //    var slaveTime = UM.openData.slavetime
-    //    if(SlaveManager.getInstance().lastGetSlaveTime && slaveTime > SlaveManager.getInstance().lastGetSlaveTime)
-    //    {
-    //        SlaveManager.getInstance().lastGetSlaveTime = 0
-    //        if(SlaveUI.getInstance().stage)
-    //        {
-    //            SlaveManager.getInstance().slave_list(()=>{
-    //                SlaveUI.getInstance().renew();
-    //            })
-    //        }
-    //    }
-    //    if(mailTime > MailManager.getInstance().mailData.msgtime)
-    //    {
-    //        MailManager.getInstance().mailData.time = 0
-    //        PKManager.getInstance().getRecordTime = 0
+    public getUserInfo(fun){
+        var wx = window['wx'];
+        const db = wx.cloud.database();
+
+
+
+        wx.cloud.callFunction({      //取玩家openID,
+            name: 'getInfo',
+            complete: (res) => {
+                console.log(res)
+                this.gameid = res.result.openid
+                db.collection('user').where({     //取玩家数据
+                    _openid: this.gameid,
+                }).get({
+                    success: (res)=>{
+                        if(res.data.length == 0)//新用户
+                        {
+                            this.onNewUser(fun)
+                            return;
+                        }
+                        this.fill(res.data[0]);
+                        fun && fun();
+                    }
+                })
+            }
+        })
+
+
+    }
+    //public updateUserInfo(data,fun){
+    //    var wx = window['wx'];
+    //    const db = wx.cloud.database();
     //
-    //    }
+    //    db.collection('user').doc(this.dbid).update({
+    //        data: {
+    //            isScope:true,
+    //        },
+    //        success: ()=>{
+    //            this.isScope = true;
+    //            fun && fun();
+    //        },
+    //    })
+    //
     //}
 
+    private testAddInvite(){
+        var wx = window['wx'];
+        var query = wx.getLaunchOptionsSync().query;
+        if(query.type == '1')
+        {
+            wx.cloud.callFunction({      //取玩家openID,
+                name: 'onShareIn',
+                data:{
+                    other:query.from,
+                    skinid:query.skinid,
+                },
+                complete: (res) => {
+                     //console.log(res)
+                }
+            })
+        }
+    }
+
+    //新用户注册
+    private onNewUser(fun?){
+        var wx = window['wx'];
+        const db = wx.cloud.database();
+        var initData:any = {
+            skins:[1],   //已有皮肤
+            skinid:1,  //当前使用皮肤
+            skinsData:{}, //皮肤相关的额外数据
+            levelData:{}, //关卡数据
+        };
+        db.collection('user').add({
+            data:initData,
+            success: (res)=>{
+                initData._id = res._id;
+                this.fill(initData);
+                fun && fun();
+            }
+        })
+
+        this.testAddInvite();
+    }
 
 
-    public testDiamond(v){
-        if(UM.diamond < v)
-        {
-            MyWindow.Confirm('钻石不足！\n需要：' +v+'\n当前：'+UM.diamond + '\n是否前往购买钻石？',function(v){
-                if(v == 1)
-                {
-                    //ShopUI.getInstance().show(true);
-                }
-            },['取消','购买'])
-            return false;
-        }
-        return true;
-    }
-    public testCoin(v){
-        var coin = UM.coin;
-        if(coin < v)
-        {
-            MyWindow.Confirm('金币不足！\n需要：' +v+'\n当前：'+coin + '\n是否前往购买金币？',function(v){
-                if(v == 1)
-                {
-                    //ShopUI.getInstance().show('coin');
-                }
-            },['取消','购买'])
-            return false;
-        }
-        return true;
-    }
+
+    //public testDiamond(v){
+    //    if(UM.diamond < v)
+    //    {
+    //        MyWindow.Confirm('钻石不足！\n需要：' +v+'\n当前：'+UM.diamond + '\n是否前往购买钻石？',function(v){
+    //            if(v == 1)
+    //            {
+    //                //ShopUI.getInstance().show(true);
+    //            }
+    //        },['取消','购买'])
+    //        return false;
+    //    }
+    //    return true;
+    //}
+    //public testCoin(v){
+    //    var coin = UM.coin;
+    //    if(coin < v)
+    //    {
+    //        MyWindow.Confirm('金币不足！\n需要：' +v+'\n当前：'+coin + '\n是否前往购买金币？',function(v){
+    //            if(v == 1)
+    //            {
+    //                //ShopUI.getInstance().show('coin');
+    //            }
+    //        },['取消','购买'])
+    //        return false;
+    //    }
+    //    return true;
+    //}
 }

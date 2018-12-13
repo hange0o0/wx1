@@ -19,7 +19,7 @@ class Config {
     public static displayVersion = '1.0.0';
     public static pk_version: number = 1;
     public static cdn: string = "";
-    public static localResRoot:string = "resource/net_resource/";
+    public static localResRoot:string = "resource/game_assets/";
 
 
 

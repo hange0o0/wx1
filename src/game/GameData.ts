@@ -49,11 +49,11 @@ class GameData {
         5:{maxSpeed:130,addSpeed:8,decSpeed:30,buyType:1,buyValue:10,artid:5},
         6:{maxSpeed:135,addSpeed:9,decSpeed:35,buyType:2,buyValue:3,artid:6},
         7:{maxSpeed:140,addSpeed:9,decSpeed:30,buyType:3,buyValue:2,artid:7},
-        8:{maxSpeed:145,addSpeed:10,decSpeed:30,buyType:2,buyValue:6,artid:8},
-        9:{maxSpeed:150,addSpeed:10,decSpeed:35,buyType:2,buyValue:12,artid:9},
-        10:{maxSpeed:155,addSpeed:11,decSpeed:30,buyType:1,buyValue:20,artid:10},
-        11:{maxSpeed:160,addSpeed:11,decSpeed:40,buyType:3,buyValue:3,artid:11},
-        12:{maxSpeed:160,addSpeed:12,decSpeed:45,buyType:2,buyValue:24,artid:12},
+        8:{maxSpeed:145,addSpeed:10,decSpeed:35,buyType:2,buyValue:6,artid:8},
+        9:{maxSpeed:150,addSpeed:10,decSpeed:40,buyType:2,buyValue:12,artid:9},
+        10:{maxSpeed:155,addSpeed:11,decSpeed:35,buyType:1,buyValue:20,artid:10},
+        11:{maxSpeed:160,addSpeed:11,decSpeed:45,buyType:3,buyValue:3,artid:11},
+        12:{maxSpeed:160,addSpeed:12,decSpeed:50,buyType:2,buyValue:24,artid:12},
     }
 
     //米 转 象素
@@ -116,13 +116,13 @@ class GameData {
             currentPos += addDec + Math.random()*addDec*0.4 + 10;
             var oo = {
                 start:currentPos,
-                speed:60 + Math.floor(Math.random()*4)*10
+                speed:60 + Math.floor(Math.random()*4)*10 +  Math.floor(this.level/8)*10
             }
             this.redArr.push(oo)
         }
         this.redArr.pop();
         this.maxLen = maxLen;
-        console.log(this.maxLen,this.redArr)
+        console.log(this.maxLen,this.redArr);
     }
 
     public addSpeed(isAdd){

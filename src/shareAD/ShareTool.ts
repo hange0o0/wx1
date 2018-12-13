@@ -4,7 +4,7 @@ class ShareTool {
     /**
      * 分享
      */
-    public static share(title, words, imgUrl,shareArgs,success){
+    public static share(title, imgUrl,shareArgs,success?){
         if(DEBUG){
             if(!shareArgs || !shareArgs.ACT_TYPE){
                 console.error("需要配置 ACT_TYPE");
@@ -20,7 +20,6 @@ class ShareTool {
                 }
                 console.log("分享参数：" + ss.join("&"));
                 console.log("title：" + title);
-                console.log("words：" + words);
                 console.log("imgUrl：" + imgUrl);
             }
             DEBUG && MyWindow.ShowTips('分享成功');
@@ -57,7 +56,17 @@ class ShareTool {
             //else{
                 //7月5日起新提交的版本，用户从小程序、小游戏中分享消息给好友时，开发者将无法获知用户是否分享完成，也无法在分享后立即获得群ID
                 let addPath = ''//AppFunQueen.formatShareArg();
-                platform.shareMessage(title, imgUrl, ObjectUtil.join(shareArgs) + addPath);
+
+            var wx = window['wx'];
+        console.log(title)
+        console.log(imgUrl)
+        console.log(ObjectUtil.join(shareArgs))
+            wx.shareAppMessage({
+                title:title,
+                imageUrl:imgUrl,
+                query:ObjectUtil.join(shareArgs)
+            })
+                //platform.shareMessage(title, imgUrl, ObjectUtil.join(shareArgs) + addPath);
                 //AppFunQueen.e.app_success = (hideTime)=>{
                 //    if(success) success();
                 //    //let ssetvo = CMQU.wxsSet.getObject(shareArgs.ACT_TYPE);

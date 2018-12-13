@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="DebugUISkin" width="640" height="960" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect fillColor="0xffffff" left="0" right="0" top="0" bottom="0"/>
+	<e:Button id="backBtn" label="back" x="20" y="20" skinName="Btn1Skin"/>
+	<e:Group id="con" anchorOffsetY="0" left="0" right="0" top="100" bottom="0">
+		<e:layout>
+			<e:TileLayout/>
+		</e:layout>
+	</e:Group>
+</e:Skin>

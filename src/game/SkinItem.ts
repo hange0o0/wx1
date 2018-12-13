@@ -44,6 +44,8 @@ class SkinItem extends game.BaseItem{
             case 2:
                 break;
             case 3:
+                console.log(UM.gameid);
+                ShareTool.share('集赞换新车，就差你了',Config.localResRoot + "share_img_1.jpg",{type:1,from:UM.gameid,skinid:this.data})
                 //this.rateText.text = '邀请'+max+'个新用户'
                 break;
             case 4:
@@ -147,6 +149,6 @@ class SkinItem extends game.BaseItem{
         var glowFilter:egret.GlowFilter = new egret.GlowFilter( color, alpha, blurX, blurY,
             strength, quality, inner, knockout );
         this.carMC.filters = [glowFilter];
-        this.cacheAsBitmap = true;
+        //this.cacheAsBitmap = true;
     }
 }

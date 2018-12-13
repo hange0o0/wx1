@@ -12,10 +12,17 @@ class CarManager {
 
     public maxLevel = _get['level'] || 0;
     public skinid = 1;
-    public data
     public levelData = {1:20000}
     public skins = [1,2]
     public skinsData:any = {};
+
+    public initData(data){
+        this.skinid = data.skinid;
+        this.levelData = data.levelData;
+        this.skins = data.skins;
+        this.skinsData = data.skinsData || {};
+        this.maxLevel = ObjectUtil.objLength(this.levelData)
+    }
 
     public getLevelStar(level){
         var cd = this.getLevelCD(level);
@@ -42,10 +49,10 @@ class CarManager {
                 return this.maxLevel
             case 2:
                 //this.rateText.text = max + '小时后获得'
-                return TM.now() - (this.skinsData.time || 0)/3600
+                return (TM.now() - (this.skinsData.time || 0))/3600
             case 3:
                 //this.rateText.text = '邀请'+max+'个新用户'
-                return this.skinsData[skinid] || 0;
+                return ObjectUtil.objLength(this.skinsData[skinid] || {});
             case 4:
                 //this.rateText.text = '观看广告'+max+'次'
                 return this.skinsData[skinid] || 0;
@@ -56,26 +63,42 @@ class CarManager {
     public sendSuccess(useTime,fun?){
         var GD = GameData.getInstance();
         var lastCD = this.getLevelCD(GD.level);
-        if(lastCD)
-            this.levelData[GD.level] = Math.min(useTime,lastCD);
-        else
-            this.levelData[GD.level] = useTime;
-
         SharedObjectManager.getInstance().removeMyValue('chapter'+GD.level)
-        this.maxLevel = ObjectUtil.objLength(this.levelData)
+
+        if(!lastCD || useTime < lastCD)
+        {
+            //var newLevelData = ObjectUtil.clone(this.levelData)
+            var newLevelData = {};
+            newLevelData[GD.level] = useTime;
+
+            WXDB.updata('user',{levelData:newLevelData},()=>{
+                this.levelData[GD.level] = useTime;
+                this.maxLevel = ObjectUtil.objLength(this.levelData)
+                fun && fun();
+            })
+            return;
+        }
         fun && fun();
     }
 
     public setCarSkin(skinid,fun?){
-       this.skinid = skinid;
-        EM.dispatch(GameEvent.client.SKIN_CHANGE)
-        GameUI.getInstance().renewCar();
-        fun && fun();
+        WXDB.updata('user',{skinid:skinid},()=>{
+            this.skinid = skinid;
+            EM.dispatch(GameEvent.client.SKIN_CHANGE)
+            GameUI.getInstance().renewCar();
+            fun && fun();
+        })
     }
 
     public buySkin(skinid,fun?){
-       this.skins.push(skinid);
-        EM.dispatch(GameEvent.client.SKIN_CHANGE)
-        fun && fun();
+        var newSkins = this.skins.concat(skinid);
+        var t = TM.now();
+        WXDB.updata('user',{skins:newSkins,skinsData:{time:t}},()=>{
+            this.skins.push(skinid);
+            this.skinsData.time = t
+            EM.dispatch(GameEvent.client.SKIN_CHANGE)
+            fun && fun();
+        })
+
     }
 }

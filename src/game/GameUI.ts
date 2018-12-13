@@ -30,6 +30,10 @@ class GameUI extends game.BaseUI {
     private exitBtn: eui.Group;
     private rateMC2: eui.Rect;
     private failMC: eui.Rect;
+    private debugBtn: eui.Button;
+    private bottomGroup: eui.Group;
+
+    private infoBtn:UserInfoBtn
 
 
 
@@ -94,12 +98,12 @@ class GameUI extends game.BaseUI {
         this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onTouchEnd,this);
 
 
-
         this.addBtnEvent(this.rankBtn, this.onRank);
         this.addBtnEvent(this.levelBtn, this.onLevel);
         this.addBtnEvent(this.skinBtn, this.onSkin);
         this.addBtnEvent(this.settingBtn, this.onSetting);
         this.addBtnEvent(this.exitBtn, this.reset);
+        this.addBtnEvent(this.debugBtn, this.onDebug);
 
         this.addBtnEvent(this.startBtn, this.onStart);
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.onE,this)
@@ -112,6 +116,59 @@ class GameUI extends game.BaseUI {
         this.carMC.bottom = 350;
 
         this.failMC.visible = false
+
+        this.infoBtn = new UserInfoBtn(this.startBtn, (res)=>{
+            //UserManager.getInstance().updateUserInfo(res,()=>{
+                this.renewInfo(res);
+            //});
+
+        }, this, Config.localResRoot + "wx_btn_info.png");
+
+
+
+    }
+
+    private renewInfo(res?){
+
+        var wx = window['wx'];
+        if(!wx)
+            return;
+        if(res)
+        {
+            this.infoBtn.visible = false;
+            UM.renewInfo(res.userInfo)
+            this.bottomGroup.visible = true;
+            return;
+        }
+        this.bottomGroup.visible = false;
+        this.startBtn.visible = false
+        wx.getSetting({
+            success: (res) =>{
+                console.log(res.authSetting)
+                if(res.authSetting["scope.userInfo"])//已授权
+                {
+                    wx.getUserInfo({
+                        success: (res) =>{
+                            var userInfo = res.userInfo
+                            UM.renewInfo(res.userInfo)
+                            UM.head = userInfo.avatarUrl
+                            UM.gender = userInfo.gender || 1 //性别 0：未知、1：男、2：女
+                            this.bottomGroup.visible = true;
+                            this.infoBtn.visible = false;
+                            this.startBtn.visible = true
+                        }
+                    })
+                }
+                else
+                {
+                    this.infoBtn.visible = true;
+                }
+            }
+        })
+    }
+
+    private onDebug(){
+        DebugUI.getInstance().show();
     }
 
     private showFailMC(){
@@ -200,9 +257,12 @@ class GameUI extends game.BaseUI {
     }
 
     public onShow(){
+
+        this.renewInfo();
         this.timer.start()
         this.reset();
         this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewCar)
+        //this.addPanelOpenEvent(GameEvent.client.INFO_CHANGE,this.renew)
     }
 
     public reset(){
@@ -212,7 +272,7 @@ class GameUI extends game.BaseUI {
         this.line2.bottom = 0;
         this.bg.bottom = 0;
         this.errorMC.visible = false;
-        this.levelText.text = '挑战关卡：' + (CarManager.getInstance().maxLevel + 1);
+        this.levelText.text = '第 ' + (CarManager.getInstance().maxLevel + 1) + ' 关';
         GameData.getInstance().isPlaying = false;
 
         for(var s in this.road) {

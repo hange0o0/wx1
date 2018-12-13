@@ -21,6 +21,10 @@ class RankUI extends game.BaseWindow{
     }
 
     public childrenCreated() {
+        this.addBtnEvent(this.closeBtn,this.hide)
+    }
+
+    private test(){
 
     }
 }

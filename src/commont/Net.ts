@@ -11,7 +11,7 @@ class Net extends egret.EventDispatcher{
     }
     //添加用户信息
     public static addUser(msg){
-        msg.landid = UM.landid;
+        //msg.landid = UM.landid;
         msg.gameid = UM.gameid;
     }
 

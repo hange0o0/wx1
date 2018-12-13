@@ -36,6 +36,8 @@
     </div>
 <script>
 
+    try{window['wx'] = wx;}catch(e){}
+
     window.onerror = function(e, url, line) {
         //Main.jsSendDebug(e.toString());
         alert("哈哈哈哈，出错了！" + e.toString() + "--" + url + "--" + line);

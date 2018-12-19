@@ -349,6 +349,11 @@ class GameUI extends game.BaseUI {
         if(GD.speed < GD.baseSpeed)
             GD.speed = GD.baseSpeed
 
+        //if(isAdd)
+        //    SoundManager.getInstance().playSound('motor1')
+        //else if(isDec && GD.speed > GD.baseSpeed)
+        //    SoundManager.getInstance().playSound('brake')
+
         var speed = GD.speed;
         this.onMoveBG(speed);
         GD.onRunSpeed();
@@ -400,15 +405,21 @@ class GameUI extends game.BaseUI {
             var meter = oo.start - GD.passMeter //离红色的距离
             var redLast =  - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);
              this.errorMC.bottom = this.carMC.bottom + this.carMC.height*this.carMC.scaleY +  GD.meterToPix(meter)
-            if(!this.alarm && meter <= GameData.AlertMeter && GameData.AlertMeter/2)
+            if(!this.alarm && meter <= GameData.AlertMeter && meter > redLast)
             {
                 this.alarm = true;
                 this.lastDrawAlarm = 0
-                //console.log('1111111')
+
+                SoundManager.getInstance().playEffect('limit_before')
+                setTimeout(()=>{
+                    SoundManager.getInstance().playEffect('limit' + oo.speed)
+                },2000)
+                console.log('1111111')
             }
             if(this.alarm && meter <= redLast)
             {
                 this.alarm = false;
+                console.log('2222222')
             }
             this.limitGroup.visible = this.alarm;
             this.alarmMC.visible = this.alarm;
@@ -439,7 +450,7 @@ class GameUI extends game.BaseUI {
                     this.showFailMC();
 
                     GD.redArr.shift();
-                    this.alarm = false;
+                    //this.alarm = false;
                     this.resetRed();
 
                     this.limitGroup.visible = this.alarm;
@@ -450,6 +461,7 @@ class GameUI extends game.BaseUI {
             {
                 GD.redArr.shift();
                 this.alarm = false;
+                console.log('33333')
                 this.resetRed();
             }
 

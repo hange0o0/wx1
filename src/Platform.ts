@@ -10,6 +10,7 @@ declare interface Platform {
 
     login(): Promise<any>
     shareMessage(title, imgurl, path, success?, fail?)
+    openDataContext
 
 }
 
@@ -21,6 +22,7 @@ class DebugPlatform implements Platform {
 
     }
     shareMessage(title, imgurl, path, success?, fail?){}
+    openDataContext
 }
 
 

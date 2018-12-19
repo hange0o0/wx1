@@ -30,6 +30,16 @@ class CarManager {
             return GameData.getInstance().getStarByLevel(level,cd)
         return 0;
     }
+
+    public getAllStar(){
+        var star = 0;
+        for(var s in this.levelData)
+        {
+            star += this.getLevelStar(s);
+        }
+        return star;
+    }
+
     public getLevelCD(level){
         return this.levelData[level] || 0
     }
@@ -64,16 +74,19 @@ class CarManager {
         var GD = GameData.getInstance();
         var lastCD = this.getLevelCD(GD.level);
         SharedObjectManager.getInstance().removeMyValue('chapter'+GD.level)
-
+         this.upWXData();
         if(!lastCD || useTime < lastCD)
         {
             //var newLevelData = ObjectUtil.clone(this.levelData)
             var newLevelData = {};
             newLevelData[GD.level] = useTime;
 
+            var lastStar = this.getAllStar();
             WXDB.updata('user',{levelData:newLevelData},()=>{
                 this.levelData[GD.level] = useTime;
                 this.maxLevel = ObjectUtil.objLength(this.levelData)
+                if(lastStar != this.getAllStar())
+                    this.upWXData();
                 fun && fun();
             })
             return;
@@ -100,5 +113,20 @@ class CarManager {
             fun && fun();
         })
 
+    }
+
+    public upWXData(){
+        var wx = window['wx'];
+        if(!wx)
+            return;
+        wx.setUserCloudStorage({
+            KVDataList: [{ key: 'score', value: this.getAllStar() + ',' + TM.now()}],
+            success: res => {
+                console.log(res);
+            },
+            fail: res => {
+                console.log(res);
+            }
+        });
     }
 }

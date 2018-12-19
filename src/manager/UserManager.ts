@@ -53,6 +53,7 @@ class UserManager {
                             this.onNewUser(fun)
                             return;
                         }
+                        this.testAddInvite()//debug
                         this.fill(res.data[0]);
                         fun && fun();
                     }

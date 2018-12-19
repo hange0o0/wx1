@@ -82,7 +82,7 @@ class SoundManager {
         if(this._soundPlaying!=v)
             SharedObjectManager.getInstance().setValue("sound",v)
         this._soundPlaying = v;
-        this.loadEffectSound();
+        //this.loadEffectSound();
     }
     public set bgPlaying(v){
         if(this._bgPlaying!=v){
@@ -94,7 +94,7 @@ class SoundManager {
             this.stopBgSound();
         }
         else{
-            this.playSound(SoundConfig.bg);
+            //this.playSound(SoundConfig.bg);
         }
     }
     public set openShake(v){
@@ -120,7 +120,7 @@ class SoundManager {
     }
 
     public playBtn(){
-        this.playEffect(SoundConfig.effect_button);
+        //this.playEffect(SoundConfig.effect_button);
     }
 
     public stopBgSound(){
@@ -131,11 +131,7 @@ class SoundManager {
             //     this.tween.pause();
             //     this.tween = null;
             // }
-            if(this.isQzonePlay){
-                window["QZAppExternal"].stopBackSound();
-                this.onSoundComplete();
-                return;
-            }
+
             egret.clearTimeout(this.playTime);
             if(this.currentChannel){
                 egret.Tween.removeTweens(this.currentChannel);
@@ -150,10 +146,6 @@ class SoundManager {
 
 
         try{
-            if(this.isQzonePlay){
-                window["QZAppExternal"].playLocalSound(this.getSoundObject(v));
-                return;
-            }
             v += "_mp3"
             var sound:egret.Sound = RES.getRes(v);
             if(sound) sound.play(0,1);
@@ -176,22 +168,20 @@ class SoundManager {
     public playSound(key:string, loop:number = 5999){
 
 
+        console.log(key)
         if(!this.bgPlaying) return;
         if(this.bgKey == key) return;
 
         this.bgKey = key;
 
-        var url = Config.localResRoot + "music/" + key +".mp3"
+        var url = "resource/sound/" + key +".mp3"
         if(this.currentKey == url) return;
         this.currentKey=url;
 
 
         
         try{
-            if(this.isQzonePlay){
-                window["QZAppExternal"].playLocalBackSound(this.getMusicObject(key));
-                return;
-            }
+
             this.tempLoop = loop;
             /*if(this.currentChannel && this.currentKey == url){
                 return;
@@ -226,113 +216,113 @@ class SoundManager {
         }, op);
     }*/
 
-    private getSoundObject(soundID){
-        var baseUrl = Config.localResRoot + "music/"
-        return{
-            'id':soundID,
-            'url': baseUrl +  soundID +'.mp3',
-            'bid': 0,
-            'refresh': false,
-            'loop': 0
-        }
-    }
-    private getMusicObject(soundID){
-        var oo:any = this.getSoundObject(soundID);
-        oo.loop = -1;
-        return oo;
-    }
-
-    public get isQzonePlay(){
-        return false;
-        // return Config.openQzonSound && !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
-        //return !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
-    }
+    //private getSoundObject(soundID){
+    //    var baseUrl = Config.localResRoot + "music/"
+    //    return{
+    //        'id':soundID,
+    //        'url': baseUrl +  soundID +'.mp3',
+    //        'bid': 0,
+    //        'refresh': false,
+    //        'loop': 0
+    //    }
+    //}
+    //private getMusicObject(soundID){
+    //    var oo:any = this.getSoundObject(soundID);
+    //    oo.loop = -1;
+    //    return oo;
+    //}
+    //
+    //public get isQzonePlay(){
+    //    return false;
+    //    // return Config.openQzonSound && !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
+    //    //return !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
+    //}
     
-    public preLoad(){
-        var self = this;
-        var index = 0;
-        //var nameList = ["b101","b102","b103","b104",
-        //    "f201","f202","f203","f204","f205","f206","f207","f208","f209","f210","f211","f212","f213","f214","f215","f216",
-        //    "f301","f302","f303","f304","f305","f306","f307","f308","f309","f310","f311","f312","f313","f314","f315","f316",
-        //    "f317","f318","f319","f320","f321","f322","f323"];
-
-        var nameList = SoundConfig;
-
-
-        var data = {groups:[],resources:[]}
-        var arr = data.resources;
-        var keysArr = this.pkKey = [];
-        var addResources = function(name,path){
-            arr.push({
-                "name":name + "_mp3",
-                "type":"sound",
-                "url": path
-            })
-            keysArr.push(name + "_mp3");
-        }
-
-        var baseUrl = Config.localResRoot + "music/"
-        for(var i in nameList){
-            var op = this.getSoundObject(nameList[i]);
-            if(nameList[i].indexOf('effect_') == 0)       {
-                addResources(nameList[i], "music/" + nameList[i]+'.mp3')
-                this.effectKey.push(nameList[i] + "_mp3")
-            }
-            else if(nameList[i].indexOf('pk_') == 0)       {
-                addResources(nameList[i], "music/" + nameList[i]+'.mp3')
-                this.pkKey.push(nameList[i] + "_mp3")
-            }
-
-            index ++;
-            //(function(op){
-            //    egret.setTimeout(function(){
-            //        self.preLoadOne(op);
-            //    }, this,100*index)
-            //})(op)
-        }
-
-
-        //if(!this.isQzonePlay) {
-        //    for(var j=0;j<arr.length;j++)
-        //    {
-        //        MyRES.reg(arr[j].name,Config.localResRoot + arr[j].url);
-        //    }
-        //    //RES.parseConfig(data, Config.localResRoot);
-        //    //RES.createGroup('sound', keysArr, true);
-        //    //RES.loadGroup("sound");
-        //}
-
-
-
-
-    }
-    private preLoadOne(op){
-        try{
-            var self = this;
-            if(this.isQzonePlay){
-                window["QZAppExternal"].preloadSound(function(evt){
-                    var url = Config.localResRoot + "music/" + op.id + ".mp3";
-                    if(self.currentKey == url){
-                        self.playSound(op.id);
-                    }
-                }, op);
-                return;
-            }
-        }
-        catch(e){}
-    }
-
-
-
-    public loadEffectSound(){
-        if(!this.soundPlaying)
-            return;
-        //if(this.effectKey)
-        //{
-        //    RES.loadGroup();
-        //    this.effectKey = null;
-        //}
-    }
+    //public preLoad(){
+    //    var self = this;
+    //    var index = 0;
+    //    //var nameList = ["b101","b102","b103","b104",
+    //    //    "f201","f202","f203","f204","f205","f206","f207","f208","f209","f210","f211","f212","f213","f214","f215","f216",
+    //    //    "f301","f302","f303","f304","f305","f306","f307","f308","f309","f310","f311","f312","f313","f314","f315","f316",
+    //    //    "f317","f318","f319","f320","f321","f322","f323"];
+    //
+    //    var nameList = SoundConfig;
+    //
+    //
+    //    var data = {groups:[],resources:[]}
+    //    var arr = data.resources;
+    //    var keysArr = this.pkKey = [];
+    //    var addResources = function(name,path){
+    //        arr.push({
+    //            "name":name + "_mp3",
+    //            "type":"sound",
+    //            "url": path
+    //        })
+    //        keysArr.push(name + "_mp3");
+    //    }
+    //
+    //    var baseUrl = Config.localResRoot + "music/"
+    //    for(var i in nameList){
+    //        var op = this.getSoundObject(nameList[i]);
+    //        if(nameList[i].indexOf('effect_') == 0)       {
+    //            addResources(nameList[i], "music/" + nameList[i]+'.mp3')
+    //            this.effectKey.push(nameList[i] + "_mp3")
+    //        }
+    //        else if(nameList[i].indexOf('pk_') == 0)       {
+    //            addResources(nameList[i], "music/" + nameList[i]+'.mp3')
+    //            this.pkKey.push(nameList[i] + "_mp3")
+    //        }
+    //
+    //        index ++;
+    //        //(function(op){
+    //        //    egret.setTimeout(function(){
+    //        //        self.preLoadOne(op);
+    //        //    }, this,100*index)
+    //        //})(op)
+    //    }
+    //
+    //
+    //    //if(!this.isQzonePlay) {
+    //    //    for(var j=0;j<arr.length;j++)
+    //    //    {
+    //    //        MyRES.reg(arr[j].name,Config.localResRoot + arr[j].url);
+    //    //    }
+    //    //    //RES.parseConfig(data, Config.localResRoot);
+    //    //    //RES.createGroup('sound', keysArr, true);
+    //    //    //RES.loadGroup("sound");
+    //    //}
+    //
+    //
+    //
+    //
+    //}
+    //private preLoadOne(op){
+    //    try{
+    //        var self = this;
+    //        if(this.isQzonePlay){
+    //            window["QZAppExternal"].preloadSound(function(evt){
+    //                var url = Config.localResRoot + "music/" + op.id + ".mp3";
+    //                if(self.currentKey == url){
+    //                    self.playSound(op.id);
+    //                }
+    //            }, op);
+    //            return;
+    //        }
+    //    }
+    //    catch(e){}
+    //}
+    //
+    //
+    //
+    //public loadEffectSound(){
+    //    if(!this.soundPlaying)
+    //        return;
+    //    //if(this.effectKey)
+    //    //{
+    //    //    RES.loadGroup();
+    //    //    this.effectKey = null;
+    //    //}
+    //}
 
 
     /************************************************************************************************** */
@@ -459,35 +449,35 @@ class SoundManager {
         Net.instance.sendData(ServerEvent.sys.setting,{ data: o },null,false);
     }*/
 }
-
-class SoundConfig {
-    public static bg: string = "bg";
-    public static bg_pk: string = "bg_pk";
-    public static bg_pk_view: string = "bg_pk_view";
-    public static effect_buy: string = "effect_buy";
-    public static effect_button: string = "effect_button";
-    public static effect_join: string = "effect_join";
-    public static effect_m_up: string = "effect_m_up";
-    public static effect_u_up: string = "effect_u_up";
-    public static pk_win: string = "pk_win";
-    public static pk_loss: string = "pk_loss";
-    public static pk_effect1: string = "pk_effect1";
-    public static pk_effect2: string = "pk_effect2";
-    public static pk_effect3: string = "pk_effect3";
-    public static pk_effect4: string = "pk_effect4";
-    public static pk_effect5: string = "pk_effect5";
-    //public static pk_effect6: string = "pk_effect6";
-    public static pk_effect7: string = "pk_effect7";
-    public static pk_effect8: string = "pk_effect8";
-    //public static pk_effect9: string = "pk_effect9";
-    //public static pk_effect10: string = "pk_effect10";
-    //public static pk_effect11: string = "pk_effect11";
-    public static pk_effect12: string = "pk_effect12";
-    //public static pk_effect13: string = "pk_effect13";
-    public static pk_effect14: string = "pk_effect14";
-    public static pk_effect15: string = "pk_effect15";
-    public static pk_effect16: string = "pk_effect16";
-    public static pk_jump: string = "pk_jump";
-    public static pk_jump2: string = "pk_jump2";
-    public static pk_run: string = "pk_run";
-}
+//
+//class SoundConfig {
+//    public static bg: string = "bg";
+//    public static bg_pk: string = "bg_pk";
+//    public static bg_pk_view: string = "bg_pk_view";
+//    public static effect_buy: string = "effect_buy";
+//    public static effect_button: string = "effect_button";
+//    public static effect_join: string = "effect_join";
+//    public static effect_m_up: string = "effect_m_up";
+//    public static effect_u_up: string = "effect_u_up";
+//    public static pk_win: string = "pk_win";
+//    public static pk_loss: string = "pk_loss";
+//    public static pk_effect1: string = "pk_effect1";
+//    public static pk_effect2: string = "pk_effect2";
+//    public static pk_effect3: string = "pk_effect3";
+//    public static pk_effect4: string = "pk_effect4";
+//    public static pk_effect5: string = "pk_effect5";
+//    //public static pk_effect6: string = "pk_effect6";
+//    public static pk_effect7: string = "pk_effect7";
+//    public static pk_effect8: string = "pk_effect8";
+//    //public static pk_effect9: string = "pk_effect9";
+//    //public static pk_effect10: string = "pk_effect10";
+//    //public static pk_effect11: string = "pk_effect11";
+//    public static pk_effect12: string = "pk_effect12";
+//    //public static pk_effect13: string = "pk_effect13";
+//    public static pk_effect14: string = "pk_effect14";
+//    public static pk_effect15: string = "pk_effect15";
+//    public static pk_effect16: string = "pk_effect16";
+//    public static pk_jump: string = "pk_jump";
+//    public static pk_jump2: string = "pk_jump2";
+//    public static pk_run: string = "pk_run";
+//}

@@ -144,12 +144,14 @@ class SoundManager {
 
     public playEffect(v:string, fun?,thisObj?){
         if(!this.soundPlaying) return;
+        console.log('call:',v)
         var url = "resource/sound/" + v +".mp3"
         var loader: egret.URLLoader = new egret.URLLoader();
         loader.dataFormat = egret.URLLoaderDataFormat.SOUND;
         loader.once(egret.Event.COMPLETE,()=>{
             var sound: egret.Sound = <egret.Sound>loader.data;
             var channel = sound.play(0,1);
+            console.log(v)
             if(fun)
                 channel.once(egret.Event.SOUND_COMPLETE,fun,thisObj)
         },this);

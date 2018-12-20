@@ -111,7 +111,6 @@ class GameUI extends game.BaseUI {
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.onE,this)
 
         this.carMC = new CarMC();
-        this.carMC.cacheAsBitmap = true;
         this.carMC.setCar(1)
         this.addChildAt(this.carMC,this.carIndex);
         this.carMC.scaleX = this.carMC.scaleY = 0.7;
@@ -264,6 +263,7 @@ class GameUI extends game.BaseUI {
         this.renewInfo();
         this.timer.start()
         this.reset();
+        this.renewCar();
         //this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewCar)
         //this.addPanelOpenEvent(GameEvent.client.INFO_CHANGE,this.renew)
     }
@@ -442,8 +442,9 @@ class GameUI extends game.BaseUI {
                 }
             }
 
-            if(meter <=0 && meter >= -redLast)//红块内
+            if(meter <=0 && this.alarm < 2)//红块内
             {
+                this.alarm = 2;
                 if(GD.speed > oo.speed)//超速
                 {
                     SoundManager.getInstance().playEffect('photo')
@@ -458,13 +459,14 @@ class GameUI extends game.BaseUI {
                     this.alarmMC.visible = false;
                 }
             }
-            else if(meter < -redLast)//过了红线
+            else if(this.alarm == 2)
             {
-                if(this.alarm == 1)
-                {
-                    this.alarm = 2;
-                    SoundManager.getInstance().playEffect('pass')
-                }
+                this.alarm = 3;
+                SoundManager.getInstance().playEffect('pass')
+            }
+            else if(this.alarm  == 3)//过了红线
+            {
+
                 if(this.errorMC.bottom < -this.errorMC.height)
                 {
                     GD.redArr.shift();
@@ -524,7 +526,6 @@ class GameUI extends game.BaseUI {
             car.scaleX = car.scaleY = 0.7;
             car.setCar(Math.ceil(12*Math.random()))
             oo.car = car;
-            car.cacheAsBitmap = true;
             car.horizontalCenter = oo.pos;
             car.speed = Math.floor(50 + Math.random()*70)
             this.addChildAt(car,this.carIndex);
@@ -608,7 +609,6 @@ class GameUI extends game.BaseUI {
         {
             mc = new eui.Image()
             mc.source = 'tree_'+Math.ceil(2+Math.random()*6)+'_png'
-            mc.cacheAsBitmap = true
         }
         return mc;
     }

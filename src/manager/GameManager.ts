@@ -160,3 +160,24 @@ function sendClientError(txt){
     Net.send(GameEvent.sys.client_error,{msg:UM.gameid + ':' + txt},null,false);
 }
 //window.onerror=handleErr;
+
+
+if(window["wx"])
+{
+    var wx =  window["wx"];
+    wx.onHide(function(res){
+        if(!GameManager.stage)
+            return;
+        SoundManager.getInstance().stopBgSound();
+        GameManager.stage.dispatchEventWith(egret.Event.DEACTIVATE);
+        console.log('hide')
+    });
+
+    wx.onShow(function(res){
+        if(!GameManager.stage)
+            return;
+        SoundManager.getInstance().playSound('road');
+        GameManager.stage.dispatchEventWith(egret.Event.ACTIVATE);
+        console.log('show')
+    });
+}

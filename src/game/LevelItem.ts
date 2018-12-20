@@ -29,7 +29,6 @@ class LevelItem extends game.BaseItem{
         if(star || this.data == CarManager.getInstance().maxLevel + 1)
         {
             this.currentState = 'current'
-            console.log(star);
             for(var i=0;i<3;i++)
             {
                  this['s' + i].source = i<star?'chapter_star4_png':'chapter_star3_png'

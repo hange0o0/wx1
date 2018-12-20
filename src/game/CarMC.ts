@@ -30,6 +30,7 @@ class CarMC extends eui.Group{
 
     public remove(){
         MyTool.removeMC(this);
+        this.cacheAsBitmap = false;
     }
 
     public setCar(skinid):void{

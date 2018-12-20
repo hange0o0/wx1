@@ -2,8 +2,8 @@
 <e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="main,game" >
 	<e:Image id="bg" source="bg_jpg" fillMode="repeat" left="0" right="0" height="1600" y="0"/>
 	<e:Rect width="600" fillColor="0x424242" horizontalCenter="0" top="0" bottom="0"/>
-	<e:Group id="errorMC" x="20" y="0" width="600" height="10" height.game="5">
-		<e:Rect fillColor="0xff0000" left="0" right="0" top="0" bottom="0"/>
+	<e:Group id="errorMC" x="20" y="0" width="600" height="10" height.game="5" includeIn="game">
+		<e:Image source="red_jpg" scaleX="1" scaleY="1" left="0" right="0" top="0" bottom="0"/>
 	</e:Group>
 	<e:Image id="line2" source="road_png" y="0" fillMode="repeat" horizontalCenter="150" height="1600"/>
 	<e:Image id="line1" source="road_png" y="0" fillMode="repeat" height="1600" horizontalCenter="-150"/>
@@ -26,8 +26,6 @@
 		<e:Label id="levelText" text="挑点关卡：16" stroke="3" left="30" right="30" top="5" bottom="5" verticalAlign="middle" textAlign="center"/>
 	</e:Group>
 	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
-	<e:Image id="slowBtn" source="tap_png" bottom="80" horizontalCenter="-230" visible.main="false" visible="false"/>
-	<e:Image id="speedBtn" source="tap_png" bottom="80" horizontalCenter="230" visible.main="false" visible="false"/>
 	<e:Button id="debugBtn" label="debug" includeIn="main" x="30" y="30" skinName="Btn1Skin"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
 	<e:Group id="meterGroup" x="170" bottom="-2" includeIn="game" width="304" height="200">
@@ -43,7 +41,7 @@
 		<e:Image id="needle" source="car_clock_line_png" x="152" y="155" anchorOffsetX="8" anchorOffsetY="8" rotation="0"/>
 		<e:Group id="limitGroup" includeIn="game" y="175" width="204" horizontalCenter="0">
 			<e:Rect width="204" height="12" x="0" y="0" fillColor="0x282828"/>
-			<e:Rect id="rateMC2" width="100" height="8" x="2" y="2" fillColor="0xff0000"/>
+			<e:Image id="rateMC2" source="red_jpg" x="2" y="2" width="100" height="8"/>
 		</e:Group>
 	</e:Group>
 	<e:Group id="exitBtn" includeIn="game" y="20" x="20">
@@ -56,5 +54,5 @@
 			</e:layout>
 		</e:Group>
 	</e:Group>
-	<e:Rect id="failMC" includeIn="game" left="0" right="0" top="0" bottom="0" fillColor="0xff0000" fillAlpha="0.1" locked="true" visible="false"/>
+	<e:Image id="failMC" source="red_jpg" left="0" right="0" top="0" bottom="0" includeIn="game" alpha="0.1" visible="false"/>
 </e:Skin>

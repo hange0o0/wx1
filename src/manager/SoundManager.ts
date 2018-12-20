@@ -28,6 +28,7 @@ class SoundManager {
     private lastBGKey :string;
     private isLoad:boolean=false;
 
+    private bgTimer;
     public pkKey = [];
     public effectKey = [];
     // private tween:egret.Tween
@@ -94,7 +95,7 @@ class SoundManager {
             this.stopBgSound();
         }
         else{
-            //this.playSound(SoundConfig.bg);
+            this.playSound('road');
         }
     }
     public set openShake(v){
@@ -120,7 +121,7 @@ class SoundManager {
     }
 
     public playBtn(){
-        //this.playEffect(SoundConfig.effect_button);
+        this.playEffect('btn');
     }
 
     public stopBgSound(){
@@ -141,22 +142,18 @@ class SoundManager {
         }catch(e){}
     }
 
-    public playEffect(v:string, delay:number = 0){
+    public playEffect(v:string, fun?,thisObj?){
         if(!this.soundPlaying) return;
-
-
-        try{
-            v += "_mp3"
-            var sound:egret.Sound = RES.getRes(v);
-            if(sound) sound.play(0,1);
-            else
-            {
-                RES.createGroup('sound', [v], true);
-                RES.loadGroup("sound");
-            }
-        }
-        catch(e){
-        }
+        var url = "resource/sound/" + v +".mp3"
+        var loader: egret.URLLoader = new egret.URLLoader();
+        loader.dataFormat = egret.URLLoaderDataFormat.SOUND;
+        loader.once(egret.Event.COMPLETE,()=>{
+            var sound: egret.Sound = <egret.Sound>loader.data;
+            var channel = sound.play(0,1);
+            if(fun)
+                channel.once(egret.Event.SOUND_COMPLETE,fun,thisObj)
+        },this);
+        loader.load(new egret.URLRequest(url));
     }
 
     public resumeSound(){
@@ -165,10 +162,10 @@ class SoundManager {
     }
 
     private tempLoop:number;
-    public playSound(key:string, loop:number = 5999){
+    public playSound(key:string, loop:number = 9999){
 
 
-        console.log(key)
+        //console.log(key)
         if(!this.bgPlaying) return;
         if(this.bgKey == key) return;
 
@@ -200,132 +197,6 @@ class SoundManager {
     }
 
     /************************************************************************************************** */
-    /* 测试QQ空间 播放音乐 注意必必须预加载才能播放
-    private testQzonePay(){
-        var op = {
-            'id':'bg_01_index',
-            'url': 'http://space2.flash8f.com/resource/music1/12_treasure_ten.mp3',
-            'bid': 0,
-            'loop':2,
-            'refresh': false
-        }
-        window["QZAppExternal"].preloadSound(function(evt){
-            window["QZAppExternal"].playLocalSound(op);
-            //window["QZAppExternal"].playLocalBackSound(op);
-            //alert(evt.code + "---"+ op.bid);
-        }, op);
-    }*/
-
-    //private getSoundObject(soundID){
-    //    var baseUrl = Config.localResRoot + "music/"
-    //    return{
-    //        'id':soundID,
-    //        'url': baseUrl +  soundID +'.mp3',
-    //        'bid': 0,
-    //        'refresh': false,
-    //        'loop': 0
-    //    }
-    //}
-    //private getMusicObject(soundID){
-    //    var oo:any = this.getSoundObject(soundID);
-    //    oo.loop = -1;
-    //    return oo;
-    //}
-    //
-    //public get isQzonePlay(){
-    //    return false;
-    //    // return Config.openQzonSound && !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
-    //    //return !Config.isTouch && (getQzoneVerCode()>=40600);//qzone 4.6支持
-    //}
-    
-    //public preLoad(){
-    //    var self = this;
-    //    var index = 0;
-    //    //var nameList = ["b101","b102","b103","b104",
-    //    //    "f201","f202","f203","f204","f205","f206","f207","f208","f209","f210","f211","f212","f213","f214","f215","f216",
-    //    //    "f301","f302","f303","f304","f305","f306","f307","f308","f309","f310","f311","f312","f313","f314","f315","f316",
-    //    //    "f317","f318","f319","f320","f321","f322","f323"];
-    //
-    //    var nameList = SoundConfig;
-    //
-    //
-    //    var data = {groups:[],resources:[]}
-    //    var arr = data.resources;
-    //    var keysArr = this.pkKey = [];
-    //    var addResources = function(name,path){
-    //        arr.push({
-    //            "name":name + "_mp3",
-    //            "type":"sound",
-    //            "url": path
-    //        })
-    //        keysArr.push(name + "_mp3");
-    //    }
-    //
-    //    var baseUrl = Config.localResRoot + "music/"
-    //    for(var i in nameList){
-    //        var op = this.getSoundObject(nameList[i]);
-    //        if(nameList[i].indexOf('effect_') == 0)       {
-    //            addResources(nameList[i], "music/" + nameList[i]+'.mp3')
-    //            this.effectKey.push(nameList[i] + "_mp3")
-    //        }
-    //        else if(nameList[i].indexOf('pk_') == 0)       {
-    //            addResources(nameList[i], "music/" + nameList[i]+'.mp3')
-    //            this.pkKey.push(nameList[i] + "_mp3")
-    //        }
-    //
-    //        index ++;
-    //        //(function(op){
-    //        //    egret.setTimeout(function(){
-    //        //        self.preLoadOne(op);
-    //        //    }, this,100*index)
-    //        //})(op)
-    //    }
-    //
-    //
-    //    //if(!this.isQzonePlay) {
-    //    //    for(var j=0;j<arr.length;j++)
-    //    //    {
-    //    //        MyRES.reg(arr[j].name,Config.localResRoot + arr[j].url);
-    //    //    }
-    //    //    //RES.parseConfig(data, Config.localResRoot);
-    //    //    //RES.createGroup('sound', keysArr, true);
-    //    //    //RES.loadGroup("sound");
-    //    //}
-    //
-    //
-    //
-    //
-    //}
-    //private preLoadOne(op){
-    //    try{
-    //        var self = this;
-    //        if(this.isQzonePlay){
-    //            window["QZAppExternal"].preloadSound(function(evt){
-    //                var url = Config.localResRoot + "music/" + op.id + ".mp3";
-    //                if(self.currentKey == url){
-    //                    self.playSound(op.id);
-    //                }
-    //            }, op);
-    //            return;
-    //        }
-    //    }
-    //    catch(e){}
-    //}
-    //
-    //
-    //
-    //public loadEffectSound(){
-    //    if(!this.soundPlaying)
-    //        return;
-    //    //if(this.effectKey)
-    //    //{
-    //    //    RES.loadGroup();
-    //    //    this.effectKey = null;
-    //    //}
-    //}
-
-
-    /************************************************************************************************** */
     
     private playTime:number;
     private onLoadComplete(event: egret.Event): void {
@@ -349,11 +220,12 @@ class SoundManager {
                 //         if(self.currentChannel)
                             self.currentChannel.stop();
                             self.currentChannel=null;
+                            //self.currentChannel.volume = 0.3 + Math.random()*0.7
 
                             if(!self._bgPlaying)return;
-                            this.playTime = setTimeout(()=>{
-
-                            }, 150);
+                            //this.playTime = setTimeout(()=>{
+                            //
+                            //}, 150);
                             // fun();
                     // }
                     // catch(e){
@@ -371,6 +243,7 @@ class SoundManager {
             var channel: egret.SoundChannel = sound.play(0,self.tempLoop);
             // channel.volume =0;
             self.currentChannel = channel;
+            //self.currentChannel.volume = 0.3 + Math.random()*0.7
             // self.tween = egret.Tween.get(channel).to({volume:1},500).call(
             //     ()=>{
             //         self.tween = null;
@@ -384,6 +257,12 @@ class SoundManager {
     private onSoundComplete(event?:egret.Event):void {
         this.currentChannel = null;
         this.currentKey = null;
+
+        //this.playTime = setTimeout(()=>{
+        //    this.bgKey = null;
+        //    this.playSound('road')
+        //},Math.random()*3*1000)
+
     }
 
     private onLoadError(event: egret.Event): void {
@@ -392,29 +271,29 @@ class SoundManager {
         loader.removeEventListener(egret.IOErrorEvent.IO_ERROR,this.onLoadError,this);
     }
     
-    public fillData(d:Array<any>):void{
-        if(d) {
-            for(var i:number = 0;i < d.length;i++) {
-                switch(d[i]["id"]) {
-                    case 1:
-                        this.soundPlaying = d[i]["num"] == 1;
-                        break;
-                    case 2:
-                        this.bgPlaying = d[i]["num"] == 1;
-                        break;
-                    case 3:
-                        this.openShake = d[i]["num"] == 1;
-                        break;
-                    case 4:
-                        this.isPlayMovie = d[i]["num"] == 1;
-                        break;
-                    case 5:
-                        this.isMessage = d[i]["num"] == 1;
-                        break;
-                }
-            }
-        }
-    }
+    //public fillData(d:Array<any>):void{
+    //    if(d) {
+    //        for(var i:number = 0;i < d.length;i++) {
+    //            switch(d[i]["id"]) {
+    //                case 1:
+    //                    this.soundPlaying = d[i]["num"] == 1;
+    //                    break;
+    //                case 2:
+    //                    this.bgPlaying = d[i]["num"] == 1;
+    //                    break;
+    //                case 3:
+    //                    this.openShake = d[i]["num"] == 1;
+    //                    break;
+    //                case 4:
+    //                    this.isPlayMovie = d[i]["num"] == 1;
+    //                    break;
+    //                case 5:
+    //                    this.isMessage = d[i]["num"] == 1;
+    //                    break;
+    //            }
+    //        }
+    //    }
+    //}
     /*public updateSetting(ids: Array<any>){
         var o:Array<any> =[];
         if(ids){

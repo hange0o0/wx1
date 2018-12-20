@@ -10,6 +10,8 @@ class SkinUI extends game.BaseWindow{
     private scroller: eui.Scroller;
     private list: eui.List;
 
+
+    public currentSkin
     public constructor() {
         super();
         this.skinName = "SkinUISkin";
@@ -26,6 +28,7 @@ class SkinUI extends game.BaseWindow{
     }
 
     public onShow(){
+        this.currentSkin = CarManager.getInstance().skinid;
         this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewList)
         //this.addPanelOpenEvent(GameEvent.client.timer,this.onTimer)
         var arr = [];
@@ -40,5 +43,17 @@ class SkinUI extends game.BaseWindow{
 
     private onTimer(){
         MyTool.runListFun(this.list,'onTimer')
+    }
+
+    public hide(){
+
+        super.hide();
+        if(this.currentSkin != CarManager.getInstance().skinid)
+        {
+            CarManager.getInstance().setCarSkin(this.currentSkin,()=>{
+
+            });
+        }
+
     }
 }

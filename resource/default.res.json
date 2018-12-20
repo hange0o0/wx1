@@ -5,7 +5,7 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bg_jpg,car_png,road_png,tap_png,tree_1_png,tree_2_png,tree_3_png,tree_4_png,tree_5_png,tree_6_png,tree_7_png,tree_8_png,title_png,window_bg_png,skin_item_png,close_btn_png,skin_item2_png,btn_start_png,chapter_star2_png,chapter_item1_png,chapter_star1_png,chapter_star4_png,chapter_item2_png,chapter_star3_png,bg_1_png,bg_2_png,bg_3_png,bg_4_png,car_temp_png,progress_bg_png,progress_img_png,using_mc_png,level_btn_png,skin_btn_png,rank_btn_png,black_bg_png,game_top_png,car_clock_png,car_clock_line_png,clock_bg_png,sound_off_btn_png,sound_on_btn_png,gaming_back_png,skin_unlock_png,brake_mp3,limit_before_mp3,limit60_mp3,limit70_mp3,limit80_mp3,limit90_mp3,limit100_mp3,limit110_mp3,limit120_mp3,motor1_mp3,motor2_mp3,motor3_mp3,motor4_mp3,motor5_mp3,motor6_mp3,motor7_mp3,motor8_mp3,motor9_mp3",
+			"keys":"bg_jpg,car_png,road_png,tree_3_png,tree_4_png,tree_5_png,tree_6_png,tree_7_png,tree_8_png,title_png,window_bg_png,skin_item_png,close_btn_png,skin_item2_png,btn_start_png,chapter_star2_png,chapter_item1_png,chapter_star1_png,chapter_star4_png,chapter_item2_png,chapter_star3_png,bg_1_png,bg_2_png,bg_3_png,bg_4_png,car_temp_png,progress_bg_png,progress_img_png,using_mc_png,level_btn_png,skin_btn_png,rank_btn_png,black_bg_png,game_top_png,car_clock_png,car_clock_line_png,clock_bg_png,sound_off_btn_png,sound_on_btn_png,gaming_back_png,skin_unlock_png,red_jpg",
 			"name":"game"
 		}
 	],
@@ -29,21 +29,6 @@
 			"name":"road_png",
 			"type":"image",
 			"url":"game_assets/road.png"
-		},
-		{
-			"name":"tap_png",
-			"type":"image",
-			"url":"game_assets/tap.png"
-		},
-		{
-			"name":"tree_1_png",
-			"type":"image",
-			"url":"game_assets/tree_1.png"
-		},
-		{
-			"name":"tree_2_png",
-			"type":"image",
-			"url":"game_assets/tree_2.png"
 		},
 		{
 			"name":"tree_3_png",
@@ -236,94 +221,9 @@
 			"url":"game_assets/skin_unlock.png"
 		},
 		{
-			"name":"brake_mp3",
-			"type":"sound",
-			"url":"sound/brake.mp3"
-		},
-		{
-			"name":"limit_before_mp3",
-			"type":"sound",
-			"url":"sound/limit_before.mp3"
-		},
-		{
-			"name":"limit60_mp3",
-			"type":"sound",
-			"url":"sound/limit60.mp3"
-		},
-		{
-			"name":"limit70_mp3",
-			"type":"sound",
-			"url":"sound/limit70.mp3"
-		},
-		{
-			"name":"limit80_mp3",
-			"type":"sound",
-			"url":"sound/limit80.mp3"
-		},
-		{
-			"name":"limit90_mp3",
-			"type":"sound",
-			"url":"sound/limit90.mp3"
-		},
-		{
-			"name":"limit100_mp3",
-			"type":"sound",
-			"url":"sound/limit100.mp3"
-		},
-		{
-			"name":"limit110_mp3",
-			"type":"sound",
-			"url":"sound/limit110.mp3"
-		},
-		{
-			"name":"limit120_mp3",
-			"type":"sound",
-			"url":"sound/limit120.mp3"
-		},
-		{
-			"name":"motor1_mp3",
-			"type":"sound",
-			"url":"sound/motor1.mp3"
-		},
-		{
-			"name":"motor2_mp3",
-			"type":"sound",
-			"url":"sound/motor2.mp3"
-		},
-		{
-			"name":"motor3_mp3",
-			"type":"sound",
-			"url":"sound/motor3.mp3"
-		},
-		{
-			"name":"motor4_mp3",
-			"type":"sound",
-			"url":"sound/motor4.mp3"
-		},
-		{
-			"name":"motor5_mp3",
-			"type":"sound",
-			"url":"sound/motor5.mp3"
-		},
-		{
-			"name":"motor6_mp3",
-			"type":"sound",
-			"url":"sound/motor6.mp3"
-		},
-		{
-			"name":"motor7_mp3",
-			"type":"sound",
-			"url":"sound/motor7.mp3"
-		},
-		{
-			"name":"motor8_mp3",
-			"type":"sound",
-			"url":"sound/motor8.mp3"
-		},
-		{
-			"name":"motor9_mp3",
-			"type":"sound",
-			"url":"sound/motor9.mp3"
+			"name":"red_jpg",
+			"type":"image",
+			"url":"game_assets/red.jpg"
 		}
 	]
 }

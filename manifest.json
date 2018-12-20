@@ -11,7 +11,7 @@
 	],
 	"game": [
 		"bin-debug/commont/BaseUI.js",
-		"bin-debug/LoadingUI.js",
+		"bin-debug/game/CarManager.js",
 		"bin-debug/Main.js",
 		"bin-debug/MainLoadingUI.js",
 		"bin-debug/MsgingUI.js",
@@ -21,6 +21,7 @@
 		"bin-debug/commont/Config.js",
 		"bin-debug/commont/GameEvent.js",
 		"bin-debug/commont/MovieSimpleMC.js",
+		"bin-debug/commont/MyTimer.js",
 		"bin-debug/commont/MyTool.js",
 		"bin-debug/commont/MyWindow.js",
 		"bin-debug/commont/Net.js",
@@ -38,7 +39,7 @@
 		"bin-debug/commont/ui/TouchTipsUI.js",
 		"bin-debug/commont/ui/UpList.js",
 		"bin-debug/commont/ui/UserInfoBtn.js",
-		"bin-debug/util/StringUtil.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/game/CarMC.js",
 		"bin-debug/game/GameData.js",
 		"bin-debug/game/GameUI.js",
@@ -66,6 +67,6 @@
 		"bin-debug/util/NumberUtil.js",
 		"bin-debug/util/ObjectUtil.js",
 		"bin-debug/util/PopUpManager.js",
-		"bin-debug/game/CarManager.js"
+		"bin-debug/util/StringUtil.js"
 	]
 }

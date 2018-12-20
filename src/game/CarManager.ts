@@ -95,10 +95,9 @@ class CarManager {
     }
 
     public setCarSkin(skinid,fun?){
+        this.skinid = skinid;
+        GameUI.getInstance().renewCar();
         WXDB.updata('user',{skinid:skinid},()=>{
-            this.skinid = skinid;
-            EM.dispatch(GameEvent.client.SKIN_CHANGE)
-            GameUI.getInstance().renewCar();
             fun && fun();
         })
     }

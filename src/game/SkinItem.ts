@@ -57,13 +57,15 @@ class SkinItem extends game.BaseItem{
     }
 
     private onClick(){
-        if(CarManager.getInstance().skinid == this.data)
+        if(SkinUI.getInstance().currentSkin == this.data)
             return;
         if(!CarManager.getInstance().isHaveSkin(this.data))
             return;
-        CarManager.getInstance().setCarSkin(this.data,()=>{
 
-        });
+        SkinUI.getInstance().currentSkin = this.data;
+        EM.dispatch(GameEvent.client.SKIN_CHANGE)
+        SoundManager.getInstance().playEffect('switch')
+
     }
 
     private onTimer(){
@@ -87,7 +89,7 @@ class SkinItem extends game.BaseItem{
         if(CarManager.getInstance().isHaveSkin(this.data))
         {
             var color = 0x99c5fd;
-            this.setUsing(CarManager.getInstance().skinid == this.data);
+            this.setUsing(SkinUI.getInstance().currentSkin == this.data);
             this.currentState = 'normal';
             this.setHtml(this.desText, this.createHtml('时速：',color) + carVO.maxSpeed+'KM\n'+
                 this.createHtml('加速：',color) + carVO.addSpeed+'KM\n'+

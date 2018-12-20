@@ -46,6 +46,7 @@ class ResultUI extends game.BaseWindow{
     }
 
     public onShow(){
+        SoundManager.getInstance().playEffect('win')
         var GD =  GameData.getInstance();
         var star =  GD.getStarByLevel(GD.level,this.useTime)
         for(var j=0;j<3;j++)

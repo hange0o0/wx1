@@ -19,8 +19,8 @@ class GameUI extends game.BaseUI {
     private settingBtn: eui.Image;
     private levelGroup: eui.Group;
     private levelText: eui.Label;
-    private slowBtn: eui.Image;
-    private speedBtn: eui.Image;
+    //private slowBtn: eui.Image;
+    //private speedBtn: eui.Image;
     private readyText: eui.Label;
     private speedText: eui.Label;
     private gameLevelText: eui.Label;
@@ -42,9 +42,9 @@ class GameUI extends game.BaseUI {
     public alarmMC = new egret.Shape()
 
 
-    private timer = new egret.Timer(1000/GameData.Frame);
+    private timer = new MyTimer(1000/GameData.Frame);
     private carMC;
-    private alarm = false
+    private alarm = 0
     private lastDrawAlarm = 0
 
     //private speedState = 0;
@@ -105,10 +105,13 @@ class GameUI extends game.BaseUI {
         this.addBtnEvent(this.exitBtn, this.reset);
         this.addBtnEvent(this.debugBtn, this.onDebug);
 
+        this.debugBtn.visible = false;
+
         this.addBtnEvent(this.startBtn, this.onStart);
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.onE,this)
 
         this.carMC = new CarMC();
+        this.carMC.cacheAsBitmap = true;
         this.carMC.setCar(1)
         this.addChildAt(this.carMC,this.carIndex);
         this.carMC.scaleX = this.carMC.scaleY = 0.7;
@@ -175,7 +178,7 @@ class GameUI extends game.BaseUI {
         this.failMC.visible = true
         this.failMC.alpha = 0
         egret.Tween.removeTweens(this.failMC)
-        egret.Tween.get(this.failMC).to({alpha:0.5},250).to({alpha:1},250).call(()=>{
+        egret.Tween.get(this.failMC).to({alpha:0.5},250).to({alpha:0},250).call(()=>{
             this.failMC.visible = false
         })
     }
@@ -246,7 +249,7 @@ class GameUI extends game.BaseUI {
         this.touchID = {};
         this.currentState = 'game'
 
-        this.alarm = false
+        this.alarm = 0
         this.limitGroup.visible = false;
         this.posRateMC.visible = false;
         this.cdRateMC.visible = false;
@@ -257,11 +260,11 @@ class GameUI extends game.BaseUI {
     }
 
     public onShow(){
-
+        SoundManager.getInstance().playSound('road');
         this.renewInfo();
         this.timer.start()
         this.reset();
-        this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewCar)
+        //this.addPanelOpenEvent(GameEvent.client.SKIN_CHANGE,this.renewCar)
         //this.addPanelOpenEvent(GameEvent.client.INFO_CHANGE,this.renew)
     }
 
@@ -313,6 +316,7 @@ class GameUI extends game.BaseUI {
             var num = 3-Math.floor((egret.getTimer() - GD.startTime)/1000)
             if(num <= 0)
             {
+                SoundManager.getInstance().playEffect('count_down4')
                 GD.countDown = 0;
                 GD.startTime = egret.getTimer();//真正开始
                 this.readyText.text = '';
@@ -322,6 +326,8 @@ class GameUI extends game.BaseUI {
             }
             else if(GD.countDown != num)
             {
+                SoundManager.getInstance().playEffect('count_down')
+
                 GD.countDown = num
                 this.readyText.text = '' + num;
                 egret.Tween.removeTweens(this.readyText)
@@ -403,26 +409,20 @@ class GameUI extends game.BaseUI {
         {
             var oo = GD.redArr[0];
             var meter = oo.start - GD.passMeter //离红色的距离
-            var redLast =  - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);
+            var redLast = 1// - GD.pixToMeter(this.carMC.height*this.carMC.scaleY);//离红色块的大小
              this.errorMC.bottom = this.carMC.bottom + this.carMC.height*this.carMC.scaleY +  GD.meterToPix(meter)
-            if(!this.alarm && meter <= GameData.AlertMeter && meter > redLast)
+            if(this.alarm == 0 && meter <= GameData.AlertMeter && meter > GameData.AlertMeter/2)  //发出警告
             {
-                this.alarm = true;
+                this.alarm = 1;
                 this.lastDrawAlarm = 0
 
-                SoundManager.getInstance().playEffect('limit_before')
-                setTimeout(()=>{
+                SoundManager.getInstance().playEffect('limit_before',()=>{
                     SoundManager.getInstance().playEffect('limit' + oo.speed)
-                },2000)
-                console.log('1111111')
+                })
             }
-            if(this.alarm && meter <= redLast)
-            {
-                this.alarm = false;
-                console.log('2222222')
-            }
-            this.limitGroup.visible = this.alarm;
-            this.alarmMC.visible = this.alarm;
+
+            this.limitGroup.visible = this.alarm == 1;
+            this.alarmMC.visible = this.alarm == 1;
 
             if(this.alarmMC.visible)
             {
@@ -442,54 +442,45 @@ class GameUI extends game.BaseUI {
                 }
             }
 
-            if(meter <=0 && meter >= redLast)//红块内
+            if(meter <=0 && meter >= -redLast)//红块内
             {
                 if(GD.speed > oo.speed)//超速
                 {
+                    SoundManager.getInstance().playEffect('photo')
                     GD.startTime -= GameData.FailDecTime
                     this.showFailMC();
 
                     GD.redArr.shift();
-                    //this.alarm = false;
+
                     this.resetRed();
 
-                    this.limitGroup.visible = this.alarm;
-                    this.alarmMC.visible = this.alarm;
+                    this.limitGroup.visible = false;
+                    this.alarmMC.visible = false;
                 }
             }
-            else if(this.errorMC.bottom < -this.errorMC.height)
+            else if(meter < -redLast)//过了红线
             {
-                GD.redArr.shift();
-                this.alarm = false;
-                console.log('33333')
-                this.resetRed();
+                if(this.alarm == 1)
+                {
+                    this.alarm = 2;
+                    SoundManager.getInstance().playEffect('pass')
+                }
+                if(this.errorMC.bottom < -this.errorMC.height)
+                {
+                    GD.redArr.shift();
+                    this.resetRed();
+                }
             }
 
             if(this.limitGroup.visible)
             {
                 this.rateMC2.width = 200* Math.min((GameData.AlertMeter - meter)/GameData.AlertMeter,1)
-                //this.speedText2.textColor = GD.speed > oo.speed?0xFF0000:0x00ff00;
-                //this.speedText2.text = Math.floor(GD.speed) + '/' + oo.speed;
-
-                if(meter > 0)
-                {
-                    //console.log(meter,(GD.speed*1000/3600))
-                    //cd = meter / (GD.speed*1000/3600)
-                    //cd2 =  Math.floor(cd*100)%100
-                    //cd = Math.floor(cd)
-                    //this.cdText2.text = DateUtil.getStringBySecond(cd).substr(-5) + '.' + ('00' + cd2).substr(-2)
-                }
-                else
-                {
-                    //this.cdText2.text = ''
-                }
-
             }
         }
-        //console.log(egret.getTimer() - t)
     }
 
     private resetRed(){
+        this.alarm = 0;
         var GD = GameData.getInstance();
         var oo = GD.redArr[0];
         if(!oo)
@@ -533,6 +524,7 @@ class GameUI extends game.BaseUI {
             car.scaleX = car.scaleY = 0.7;
             car.setCar(Math.ceil(12*Math.random()))
             oo.car = car;
+            car.cacheAsBitmap = true;
             car.horizontalCenter = oo.pos;
             car.speed = Math.floor(50 + Math.random()*70)
             this.addChildAt(car,this.carIndex);
@@ -615,8 +607,9 @@ class GameUI extends game.BaseUI {
         if(!mc)
         {
             mc = new eui.Image()
+            mc.source = 'tree_'+Math.ceil(2+Math.random()*6)+'_png'
+            mc.cacheAsBitmap = true
         }
-        mc.source = 'tree_'+Math.ceil(2+Math.random()*6)+'_png'
         return mc;
     }
 

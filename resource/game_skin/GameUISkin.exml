@@ -25,15 +25,15 @@
 		<e:Image source="black_bg_png" scale9Grid="36,7,16,42" left="0" right="0" top="0" bottom="0"/>
 		<e:Label id="levelText" text="挑点关卡：16" stroke="3" left="30" right="30" top="5" bottom="5" verticalAlign="middle" textAlign="center"/>
 	</e:Group>
-	<e:Image source="car_temp_png" horizontalCenter="230" scaleX="0.7" scaleY="0.7" bottom="400" visible="false"/>
 	<e:Button id="debugBtn" label="debug" includeIn="main" x="30" y="30" skinName="Btn1Skin"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
 	<e:Group id="meterGroup" x="170" bottom="-2" includeIn="game" width="304" height="200">
-		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>
+		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0" visible="false"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>
+		<e:Image source="bg8_png" y="82.38" width="120" height="46" horizontalCenter="0" scale9Grid="11,8,11,14"/>
 		<e:Group horizontalCenter="0" y="90">
-			<e:Label id="speedText" text="300" y="0" size="30" x="0" stroke="2"/>
-			<e:Label text="km/h" y="0" size="20" x="0" stroke="2" textColor="0xffffff" height="22"/>
+			<e:Label id="speedText" text="300" y="0" size="30" x="0"/>
+			<e:Label text="km/h" y="0" size="20" x="0" textColor="0xffffff" height="22"/>
 			<e:layout>
 			<e:HorizontalLayout verticalAlign="bottom" gap="5"/>
 			</e:layout>

@@ -35,6 +35,8 @@ class SkinUI extends game.BaseWindow{
         for(var i=0;i<GameData.MaxCar;i++)
             arr.push(i+1)
         this.list.dataProvider = new eui.ArrayCollection(arr)
+
+        this.scroller.viewport
     }
 
     private renewList(){

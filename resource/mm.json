@@ -1,5 +1,5 @@
 {
-	"addCrc":true,
+	"addCrc":false,
 	"cleanPublishPath":false,
 	"packGroups":[{
 			"gap":4,
@@ -156,6 +156,22 @@
 				{
 					"compress":false,
 					"key":"skin_unlock_png"
+				},
+				{
+					"compress":false,
+					"key":"bg8_png"
+				},
+				{
+					"compress":false,
+					"key":"window_bg_png"
+				},
+				{
+					"compress":false,
+					"key":"bg_jpg"
+				},
+				{
+					"compress":false,
+					"key":"red_jpg"
 				}
 			],
 			"sort":0
@@ -163,22 +179,8 @@
 	"publishCopyAll":false,
 	"publishPath":"D:/myFile/wx/wx1/resource_Publish/",
 	"sourcePath":"D:/myFile/wx/wx1/resource/",
-	"unPackGroup":[
-		{
-			"compress":false,
-			"key":"bg_jpg"
-		},
-		{
+	"unPackGroup":[{
 			"compress":false,
 			"key":"car_png"
-		},
-		{
-			"compress":false,
-			"key":"window_bg_png"
-		},
-		{
-			"compress":false,
-			"key":"red_jpg"
-		}
-	]
+		}]
 }

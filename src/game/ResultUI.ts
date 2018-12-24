@@ -16,6 +16,7 @@ class ResultUI extends game.BaseWindow{
     public constructor() {
         super();
         this.skinName = "ResultUISkin";
+        this.canBGClose = false
     }
     public childrenCreated() {
         this.addBtnEvent(this.backBtn,this.hide)

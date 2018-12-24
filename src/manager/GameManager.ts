@@ -171,6 +171,7 @@ if(window["wx"])
         SoundManager.getInstance().stopBgSound();
         GameManager.stage.dispatchEventWith(egret.Event.DEACTIVATE);
         console.log('hide')
+        GameUI.getInstance().cleanTouch();
     });
 
     wx.onShow(function(res){
@@ -178,6 +179,7 @@ if(window["wx"])
             return;
         SoundManager.getInstance().playSound('road');
         GameManager.stage.dispatchEventWith(egret.Event.ACTIVATE);
+        GameUI.getInstance().cleanTouch();
         console.log('show')
     });
 }

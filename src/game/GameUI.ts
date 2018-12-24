@@ -130,6 +130,10 @@ class GameUI extends game.BaseUI {
 
     }
 
+    public cleanTouch(){
+        this.touchID = {};
+    }
+
     private renewInfo(res?){
 
         var wx = window['wx'];

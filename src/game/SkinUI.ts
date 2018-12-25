@@ -36,7 +36,15 @@ class SkinUI extends game.BaseWindow{
             arr.push(i+1)
         this.list.dataProvider = new eui.ArrayCollection(arr)
 
-        this.scroller.viewport
+
+        this.validateNow();
+        var max = this.scroller.viewport.contentHeight-this.scroller.height;
+        var v = Math.min(max,Math.floor(CarManager.getInstance().skins.length/3)*(260+15));
+        egret.Tween.get(this.scroller.viewport).to({scrollV:v},100)
+
+        //setTimeout(()=>{
+        //    console.log(v,this.scroller.viewport.scrollV);
+        //},100)
     }
 
     private renewList(){

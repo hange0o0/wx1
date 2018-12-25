@@ -127,7 +127,7 @@ class GameUI extends game.BaseUI {
         }, this, Config.localResRoot + "wx_btn_info.png");
 
 
-
+        this.renewSound();
     }
 
     public cleanTouch(){
@@ -221,10 +221,13 @@ class GameUI extends game.BaseUI {
     private onSetting(){
         SoundManager.getInstance().soundPlaying = !SoundManager.getInstance().soundPlaying
         SoundManager.getInstance().bgPlaying = !SoundManager.getInstance().bgPlaying
-        this.settingBtn.source = SoundManager.getInstance().bgPlaying?'sound_on_btn_png':'sound_off_btn_png'
+        this.renewSound();
+
     }
 
-
+   private renewSound(){
+       this.settingBtn.source = SoundManager.getInstance().bgPlaying?'sound_on_btn_png':'sound_off_btn_png'
+   }
 
 
 
@@ -238,7 +241,7 @@ class GameUI extends game.BaseUI {
     //}
 
     public onStart(){
-        this.startLevel(CarManager.getInstance().maxLevel + 1)
+        this.startLevel(Math.min(CarManager.getInstance().maxLevel + 1,GameData.MaxLevel))
     }
 
     public renewCar(){
@@ -279,7 +282,8 @@ class GameUI extends game.BaseUI {
         this.line2.bottom = 0;
         this.bg.bottom = 0;
         this.errorMC.visible = false;
-        this.levelText.text = '第 ' + (CarManager.getInstance().maxLevel + 1) + ' 关';
+        var level = Math.min(CarManager.getInstance().maxLevel + 1,GameData.MaxLevel)
+        this.levelText.text = '第 ' + level + ' 关';
         GameData.getInstance().isPlaying = false;
 
         for(var s in this.road) {
@@ -419,10 +423,7 @@ class GameUI extends game.BaseUI {
             {
                 this.alarm = 1;
                 this.lastDrawAlarm = 0
-
-                SoundManager.getInstance().playEffect('limit_before',()=>{
-                    SoundManager.getInstance().playEffect('limit' + oo.speed)
-                })
+                SoundManager.getInstance().playEffect('limit' + oo.speed)
             }
 
             this.limitGroup.visible = this.alarm == 1;

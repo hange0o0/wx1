@@ -31,7 +31,7 @@ class ResultUI extends game.BaseWindow{
     }
     private onNext(){
         this.hide();
-        GameUI.getInstance().onStart();
+        GameUI.getInstance().startLevel(GameData.getInstance().level + 1);
     }
 
     public hide(){
@@ -55,6 +55,8 @@ class ResultUI extends game.BaseWindow{
             this['s'+j].source = star>j?'chapter_star2_png':'chapter_star1_png'
         }
         this.nextText.visible = GD.level == CarManager.getInstance().maxLevel;
+
+        this.nextBtn.visible = GD.level != GameData.MaxLevel
 
         var cd = this.useTime;
         var cd2 =  Math.floor((cd%1000)/10)

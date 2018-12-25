@@ -8,12 +8,13 @@ class CarManager {
 
     public constructor() {
         this.maxLevel = ObjectUtil.objLength(this.levelData)
+        //this.maxLevel = 999
     }
 
     public maxLevel = _get['level'] || 0;
     public skinid = 1;
-    public levelData = {1:20000}
-    public skins = [1,2]
+    public levelData = {1:20000,2:20000,3:20000,4:20000,5:20000,6:20000}
+    public skins = [1,2,3,4,5,6,7,8,9,10,11]
     public skinsData:any = {};
 
     public initData(data){
@@ -22,6 +23,7 @@ class CarManager {
         this.skins = data.skins;
         this.skinsData = data.skinsData || {};
         this.maxLevel = ObjectUtil.objLength(this.levelData)
+
     }
 
     public getLevelStar(level){

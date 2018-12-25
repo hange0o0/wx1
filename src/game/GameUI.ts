@@ -24,6 +24,7 @@ class GameUI extends game.BaseUI {
     private readyText: eui.Label;
     private speedText: eui.Label;
     private gameLevelText: eui.Label;
+    private guideText: eui.Label;
     private needle: eui.Image;
     private limitGroup: eui.Group;
     private meterGroup: eui.Group;
@@ -64,8 +65,7 @@ class GameUI extends game.BaseUI {
     private carIndex = 5;
 
     private touchID = {}
-    private addSpeedTimes
-    private decSpeedTimes
+    private guideStep = 0
 
     public constructor() {
         super();
@@ -263,6 +263,18 @@ class GameUI extends game.BaseUI {
         this.alarmMC.visible = false;
 
         this.gameLevelText.text = 'LV.' + lv
+
+        this.guideStep = 0;
+        this.guideText.text = '';
+        if(CarManager.getInstance().isGuide)
+        {
+            setTimeout(()=>{
+                this.guideStep = 1;
+                this.guideText.text = '长按屏幕进行加速'
+                this.showGuideMV();
+            },500)
+
+        }
     }
 
     public onShow(){
@@ -362,6 +374,18 @@ class GameUI extends game.BaseUI {
         GD.decSpeed(isDec)
         if(GD.speed < GD.baseSpeed)
             GD.speed = GD.baseSpeed
+        if(this.guideStep == 1 && isAdd)
+        {
+            this.guideText.text = ''
+            this.guideStep = 2;
+        }
+        else if(this.guideStep == 3 && isDec)
+        {
+            this.guideText.text = ''
+            this.guideStep = 0;
+            SharedObjectManager.getInstance().setMyValue('finishGuide',true)
+            CarManager.getInstance().isGuide = false;
+        }
 
         //if(isAdd)
         //    SoundManager.getInstance().playSound('motor1')
@@ -424,6 +448,13 @@ class GameUI extends game.BaseUI {
                 this.alarm = 1;
                 this.lastDrawAlarm = 0
                 SoundManager.getInstance().playEffect('limit' + oo.speed)
+
+                if(this.guideStep == 2)
+                {
+                    this.guideText.text = '松开手指进行减速'
+                    this.showGuideMV();
+                    this.guideStep = 3;
+                }
             }
 
             this.limitGroup.visible = this.alarm == 1;
@@ -484,6 +515,10 @@ class GameUI extends game.BaseUI {
                 this.rateMC2.width = 200* Math.min((GameData.AlertMeter - meter)/GameData.AlertMeter,1)
             }
         }
+    }
+
+    private showGuideMV(){
+        egret.Tween.get(this.guideText).to({scaleX:0,scaleY:0}).to({scaleX:1.2,scaleY:1.2},250).to({scaleX:1,scaleY:1},250)
     }
 
     private resetRed(){

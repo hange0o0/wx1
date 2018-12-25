@@ -11,6 +11,7 @@ class CarManager {
         //this.maxLevel = 999
     }
 
+    public isGuide = !SharedObjectManager.getInstance().getMyValue('finishGuide')
     public maxLevel = _get['level'] || 0;
     public skinid = 1;
     public levelData = {1:20000,2:20000,3:20000,4:20000,5:20000,6:20000}

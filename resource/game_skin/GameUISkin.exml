@@ -27,6 +27,7 @@
 	</e:Group>
 	<e:Button id="debugBtn" label="debug" includeIn="main" x="30" y="30" skinName="Btn1Skin"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
+	<e:Label id="guideText" text="3" horizontalCenter="0" y="150" size="30" textColor="0xfcd550" stroke="3" includeIn="game" bold="true"/>
 	<e:Group id="meterGroup" x="170" bottom="-2" includeIn="game" width="304" height="200">
 		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>

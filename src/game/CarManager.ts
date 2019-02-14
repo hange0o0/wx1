@@ -10,18 +10,20 @@ class CarManager {
         this.maxLevel = ObjectUtil.objLength(this.levelData)
         //this.maxLevel = 999
     }
+    public shareNum = 0;
+
 
     public isGuide = !SharedObjectManager.getInstance().getMyValue('finishGuide')
     public maxLevel = _get['level'] || 0;
     public skinid = 1;
     public levelData = {1:20000,2:20000,3:20000,4:20000,5:20000,6:20000}
-    public skins = [1,2,3,4,5,6,7,8,9,10,11]
+    public skinNum = 5;
     public skinsData:any = {};
 
     public initData(data){
         this.skinid = data.skinid;
         this.levelData = data.levelData;
-        this.skins = data.skins;
+        this.skinNum = data.skinNum;
         this.skinsData = data.skinsData || {};
         this.maxLevel = ObjectUtil.objLength(this.levelData)
 
@@ -48,7 +50,7 @@ class CarManager {
     }
 
     public isHaveSkin(skinid){
-         return this.skins.indexOf(skinid) != -1;
+         return this.skinNum >= skinid;
     }
 
     public getSkinValue(skinid){
@@ -69,6 +71,12 @@ class CarManager {
             case 4:
                 //this.rateText.text = '观看广告'+max+'次'
                 return this.skinsData[skinid] || 0;
+            case 5:
+                //this.rateText.text = '观看广告'+max+'次'
+                return this.getAllStar();;
+            case 6:
+                //this.rateText.text = '观看广告'+max+'次'
+                return this.shareNum;
         }
          return 0;
     }
@@ -106,10 +114,10 @@ class CarManager {
     }
 
     public buySkin(skinid,fun?){
-        var newSkins = this.skins.concat(skinid);
+        //var newSkins = this.skins.concat(skinid);
         var t = TM.now();
-        WXDB.updata('user',{skins:newSkins,skinsData:{time:t}},()=>{
-            this.skins.push(skinid);
+        WXDB.updata('user',{skinNum:this.skinNum+1,skinsData:{time:t}},()=>{
+            this.skinNum ++;
             this.skinsData.time = t
             EM.dispatch(GameEvent.client.SKIN_CHANGE)
             fun && fun();

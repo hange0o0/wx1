@@ -213,7 +213,7 @@ module game {
         public onResize(e:Event):void{
 //            console.log(GameManager.stage.stageWidth, GameManager.stage.stageHeight)
 //            console.log(GameManager.stage.width, GameManager.stage.height)
-            this.height = GameManager.stage.stageHeight;
+            this.height = GameManager.uiHeight;
             var item: any;
             for(var i = 0;i < this.sizeList.length; i++){
                 /*
@@ -225,6 +225,13 @@ module game {
                     item.ui.y = GameManager.stage.stageHeight - item.ui.height;
                 }*/
             }
+
+            this.scrollRect = new egret.Rectangle(0,0, GameManager.uiWidth, GameManager.uiHeight);
+            if(GameManager.isLiuHai())
+                this.y = 50
+            else
+                this.y = 0;
+
             if(this.parent)
                 this.resizeFun();
         }

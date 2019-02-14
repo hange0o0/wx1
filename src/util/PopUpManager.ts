@@ -35,7 +35,6 @@ class PopUpManager {
         var hh = GameManager.container.height;
         if(!this.shape)
         {
-
             this.shape = new eui.Rect();
             this.shape.width = 640;
             this.shape.fillColor = 0;

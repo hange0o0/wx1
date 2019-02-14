@@ -39,7 +39,7 @@ class SkinUI extends game.BaseWindow{
 
         this.validateNow();
         var max = this.scroller.viewport.contentHeight-this.scroller.height;
-        var v = Math.min(max,Math.floor(CarManager.getInstance().skins.length/3)*(260+15));
+        var v = Math.min(max,Math.floor(CarManager.getInstance().skinNum/3)*(260+15));
         egret.Tween.get(this.scroller.viewport).to({scrollV:v},100)
 
         //setTimeout(()=>{

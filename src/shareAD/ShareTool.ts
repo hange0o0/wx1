@@ -6,9 +6,9 @@ class ShareTool {
      */
     public static share(title, imgUrl,shareArgs,success?){
         if(DEBUG){
-            if(!shareArgs || !shareArgs.ACT_TYPE){
-                console.error("需要配置 ACT_TYPE");
-            }
+            //if(!shareArgs || !shareArgs.ACT_TYPE){
+            //    console.error("需要配置 ACT_TYPE");
+            //}
             if(DEBUG && shareArgs){
                 var ss = [];
                 for(var key in shareArgs){

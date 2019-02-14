@@ -38,6 +38,7 @@ class SkinItem extends game.BaseItem{
             case 0://默认
                 break
             case 1:
+            case 5:
                 SkinUI.getInstance().hide();
                 GameUI.getInstance().onStart()
                 break;
@@ -47,6 +48,13 @@ class SkinItem extends game.BaseItem{
                 console.log(UM.gameid);
                 ShareTool.share('集赞换新车，就差你了一票了',Config.localResRoot + "share_img_1.jpg",{type:1,from:UM.gameid,skinid:this.data})
                 //this.rateText.text = '邀请'+max+'个新用户'
+                break;
+            case 6:
+                CarManager.getInstance().shareNum ++;
+                ShareTool.share('这个游戏很好玩，推荐一下',Config.localResRoot + "share_img_2.jpg",{})
+                this.dataChanged();
+                //this.rateText.text = '观看广告'+max+'次'
+                //this.btn.label = '观看'
                 break;
             case 4:
                 //this.rateText.text = '观看广告'+max+'次'
@@ -74,7 +82,7 @@ class SkinItem extends game.BaseItem{
     }
 
     public dataChanged():void{
-        var openNum = CarManager.getInstance().skins.length;
+        var openNum = CarManager.getInstance().skinNum;
         if(this.data > openNum + 1)
         {
             this.currentState = 'lock2';
@@ -111,16 +119,27 @@ class SkinItem extends game.BaseItem{
                     this.btn.label = '前往'
                     break
                 case 2:
-                    this.rateText.text = max + '小时后获得'
+                    if(max < 1)
+                        this.rateText.text = Math.round(max*60) + '分钟后获得'
+                    else
+                        this.rateText.text = max + '小时后获得'
                     this.btn.visible = false;
                     break
                 case 3:
-                    this.rateText.text = '邀请'+max+'个新用户'
+                    this.rateText.text = '邀请'+max+'个新玩家'
                     this.btn.label = '邀请'
                     break
                 case 4:
                     this.rateText.text = '观看广告'+max+'次'
                     this.btn.label = '观看'
+                    break
+                case 5:
+                    this.rateText.text = '总星星数'+max+'个'
+                    this.btn.label = '前往'
+                    break
+                case 6:
+                    this.rateText.text = '推荐游戏'
+                    this.btn.label = '推荐'
                     break
             }
             this.barMC.width = 240*Math.min(v/max,1)

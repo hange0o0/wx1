@@ -102,7 +102,7 @@ class UserManager {
         var wx = window['wx'];
         const db = wx.cloud.database();
         var initData:any = {
-            skins:[1],   //已有皮肤
+            skinNum:1,   //已有皮肤
             skinid:1,  //当前使用皮肤
             skinsData:{}, //皮肤相关的额外数据
             levelData:{}, //关卡数据

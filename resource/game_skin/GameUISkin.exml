@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="main,game" >
 	<e:Image id="bg" source="bg_jpg" fillMode="repeat" left="0" right="0" height="1600" y="0"/>
-	<e:Rect width="600" fillColor="0x424242" horizontalCenter="0" top="0" bottom="0"/>
-	<e:Group id="errorMC" x="20" y="0" width="600" height="10" height.game="5" includeIn="game">
-		<e:Image source="red_jpg" scaleX="1" scaleY="1" left="0" right="0" top="0" bottom="0"/>
-	</e:Group>
+	<e:Image source="road_jpg" horizontalCenter="0" top="0" bottom="0"/>
 	<e:Image id="line2" source="road_png" y="0" fillMode="repeat" horizontalCenter="150" height="1600"/>
 	<e:Image id="line1" source="road_png" y="0" fillMode="repeat" height="1600" horizontalCenter="-150"/>
-	<e:Rect width="15" height="1136" y="0" fillColor="0xffffff" horizontalCenter="0" top.game="0" bottom.game="0" top.main="0" bottom.main="0"/>
+	<e:Image id="errorMC" source="red_jpg" y="0" width="600" height="10" horizontalCenter="0" includeIn="game"/>
 	<e:Group id="treeGroup" left="0" right="0" top="0" bottom="0" locked="true">
 	</e:Group>
 	<e:Image id="titleMC" source="title_png" y="120" horizontalCenter="0" visible.game="false"/>
@@ -56,4 +53,10 @@
 		</e:Group>
 	</e:Group>
 	<e:Image id="failMC" source="red_jpg" left="0" right="0" top="0" bottom="0" includeIn="game" alpha="0.1" visible="false"/>
+
+	<e:Group id="tipsGroup" horizontalCenter="0" verticalCenter="0" width="400" height="220" includeIn="main">
+		<e:Image source="bg8_png" left="0" right="0" top="0" bottom="0" scale9Grid="10,8,13,13"/>
+		<e:Label text="《健康游戏忠告》" y="20" horizontalCenter="0"/>
+		<e:Label text="抵制不良游戏，拒绝盗版游戏。\n注意自我保护，谨防受骗上当。\n适度游戏益脑，沉迷游戏伤身。\n合理安排时间，享受健康生活。" y="80" size="24" lineSpacing="5" textAlign="center" horizontalCenter="0"/>
+	</e:Group>
 </e:Skin>

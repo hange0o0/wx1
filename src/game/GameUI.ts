@@ -33,6 +33,7 @@ class GameUI extends game.BaseUI {
     private failMC: eui.Rect;
     private debugBtn: eui.Button;
     private bottomGroup: eui.Group;
+    private tipsGroup: eui.Group;
 
     private infoBtn:UserInfoBtn
 
@@ -66,6 +67,8 @@ class GameUI extends game.BaseUI {
 
     private touchID = {}
     private guideStep = 0
+
+    private soundTimer = 0
 
     public constructor() {
         super();
@@ -134,8 +137,14 @@ class GameUI extends game.BaseUI {
         this.touchID = {};
     }
 
-    private renewInfo(res?){
+    public showTimeNum(num){
+        var str = '9876543210'
 
+        this.gameLevelText && (this.gameLevelText.text = str.substr(-num))
+    }
+
+    private renewInfo(res?){
+        return;
         var wx = window['wx'];
         if(!wx)
             return;
@@ -144,9 +153,11 @@ class GameUI extends game.BaseUI {
             this.infoBtn.visible = false;
             UM.renewInfo(res.userInfo)
             this.bottomGroup.visible = true;
+            this.levelGroup.visible = true;
             return;
         }
         this.bottomGroup.visible = false;
+        this.levelGroup.visible = false;
         this.startBtn.visible = false
         wx.getSetting({
             success: (res) =>{
@@ -160,6 +171,7 @@ class GameUI extends game.BaseUI {
                             UM.head = userInfo.avatarUrl
                             UM.gender = userInfo.gender || 1 //性别 0：未知、1：男、2：女
                             this.bottomGroup.visible = true;
+                            this.levelGroup.visible = true;
                             this.infoBtn.visible = false;
                             this.startBtn.visible = true
                         }
@@ -249,6 +261,8 @@ class GameUI extends game.BaseUI {
     }
 
     public startLevel(lv){
+        this.tipsGroup.visible = false;
+        this.carMC.visible = true
         GameData.getInstance().setCar(CarManager.getInstance().skinid)
         GameData.getInstance().onGameStart(lv)
 
@@ -262,6 +276,11 @@ class GameUI extends game.BaseUI {
         this.errorMC.visible = false;
         this.alarmMC.visible = false;
 
+        this.posRateMC['rate'] = -1
+        this.cdRateMC['rate'] = -1
+
+
+
         this.gameLevelText.text = 'LV.' + lv
 
         this.guideStep = 0;
@@ -273,12 +292,19 @@ class GameUI extends game.BaseUI {
                 this.guideText.text = '长按屏幕进行加速'
                 this.showGuideMV();
             },500)
-
         }
+
+        this.soundTimer = egret.getTimer() + 5*Math.random()*1000
     }
 
     public onShow(){
-        SoundManager.getInstance().playSound('road');
+        this.tipsGroup.visible = true;
+        this.carMC.visible = false;
+        setTimeout(()=>{
+            this.tipsGroup.visible = false;
+            this.carMC.visible = true
+        },2000);
+        SoundManager.getInstance().playSound('bg');
         this.renewInfo();
         this.timer.start()
         this.reset();
@@ -396,8 +422,11 @@ class GameUI extends game.BaseUI {
         this.onMoveBG(speed);
         GD.onRunSpeed();
         var rate = Math.min(1,GD.passMeter/GD.maxLen);
-        if(this.posRateMC.visible)
+        if(this.posRateMC.visible && Math.abs(this.posRateMC['rate'] - rate) > 0.0015)
+        {
             MyTool.getSector(159,180,rate*180,0x000099,1,this.posRateMC)
+            this.posRateMC['rate'] = rate
+        }
             //MyTool.getSector(159,162,rate*216,0x000099,1,this.posRateMC)
         //this.rateMC.width = 260 *rate;
 
@@ -420,8 +449,18 @@ class GameUI extends game.BaseUI {
         if(this.cdRateMC.visible)
         {
             var cdRate = (egret.getTimer() - GD.startTime)/GD.maxTime;
-            MyTool.getSector(166,180,cdRate*180,0xFCD550,1,this.cdRateMC);
+            if(Math.abs(this.cdRateMC['rate'] - cdRate) > 0.0015)
+            {
+                MyTool.getSector(166,180,cdRate*180,0xFCD550,1,this.cdRateMC);
+                this.cdRateMC['rate'] = cdRate
+            }
             //MyTool.getSector(166,162,cdRate*216,0xFCD550,1,this.cdRateMC);
+        }
+
+        if(egret.getTimer() > this.soundTimer)
+        {
+            SoundManager.getInstance().playEffect('road')
+            this.soundTimer = egret.getTimer() + 4*1000 + 5*Math.random()*1000
         }
 
 
@@ -515,6 +554,8 @@ class GameUI extends game.BaseUI {
                 this.rateMC2.width = 200* Math.min((GameData.AlertMeter - meter)/GameData.AlertMeter,1)
             }
         }
+
+        //console.log(egret.getTimer() - t)
     }
 
     private showGuideMV(){
@@ -534,6 +575,7 @@ class GameUI extends game.BaseUI {
     }
 
     private onOtherCarMove(){
+        //return;
         var emptyPos = [];
         for(var s in this.road)
         {
@@ -543,7 +585,7 @@ class GameUI extends game.BaseUI {
                 var addSpeed = car.speed - GameData.getInstance().speed;
                 addSpeed *= GameData.speedRate;
                 car.bottom += addSpeed;
-                if(car.bottom < - 300 || (car.bottom > GameManager.stage.stageHeight + 200))
+                if(car.bottom < - 300 || (car.bottom > GameManager.uiHeight + 200))
                 {
                     CarMC.freeItem(car);
                     this.road[s].car = null;
@@ -573,12 +615,12 @@ class GameUI extends game.BaseUI {
             {
                 car.scaleY *= -1;
                 car.speed *= -0.6;
-                car.bottom = GameManager.stage.stageHeight + 100;
+                car.bottom = GameManager.uiHeight + 100;
             }
             else
             {
                 if(car.speed < GameData.getInstance().speed)
-                    car.bottom = GameManager.stage.stageHeight + 100;
+                    car.bottom = GameManager.uiHeight + 100;
                 else
                     car.bottom = -150;
             }
@@ -586,6 +628,7 @@ class GameUI extends game.BaseUI {
     }
 
     private onMoveBG(speed){
+
         speed *= GameData.speedRate;
         var des = 160;
         this.line1.bottom  -= speed
@@ -598,6 +641,7 @@ class GameUI extends game.BaseUI {
         if(this.bg.bottom < -100)
             this.bg.bottom += 100
 
+        //return;
         for(var i=0;i<this.treeArr1.length;i++)
         {
             this.treeArr1[i].bottom -= speed;
@@ -620,7 +664,7 @@ class GameUI extends game.BaseUI {
         }
 
         var treeDes = 150;
-        while(!this.treeArr1[0] || this.treeArr1[this.treeArr1.length-1].bottom < GameManager.stage.stageHeight-treeDes){
+        while(!this.treeArr1[0] || this.treeArr1[this.treeArr1.length-1].bottom < GameManager.uiHeight-treeDes){
              var tree = this.getTree();
             if(!this.treeArr1[0])
                 tree.bottom = 0;
@@ -630,7 +674,7 @@ class GameUI extends game.BaseUI {
             this.treeGroup.addChildAt(tree,0);
             tree.right = 590
         }
-        while(!this.treeArr2[0] || this.treeArr2[this.treeArr2.length-1].bottom < GameManager.stage.stageHeight-treeDes){
+        while(!this.treeArr2[0] || this.treeArr2[this.treeArr2.length-1].bottom < GameManager.uiHeight-treeDes){
              var tree = this.getTree();
             if(!this.treeArr2[0])
                 tree.bottom = 0;

@@ -7,12 +7,11 @@ class MyTimer extends egret.EventDispatcher {
         this.cd = v;
         this.timer = new egret.Timer(v);
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.onE,this)
-
-
     }
 
     private onE(){
         var num = Math.floor((egret.getTimer() - this.lastTime)/this.cd)
+        //GameUI.getInstance().showTimeNum(num);
         while(num --)
         {
             this.dispatchEventWith(egret.TimerEvent.TIMER)

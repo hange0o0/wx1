@@ -24,7 +24,7 @@ class CarMC extends eui.Group{
         this.mc = new eui.Image('car_png');
         this.addChild(this.mc);
         this.mc.x = this.mc.y = 0;
-        this.width = 238
+        this.width = 236
         this.height = 320
     }
 

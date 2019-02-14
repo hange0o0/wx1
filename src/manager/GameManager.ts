@@ -22,8 +22,16 @@ class GameManager {
     public static container:egret.DisplayObjectContainer;
     public static loadStep
 
+    public static isLiuHai(){
+        return this.stage.stageHeight > 1250;
+    }
+
     public static get uiHeight(){
-        return this.stage.stageHeight;
+        var h = this.stage.stageHeight;
+        if(this.isLiuHai())
+            return h-50;
+        return h//Math.min(1136,this.stage.stageHeight);
+        //return this.stage.stageHeight;
     }
     public static get uiWidth(){
         return this.stage.stageWidth;
@@ -177,9 +185,18 @@ if(window["wx"])
     wx.onShow(function(res){
         if(!GameManager.stage)
             return;
-        SoundManager.getInstance().playSound('road');
+        SoundManager.getInstance().playSound('bg');
         GameManager.stage.dispatchEventWith(egret.Event.ACTIVATE);
         GameUI.getInstance().cleanTouch();
         console.log('show')
     });
+
+    wx.onShareAppMessage(function(res){
+        return {
+            title: '这个游戏很好玩，推荐一下',
+            imageUrl: Config.localResRoot + "share_img_2.jpg"
+        };
+    });
+
+    window["wx"].setKeepScreenOn && window["wx"].setKeepScreenOn({keepScreenOn:true});//屏幕常亮
 }

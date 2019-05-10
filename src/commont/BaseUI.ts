@@ -136,6 +136,9 @@ module game {
         public showFinishFunList = []; //显示成功后回调的方法
 
         private panelEvents: any = {};
+        public isShowAD = false;
+        public adBottom = 0;
+
 
         public constructor(isWindow?:boolean) {
             super();

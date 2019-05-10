@@ -234,6 +234,16 @@
 			"name":"road_jpg",
 			"type":"image",
 			"url":"game_assets/road.jpg"
+		},
+		{
+			"name":"talk_bg_png",
+			"type":"image",
+			"url":"game_assets/talk_bg.png"
+		},
+		{
+			"name":"enemy1_hd_png",
+			"type":"image",
+			"url":"game_assets/enemy1_hd.png"
 		}
 	]
 }

@@ -19,7 +19,7 @@ class LevelItem extends game.BaseItem{
         if(this.currentState == 'current')
         {
             LevelUI.getInstance().hide();
-            GameUI.getInstance().startLevel(this.data)
+            GameUI.getInstance().callStartLevel(this.data)
         }
     }
 

@@ -17,6 +17,7 @@ class ResultFailUI extends game.BaseWindow{
         super();
         this.skinName = "ResultFailUISkin";
         this.canBGClose = false
+        this.isShowAD = true;
     }
     public childrenCreated() {
         this.addBtnEvent(this.backBtn,this.hide)
@@ -26,12 +27,13 @@ class ResultFailUI extends game.BaseWindow{
 
     private onRetry(){
         this.hide();
-        GameUI.getInstance().startLevel(GameData.getInstance().level);
+        GameUI.getInstance().callStartLevel(GameData.getInstance().level);
     }
 
     public hide(){
         super.hide();
         GameUI.getInstance().reset();
+        JumpGroup.getInstance().hide();
     }
 
     public show() {
@@ -54,6 +56,7 @@ class ResultFailUI extends game.BaseWindow{
         else
             this.timesText.text = '';
 
+        JumpGroup.getInstance().show('有点小失误？来放松一下吧')
     }
 
 

@@ -2,6 +2,8 @@
 	"skins": {},
 	"autoGenerateExmlsList": true,
 	"exmls": [
+		"resource/game_skin/changeUser/JumpGroup.exml",
+		"resource/game_skin/changeUser/JumpMCSkin.exml",
 		"resource/game_skin/commont/btns/Btn1Skin.exml",
 		"resource/game_skin/commont/btns/Btn2Skin.exml",
 		"resource/game_skin/commont/btns/Btn3Skin.exml",
@@ -37,7 +39,8 @@
 		"resource/game_skin/ResultFailUISkin.exml",
 		"resource/game_skin/ResultUISkin.exml",
 		"resource/game_skin/SkinItemSkin.exml",
-		"resource/game_skin/SkinUISkin.exml"
+		"resource/game_skin/SkinUISkin.exml",
+		"resource/game_skin/TryCarUISkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

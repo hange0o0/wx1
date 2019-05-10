@@ -13,8 +13,8 @@
 	<e:Label id="nextText" text="下一关已解锁" y="280" size="24" horizontalCenter="1" textColor="0x96fffb"/>
 	<e:Button id="shartBtn" label="炫耀一下" skinName="Btn4Skin" width="160" horizontalCenter="0" bottom="135"/>
 	<e:Button id="nextBtn" label="下一关" width="160" horizontalCenter="0" skinName="Btn2Skin" bottom="60"/>
-	<e:Group id="backBtn" y="556" horizontalCenter="0">
-		<e:Label text="返回首页" x="0" y="0" size="24"/>
-		<e:Rect fillColor="0xffffff" left="0" right="0" height="2" y="30"/>
+	<e:Group id="backBtn" horizontalCenter="0" width="120" height="34" bottom="0">
+		<e:Label text="返回首页" y="0" size="24" horizontalCenter="0"/>
+		<e:Rect fillColor="0xffffff" left="0" right="0" height="2" bottom="0"/>
 	</e:Group>
 </e:Skin>

@@ -8,6 +8,7 @@ class SkinItem extends game.BaseItem{
     private btn: eui.Button;
 
     private carMC = new CarMC();
+    public isTry = false
 
     public constructor() {
         super();
@@ -46,17 +47,24 @@ class SkinItem extends game.BaseItem{
                 break;
             case 3:
                 console.log(UM.gameid);
-                ShareTool.share('集赞换新车，就差你了一票了',Config.localResRoot + "share_img_1.jpg",{type:1,from:UM.gameid,skinid:this.data})
+                ShareTool.share('集赞换新车，就差你了一票了',Config.localResRoot + "share_img_1.jpg",{type:1,from:UM.gameid,skinid:this.data},null,true)
                 //this.rateText.text = '邀请'+max+'个新用户'
                 break;
             case 6:
-                CarManager.getInstance().shareNum ++;
-                ShareTool.share('这个游戏很好玩，推荐一下',Config.localResRoot + "share_img_2.jpg",{})
-                this.dataChanged();
+
+                ShareTool.share('这个游戏很好玩，推荐一下',Config.localResRoot + "share_img_1.jpg",{},()=>{
+                    CarManager.getInstance().shareNum ++;
+                    this.dataChanged();
+                })
+
                 //this.rateText.text = '观看广告'+max+'次'
                 //this.btn.label = '观看'
                 break;
             case 4:
+                ShareTool.openGDTV(()=>{
+                    CarManager.getInstance().onVideo(this.data);
+                    this.dataChanged();
+                })
                 //this.rateText.text = '观看广告'+max+'次'
                 //this.btn.label = '观看'
                 break;
@@ -94,7 +102,7 @@ class SkinItem extends game.BaseItem{
         var carVO = GameData.getInstance().carData[this.data];
         this.carMC.visible = true
         this.carMC.setCar(this.data)
-        if(CarManager.getInstance().isHaveSkin(this.data))
+        if(CarManager.getInstance().isHaveSkin(this.data) || this.isTry)
         {
             var color = 0x99c5fd;
             this.setUsing(SkinUI.getInstance().currentSkin == this.data);

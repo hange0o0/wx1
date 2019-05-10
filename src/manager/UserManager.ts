@@ -20,6 +20,10 @@ class UserManager {
     public gender: number;
     public isScope: boolean = false;
 
+    public isTest = false;
+    public shareFail = false;
+    public testVersion = 0;
+
 
     public fill(data:any):void{
         this.dbid = data._id;
@@ -37,13 +41,14 @@ class UserManager {
         var wx = window['wx'];
         const db = wx.cloud.database();
 
-
-
         wx.cloud.callFunction({      //取玩家openID,
             name: 'getInfo',
             complete: (res) => {
                 console.log(res)
                 this.gameid = res.result.openid
+                this.isTest = res.result.testVersion == this.testVersion;
+                this.shareFail = res.result.shareFail;
+                TimeManager.getInstance().initlogin(res.result.time)
                 db.collection('user').where({     //取玩家数据
                     _openid: this.gameid,
                 }).get({

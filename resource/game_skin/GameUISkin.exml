@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="main,game" >
+<e:Skin class="GameUISkin" width="640" height="1360" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" states="main,game" >
 	<e:Image id="bg" source="bg_jpg" fillMode="repeat" left="0" right="0" height="1600" y="0"/>
 	<e:Image source="road_jpg" horizontalCenter="0" top="0" bottom="0"/>
 	<e:Image id="line2" source="road_png" y="0" fillMode="repeat" horizontalCenter="150" height="1600"/>
@@ -25,6 +25,8 @@
 	<e:Button id="debugBtn" label="debug" includeIn="main" x="30" y="30" skinName="Btn1Skin"/>
 	<e:Label id="readyText" text="3" horizontalCenter="0" verticalCenter="-100" size="150" textColor="0xfcd550" stroke="5" includeIn="game" bold="true"/>
 	<e:Label id="guideText" text="3" horizontalCenter="0" y="150" size="30" textColor="0xfcd550" stroke="3" includeIn="game" bold="true"/>
+	<e:Rect id="rightBtn" width="320" includeIn="game" x="320" top="0" bottom="0" fillColor="0x5af40e" fillAlpha="0.2"/>
+	<e:Rect id="leftBtn" width="320" includeIn="game" x="0" top="0" bottom="0" fillAlpha="0.2" fillColor="0xf20e0e"/>
 	<e:Group id="meterGroup" x="170" bottom="-2" includeIn="game" width="304" height="200">
 		<e:Image source="clock_bg_png" y="-2" horizontalCenter="0"/>
 		<e:Image source="car_clock_png" y="1" x="1"/>
@@ -59,4 +61,6 @@
 		<e:Label text="《健康游戏忠告》" y="20" horizontalCenter="0"/>
 		<e:Label text="抵制不良游戏，拒绝盗版游戏。\n注意自我保护，谨防受骗上当。\n适度游戏益脑，沉迷游戏伤身。\n合理安排时间，享受健康生活。" y="80" size="24" lineSpacing="5" textAlign="center" horizontalCenter="0"/>
 	</e:Group>
+	<ns1:JumpMC id="jumpMC" skinName="JumpMCSkin" visible.game="false" x="50" bottom="170"/>
+	<ns1:JumpMC id="jumpMC2" skinName="JumpMCSkin" bottom="170" right="50" visible.game="false"/>
 </e:Skin>

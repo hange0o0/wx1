@@ -7,33 +7,38 @@ class GameUI extends game.BaseUI {
     }
 
     private bg: eui.Image;
-    private errorMC: eui.Group;
     private line2: eui.Image;
     private line1: eui.Image;
+    private errorMC: eui.Image;
     private treeGroup: eui.Group;
     private titleMC: eui.Image;
     private startBtn: eui.Image;
+    private bottomGroup: eui.Group;
     private rankBtn: eui.Image;
     private levelBtn: eui.Image;
     private skinBtn: eui.Image;
     private settingBtn: eui.Image;
     private levelGroup: eui.Group;
     private levelText: eui.Label;
-    //private slowBtn: eui.Image;
-    //private speedBtn: eui.Image;
+    private debugBtn: eui.Button;
     private readyText: eui.Label;
-    private speedText: eui.Label;
-    private gameLevelText: eui.Label;
     private guideText: eui.Label;
+    private rightBtn: eui.Rect;
+    private leftBtn: eui.Rect;
+    private meterGroup: eui.Group;
+    private speedText: eui.Label;
     private needle: eui.Image;
     private limitGroup: eui.Group;
-    private meterGroup: eui.Group;
+    private rateMC2: eui.Image;
     private exitBtn: eui.Group;
-    private rateMC2: eui.Rect;
-    private failMC: eui.Rect;
-    private debugBtn: eui.Button;
-    private bottomGroup: eui.Group;
+    private gameLevelText: eui.Label;
+    private failMC: eui.Image;
     private tipsGroup: eui.Group;
+    private jumpMC: JumpMC;
+    private jumpMC2: JumpMC;
+
+
+
 
     private infoBtn:UserInfoBtn
 
@@ -70,6 +75,8 @@ class GameUI extends game.BaseUI {
 
     private soundTimer = 0
 
+    private carSkin
+
     public constructor() {
         super();
         this.skinName = "GameUISkin";
@@ -81,6 +88,8 @@ class GameUI extends game.BaseUI {
 
     public childrenCreated() {
         super.childrenCreated();
+
+        this.leftBtn.visible = this.rightBtn.visible = true;
 
         this.alarmMC.x = this.posRateMC.x = this.cdRateMC.x = 152
         this.alarmMC.y = this.posRateMC.y = this.cdRateMC.y = 154
@@ -253,18 +262,42 @@ class GameUI extends game.BaseUI {
     //}
 
     public onStart(){
-        this.startLevel(Math.min(CarManager.getInstance().maxLevel + 1,GameData.MaxLevel))
+        //if(!UM.isTest && GameData.getInstance().carData[CarManager.getInstance().skinNum + 1])
+        //{
+        //    TryCarUI.getInstance().show();
+        //    return;
+        //}
+        //this.playGame();
+        this.callStartLevel(Math.min(CarManager.getInstance().maxLevel + 1,GameData.MaxLevel))
     }
+
+    //public playGame(carid?){
+    //   this.carSkin = carid || CarManager.getInstance().skinid;
+    //    this.startLevel(Math.min(CarManager.getInstance().maxLevel + 1,GameData.MaxLevel))
+    //}
 
     public renewCar(){
-        this.carMC.setCar(CarManager.getInstance().skinid);
+        this.carSkin = CarManager.getInstance().skinid
+        this.carMC.setCar(this.carSkin);
     }
 
-    public startLevel(lv){
+    public callStartLevel(lv){
+        if(GameData.getInstance().carData[CarManager.getInstance().skinNum + 1])
+        {
+            TryCarUI.getInstance().show(lv);
+            return;
+        }
+        this.startLevel(lv)
+    }
+
+    public startLevel(lv,carSkin?){
+        this.carSkin = carSkin || CarManager.getInstance().skinid;
         this.tipsGroup.visible = false;
         this.carMC.visible = true
-        GameData.getInstance().setCar(CarManager.getInstance().skinid)
+        GameData.getInstance().setCar(this.carSkin)
+        this.carMC.setCar(this.carSkin)
         GameData.getInstance().onGameStart(lv)
+        this.leftBtn.visible = this.rightBtn.visible = false;
 
         this.touchID = {};
         this.currentState = 'game'
@@ -289,7 +322,8 @@ class GameUI extends game.BaseUI {
         {
             setTimeout(()=>{
                 this.guideStep = 1;
-                this.guideText.text = '长按屏幕进行加速'
+                this.rightBtn.visible = true;
+                this.guideText.text = '手指停在右则屏幕进行加速'
                 this.showGuideMV();
             },500)
         }
@@ -314,6 +348,9 @@ class GameUI extends game.BaseUI {
     }
 
     public reset(){
+        this.renewCar();
+        this.jumpMC.show()
+        this.jumpMC2.show()
         this.currentState = 'main'
         this.gameState = 0;
         this.line1.bottom = 0;
@@ -384,17 +421,17 @@ class GameUI extends game.BaseUI {
 
         var isAdd = false;
         //var isDec = false;
-        var isDec = true;
+        var isDec = false;
         for(var s in this.touchID)
         {
-            //var touch = this.touchID[s];
-            //if(!isAdd && this.speedBtn.hitTestPoint(touch.x,touch.y))
-            //    isAdd = true;
-            //if(!isDec && this.slowBtn.hitTestPoint(touch.x,touch.y))
-            //    isDec = true;
+            var touch = this.touchID[s];
+            if(!isAdd && this.rightBtn.hitTestPoint(touch.x,touch.y))
+                isAdd = true;
+            if(!isDec && this.leftBtn.hitTestPoint(touch.x,touch.y))
+                isDec = true;
 
-            isAdd = true;
-            isDec = false;
+            //isAdd = true;
+            //isDec = false;
         }
         GD.addSpeed(isAdd);
         GD.decSpeed(isDec)
@@ -403,10 +440,14 @@ class GameUI extends game.BaseUI {
         if(this.guideStep == 1 && isAdd)
         {
             this.guideText.text = ''
+            this.rightBtn.visible = false;
+            this.leftBtn.visible = false;
             this.guideStep = 2;
         }
         else if(this.guideStep == 3 && isDec)
         {
+            this.rightBtn.visible = false;
+            this.leftBtn.visible = false;
             this.guideText.text = ''
             this.guideStep = 0;
             SharedObjectManager.getInstance().setMyValue('finishGuide',true)
@@ -490,7 +531,9 @@ class GameUI extends game.BaseUI {
 
                 if(this.guideStep == 2)
                 {
-                    this.guideText.text = '松开手指进行减速'
+                    this.rightBtn.visible = false;
+                    this.leftBtn.visible = true;
+                    this.guideText.text = '手指停在左则屏幕进行减速'
                     this.showGuideMV();
                     this.guideStep = 3;
                 }

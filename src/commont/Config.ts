@@ -23,10 +23,7 @@ class Config {
 
 
 
-    public static slaveLevel = 10;
-    public static activeLevel = 20;
-    public static pvpLevel = 15;
-    public static heroLevel = 50;
+    public static adHeight = 0;
 
 
     //public static friendLevel = 3;

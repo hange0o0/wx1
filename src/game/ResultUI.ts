@@ -17,6 +17,7 @@ class ResultUI extends game.BaseWindow{
         super();
         this.skinName = "ResultUISkin";
         this.canBGClose = false
+        this.isShowAD = true;
     }
     public childrenCreated() {
         this.addBtnEvent(this.backBtn,this.hide)
@@ -31,12 +32,13 @@ class ResultUI extends game.BaseWindow{
     }
     private onNext(){
         this.hide();
-        GameUI.getInstance().startLevel(GameData.getInstance().level + 1);
+        GameUI.getInstance().callStartLevel(GameData.getInstance().level + 1);
     }
 
     public hide(){
         super.hide();
         GameUI.getInstance().reset();
+        JumpGroup.getInstance().hide();
     }
 
     public show() {
@@ -62,6 +64,8 @@ class ResultUI extends game.BaseWindow{
         var cd2 =  Math.floor((cd%1000)/10)
         cd = Math.floor(cd/1000)
         this.timeText.text = DateUtil.getStringBySecond(cd).substr(-5) + '.' + ('00' + cd2).substr(-2)
+
+        JumpGroup.getInstance().show('车技不错，来我这里发展吧')
     }
 
 

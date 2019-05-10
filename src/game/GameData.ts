@@ -59,16 +59,16 @@ class GameData {
     //}
     public carData = {
         1:{maxSpeed:80,addSpeed:5,decSpeed:15,buyType:0,buyValue:0,artid:1},
-        2:{maxSpeed:90,addSpeed:5,decSpeed:15,buyType:1,buyValue:3,artid:2},
-        3:{maxSpeed:100,addSpeed:5,decSpeed:20,buyType:5,buyValue:9,artid:8},
-        4:{maxSpeed:105,addSpeed:6,decSpeed:25,buyType:2,buyValue:5/60,artid:11},
-        5:{maxSpeed:110,addSpeed:7,decSpeed:30,buyType:1,buyValue:10,artid:3},
+        2:{maxSpeed:90,addSpeed:5,decSpeed:15,buyType:1,buyValue:2,artid:2},
+        3:{maxSpeed:100,addSpeed:5,decSpeed:20,buyType:5,buyValue:7,artid:8},
+        4:{maxSpeed:105,addSpeed:6,decSpeed:25,buyType:4,buyValue:1,artid:11},
+        5:{maxSpeed:110,addSpeed:7,decSpeed:30,buyType:1,buyValue:8,artid:3},
         6:{maxSpeed:115,addSpeed:8,decSpeed:30,buyType:6,buyValue:1,artid:4},
-        7:{maxSpeed:120,addSpeed:9,decSpeed:35,buyType:2,buyValue:1,artid:7},
+        7:{maxSpeed:120,addSpeed:9,decSpeed:35,buyType:4,buyValue:2,artid:7},
         8:{maxSpeed:125,addSpeed:10,decSpeed:35,buyType:3,buyValue:1,artid:6},
         9:{maxSpeed:130,addSpeed:11,decSpeed:40,buyType:5,buyValue:40,artid:9},
         10:{maxSpeed:140,addSpeed:11,decSpeed:40,buyType:1,buyValue:18,artid:10},
-        11:{maxSpeed:150,addSpeed:12,decSpeed:45,buyType:2,buyValue:12,artid:5},
+        11:{maxSpeed:150,addSpeed:12,decSpeed:45,buyType:4,buyValue:3,artid:5},
         12:{maxSpeed:160,addSpeed:12,decSpeed:50,buyType:3,buyValue:2,artid:12},
     }
 

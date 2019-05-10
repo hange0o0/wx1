@@ -174,6 +174,8 @@ class Main extends eui.UILayer {
             return;
         }
         console.log('_12')
+        window['GameUI'] = GameUI;
+        window['UM'] = UM;
         UserManager.getInstance().getUserInfo(()=>{
             GameUI.getInstance().show();
         });

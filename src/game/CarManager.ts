@@ -16,8 +16,8 @@ class CarManager {
     public isGuide = !SharedObjectManager.getInstance().getMyValue('finishGuide')
     public maxLevel = _get['level'] || 0;
     public skinid = 1;
-    public levelData = {1:20000,2:20000,3:20000,4:20000,5:20000,6:20000}
-    public skinNum = 5;
+    public levelData = {1:20000}//,2:20000,3:20000,4:20000,5:20000,6:20000}
+    public skinNum =1;
     public skinsData:any = {};
 
     public initData(data){
@@ -122,8 +122,19 @@ class CarManager {
             EM.dispatch(GameEvent.client.SKIN_CHANGE)
             fun && fun();
         })
-
     }
+    public onVideo(skinid,fun?){
+        //var newSkins = this.skins.concat(skinid);
+        var t = TM.now();
+        var oo = {skinsData:{}}
+        this.skinsData[skinid] = (this.skinsData[skinid] || 0) + 1
+        oo.skinsData[skinid] = this.skinsData[skinid];
+        WXDB.updata('user',oo,()=>{
+            EM.dispatch(GameEvent.client.SKIN_CHANGE)
+            fun && fun();
+        })
+    }
+
 
     public upWXData(){
         var wx = window['wx'];

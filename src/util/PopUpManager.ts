@@ -66,6 +66,13 @@ class PopUpManager {
             var y = (hh - display.height) / 2;
             var x2 = (ww - display.width*1.1) / 2;
             var y2 = (hh - display.height*1.1) / 2;
+
+            if(display['isShowAD'] && Config.adHeight)
+            {
+                y -=Config.adHeight
+                y2 -=Config.adHeight
+            }
+
             display.alpha = 1;
             display.visible = true
             if(noMV || haveShow)
@@ -149,11 +156,24 @@ class PopUpManager {
 
     public static testVisible(){
         var setVisible = false;
+        var testAD = false
         for(var i=GameManager.container.numChildren-1 ;i>=0;i--)
         {
             var ui = GameManager.container.getChildAt(i);
             if(ui instanceof game.BaseUI)
             {
+                if(!testAD)
+                {
+                    testAD = true;
+                    if(ui.isShowAD)
+                    {
+                        GameManager.getInstance().showBanner(ui.adBottom);
+                    }
+                    else
+                    {
+                        GameManager.getInstance().hideBanner();
+                    }
+                }
                 var lastVisible = ui.visible;
                 if(!setVisible)
                 {

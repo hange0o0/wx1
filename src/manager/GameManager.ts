@@ -90,7 +90,7 @@ class GameManager {
         let width = scalex * btnw;
 
         let bannerAd = this.bannerAD = wx.createBannerAd({
-            adUnitId: 'adunit-d406f443acb5f7d2',
+            adUnitId: 'adunit-4e678f167783e740',
             style: {
                 left: left,
                 top: top,
@@ -112,23 +112,27 @@ class GameManager {
                 GameManager.stage.dispatchEventWith(egret.Event.RESIZE);
                 bannerAd.style.top = scaley * (GameManager.uiHeight + paddingTop);
             }
-            console.log('adadad')
+            //console.log('bannerAd.onResize')
             //console.log(res,scalex,scaley,GameManager.stage.stageHeight)
         })
+        //console.log('bannerAd.init')
         //bannerAd.show()
     }
 
     public showBanner(bottom){
+        //console.log('showBanner')
         if(this.bannerAD)
         {
             this.bannerAD.show()
             var scaley = screen.availHeight/GameManager.stage.stageHeight;
             var  paddingTop = GameManager.paddingTop();
-            this.bannerAD.style.top = scaley * (GameManager.uiHeight + paddingTop - bottom - GameManager.paddingBottom());
+            this.bannerAD.style.top = scaley * (GameManager.uiHeight + paddingTop - bottom - GameManager.paddingBottom() - Config.adHeight);
+            console.log(scaley * (GameManager.uiHeight + paddingTop - bottom - GameManager.paddingBottom()))
         }
     }
 
     public hideBanner(){
+        //console.log('hideBanner')
         if(this.bannerAD)
             this.bannerAD.hide();
     }
@@ -270,6 +274,8 @@ if(window["wx"])
 {
     window["JumpMC"] = JumpMC
     window["SkinItem"] = SkinItem
+    window["sendClientError"] = sendClientError
+    window["GameManager"] = GameManager.getInstance();
     var wx =  window["wx"];
 
     wx.onError(function(res){

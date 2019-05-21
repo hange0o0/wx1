@@ -61,7 +61,7 @@ class TryCarUI extends game.BaseWindow{
         this.shareType = Math.ceil(Math.random()*2)
         if(UM.isTest)
             this.shareType = 2;
-        else if(this.videoTimes >= 3)
+        else if(this.videoTimes >= 5)
             this.shareType = 1;
         this.btn.label = this.shareType == 1?'免费试用':'观看广告'
     }

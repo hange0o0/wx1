@@ -143,7 +143,7 @@ class ShareTool {
             }
             window["wx"].isPlayAD = false
         };
-        let adid = 'adunit-927ee662776f3dcc';//ADUI.getADID(adindex)// || ConfigQU.appData.wx_adtvCode;//'adunit-b0ef44339fa585f0';
+        let adid = 'adunit-d7cd4dd983301611';//ADUI.getADID(adindex)// || ConfigQU.appData.wx_adtvCode;//'adunit-b0ef44339fa585f0';
         if(!this.videoAD)
         {
             this.videoAD = window["wx"].createRewardedVideoAd({ adUnitId: adid });

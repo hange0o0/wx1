@@ -327,6 +327,14 @@ class GameUI extends game.BaseUI {
                 this.showGuideMV();
             },500)
         }
+        else
+        {
+            setTimeout(()=>{
+                this.guideStep = 10;
+                this.guideText.text = '左则屏幕 减速             右则屏幕 加速'
+                this.showGuideMV();
+            },500)
+        }
 
         this.soundTimer = egret.getTimer() + 5*Math.random()*1000
     }
@@ -452,6 +460,11 @@ class GameUI extends game.BaseUI {
             this.guideStep = 0;
             SharedObjectManager.getInstance().setMyValue('finishGuide',true)
             CarManager.getInstance().isGuide = false;
+        }
+        else if(this.guideStep == 10 && (isAdd || isDec))
+        {
+            this.guideText.text = ''
+            this.guideStep = 0;
         }
 
         //if(isAdd)

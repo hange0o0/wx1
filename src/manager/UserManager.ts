@@ -22,7 +22,7 @@ class UserManager {
 
     public isTest = false;
     public shareFail = false;
-    public testVersion = 0;
+    public testVersion = 20190521;
 
 
     public fill(data:any):void{

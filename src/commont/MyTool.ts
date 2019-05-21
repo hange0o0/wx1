@@ -357,13 +357,13 @@ class MyTool {
     }
 
     //一定时间内不能点击屏幕
-    public static stopClick(cd){
-        GameManager.container.touchChildren = GameManager.container.touchEnabled = false;
-        setTimeout(function(){
-            GameManager.container.touchChildren = GameManager.container.touchEnabled = Net.getInstance().modeNum <= 0;
-        },cd)
-
-    }
+    //public static stopClick(cd){
+    //    GameManager.container.touchChildren = GameManager.container.touchEnabled = false;
+    //    setTimeout(function(){
+    //        GameManager.container.touchChildren = GameManager.container.touchEnabled = Net.getInstance().modeNum <= 0;
+    //    },cd)
+    //
+    //}
 
     public static getSector(r: number = 100,startFrom: number = 0,angle: number = 360,color: number = 0xff0000,alpha=1,shape?: egret.Shape): egret.Shape {
         if(!shape)

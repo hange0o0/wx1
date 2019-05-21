@@ -11,6 +11,7 @@ class JumpGroup extends game.BaseContainer {
 
 
 
+    private randomNum = 0.5
     public constructor() {
         super();
         this.skinName = "JumpGroupSkin";
@@ -37,6 +38,9 @@ class JumpGroup extends game.BaseContainer {
     }
 
     public show(str){
+        if(Math.random()> this.randomNum)
+            return;
+        this.randomNum *= 0.8;
         GameManager.container.addChild(this);
         this.talkText.text = str;
         this.bottom = Config.adHeight;

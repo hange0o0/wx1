@@ -305,6 +305,8 @@ if(window["wx"])
         GameManager.getInstance().onShowFun = null;
         GameManager.getInstance().isActive = true;
         GameUI.getInstance().cleanTouch();
+        CarManager.getInstance().initExtra(res)
+        CarManager.getInstance().testWX5Back()
         console.log('show')
     });
 

@@ -41,7 +41,8 @@ class ResultFailUI extends game.BaseWindow{
     }
 
     public onShow(){
-        SoundManager.getInstance().playEffect('die')
+        GameData.getInstance().sendGameEnd(false)
+        SoundManager.getInstance().playEffect('time_over')
         var GD = GameData.getInstance();
         var rate = Math.min(1,GD.passMeter/GD.maxLen);
         this.rateText.text = Math.floor(rate*100)+'%'

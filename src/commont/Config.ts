@@ -24,6 +24,7 @@ class Config {
 
 
     public static adHeight = 0;
+    public static myAppID = 'wxd5d9d807682d46bb';
 
 
     //public static friendLevel = 3;

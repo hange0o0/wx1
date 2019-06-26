@@ -43,6 +43,7 @@ class GameData {
     //4 = '观看广告'+max+'次'
     //5 = '总星星数'+max+'个'
     //6 = '推荐好友'
+    //7 = '挑战解锁'
     //public carData = {             //debug
     //    1:{maxSpeed:100,addSpeed:5,decSpeed:15,buyType:0,buyValue:0,artid:1},
     //    2:{maxSpeed:110,addSpeed:6,decSpeed:15,buyType:1,buyValue:3,artid:2},
@@ -59,17 +60,17 @@ class GameData {
     //}
     public carData = {
         1:{maxSpeed:80,addSpeed:5,decSpeed:15,buyType:0,buyValue:0,artid:1},
-        2:{maxSpeed:90,addSpeed:5,decSpeed:15,buyType:1,buyValue:2,artid:2},
-        3:{maxSpeed:100,addSpeed:5,decSpeed:20,buyType:5,buyValue:7,artid:8},
-        4:{maxSpeed:105,addSpeed:6,decSpeed:25,buyType:4,buyValue:1,artid:11},
-        5:{maxSpeed:110,addSpeed:7,decSpeed:30,buyType:1,buyValue:8,artid:3},
-        6:{maxSpeed:115,addSpeed:8,decSpeed:30,buyType:6,buyValue:1,artid:4},
-        7:{maxSpeed:120,addSpeed:9,decSpeed:35,buyType:4,buyValue:2,artid:7},
-        8:{maxSpeed:125,addSpeed:10,decSpeed:35,buyType:3,buyValue:1,artid:6},
-        9:{maxSpeed:130,addSpeed:11,decSpeed:40,buyType:5,buyValue:40,artid:9},
-        10:{maxSpeed:140,addSpeed:11,decSpeed:40,buyType:1,buyValue:18,artid:10},
-        11:{maxSpeed:150,addSpeed:12,decSpeed:45,buyType:4,buyValue:3,artid:5},
-        12:{maxSpeed:160,addSpeed:12,decSpeed:50,buyType:3,buyValue:2,artid:12},
+        2:{maxSpeed:90,addSpeed:7,decSpeed:15,buyType:1,buyValue:2,artid:2},
+        3:{maxSpeed:100,addSpeed:7,decSpeed:20,buyType:7,buyValue:30,artid:8},
+        4:{maxSpeed:110,addSpeed:8,decSpeed:30,buyType:4,buyValue:1,artid:11},
+        5:{maxSpeed:110,addSpeed:10,decSpeed:20,buyType:1,buyValue:8,artid:3},
+        6:{maxSpeed:120,addSpeed:12,decSpeed:35,buyType:6,buyValue:1,artid:4},
+        7:{maxSpeed:120,addSpeed:18,decSpeed:30,buyType:7,buyValue:60,artid:7},
+        8:{maxSpeed:130,addSpeed:15,decSpeed:35,buyType:3,buyValue:1,artid:6},
+        9:{maxSpeed:130,addSpeed:16,decSpeed:45,buyType:5,buyValue:40,artid:9},
+        10:{maxSpeed:140,addSpeed:16,decSpeed:60,buyType:1,buyValue:18,artid:10},
+        11:{maxSpeed:150,addSpeed:20,decSpeed:50,buyType:4,buyValue:3,artid:5},
+        12:{maxSpeed:160,addSpeed:20,decSpeed:60,buyType:3,buyValue:2,artid:12},
     }
 
     //米 转 象素
@@ -177,5 +178,36 @@ class GameData {
         this.maxSpeed = vo.maxSpeed
         this.addSpeed_ = vo.addSpeed
         this.decSpeed_ = vo.decSpeed
+    }
+
+    public sendKey
+    public sendKeyName
+    public sendGameStart(key){
+        var wx = window['wx']
+        if(!wx)
+            return;
+        this.sendKey = key
+        this.sendKeyName = '第'+key+'关'
+        wx.aldStage.onStart({
+            stageId : this.sendKey, //关卡ID， 必须是1 || 2 || 1.1 || 12.2 格式  该字段必传
+            stageName : this.sendKeyName,//关卡名称，该字段必传
+            userId  : UM.gameid//用户ID
+        })
+    }
+
+
+    public sendGameEnd(success?,info?){
+        var wx = window['wx']
+        if(!wx)
+            return;
+        wx.aldStage.onEnd({
+            stageId : this.sendKey,    //关卡ID 该字段必传
+            stageName : this.sendKeyName, //关卡名称  该字段必传
+            userId : UM.gameid,  //用户ID 可选
+            event :success?"complete":"fail",   //关卡完成  关卡进行中，用户触发的操作    该字段必传
+            params : {
+                desc :info   //描述
+            }
+        })
     }
 }

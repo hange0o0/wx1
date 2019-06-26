@@ -27,6 +27,8 @@ class CarManager {
         this.skinsData = data.skinsData || {};
         this.maxLevel = ObjectUtil.objLength(this.levelData)
 
+        //
+        //this.skinNum = 2;
     }
 
     public getLevelStar(level){
@@ -77,6 +79,9 @@ class CarManager {
             case 6:
                 //this.rateText.text = '观看广告'+max+'次'
                 return this.shareNum;
+            case 7:
+                //this.rateText.text = '观看广告'+max+'次'
+                return this.skinsData[skinid]?Number.MAX_VALUE: 0;
         }
          return 0;
     }
@@ -94,13 +99,13 @@ class CarManager {
 
             var lastStar = this.getAllStar();
             WXDB.updata('user',{levelData:newLevelData},()=>{
-                this.levelData[GD.level] = useTime;
-                this.maxLevel = ObjectUtil.objLength(this.levelData)
-                if(lastStar != this.getAllStar())
-                    this.upWXData();
-                fun && fun();
+
+                //fun && fun();
             })
-            return;
+            this.levelData[GD.level] = useTime;
+            this.maxLevel = ObjectUtil.objLength(this.levelData)
+            if(lastStar != this.getAllStar())
+                this.upWXData();
         }
         fun && fun();
     }
@@ -149,5 +154,53 @@ class CarManager {
                 console.log(res);
             }
         });
+    }
+
+
+
+    private extraData
+    private finishExtraUin
+    public initExtra(data){
+        this.extraData = null;
+        if(!data || !data.referrerInfo || !data.referrerInfo.extraData || !data.referrerInfo.extraData.appid)
+        {
+            return;
+        }
+        if(this.finishExtraUin != data.referrerInfo.extraData.uin)
+            this.extraData = data.referrerInfo.extraData
+    }
+
+    //前往WX5
+    public openWX5(data){
+        var wx = window['wx'];
+        data.appid = Config.myAppID//我的APPID
+        data.uin = Math.floor(Math.random()*1000000000000000);//唯一Key
+        if(!wx)
+        {
+            this.extraData = data
+            this.testWX5Back()
+            return;
+        }
+
+        wx.navigateToMiniProgram({
+            appId: 'wxe2875716299fa092',//别点小广告
+            envVersion:'trial',
+            extraData:data,
+            complete(res) {
+            }
+        })
+    }
+
+    //WX5回调
+    public testWX5Back(){
+        if(!this.extraData)
+            return
+        this.finishExtraUin = this.extraData.uin;
+        switch(this.extraData.callBack)
+        {
+            case 'unlockSkin':
+               this.onVideo(this.extraData.skinid)
+                break;
+        }
     }
 }

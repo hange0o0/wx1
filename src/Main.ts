@@ -152,7 +152,7 @@ class Main extends eui.UILayer {
      * loading process of preload resource
      */
     private onResourceProgress(event:RES.ResourceEvent):void {
-        console.log(event.itemsLoaded, event.itemsTotal)
+        //console.log(event.itemsLoaded, event.itemsTotal)
         if (event.groupName == "game") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
@@ -176,6 +176,7 @@ class Main extends eui.UILayer {
         console.log('_12')
         window['GameUI'] = GameUI;
         window['UM'] = UM;
+        window['wx'] && CarManager.getInstance().initExtra(window['wx'].getLaunchOptionsSync())
         UserManager.getInstance().getUserInfo(()=>{
             GameUI.getInstance().show();
         });

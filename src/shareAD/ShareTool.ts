@@ -139,7 +139,7 @@ class ShareTool {
         }
         let close = (res) => {
             if(!res || res.isEnded){ //部分版本（比如：2.0.9，不能提前关闭广告）播放完成回调res为undefined，故没有res当做成功
-                success && success();
+                this.adSuccFun && this.adSuccFun();
             }
             window["wx"].isPlayAD = false
         };

@@ -291,6 +291,7 @@ class GameUI extends game.BaseUI {
     }
 
     public startLevel(lv,carSkin?){
+        this.exitBtn.visible = false;
         this.carSkin = carSkin || CarManager.getInstance().skinid;
         this.tipsGroup.visible = false;
         this.carMC.visible = true
@@ -337,6 +338,7 @@ class GameUI extends game.BaseUI {
         }
 
         this.soundTimer = egret.getTimer() + 5*Math.random()*1000
+        SoundManager.getInstance().playEffect('count_down')
     }
 
     public onShow(){
@@ -407,17 +409,19 @@ class GameUI extends game.BaseUI {
             var num = 3-Math.floor((egret.getTimer() - GD.startTime)/1000)
             if(num <= 0)
             {
-                SoundManager.getInstance().playEffect('count_down4')
+                //SoundManager.getInstance().playEffect('count_down4')
                 GD.countDown = 0;
                 GD.startTime = egret.getTimer();//真正开始
                 this.readyText.text = '';
                 this.posRateMC.visible = true;
                 this.cdRateMC.visible = true;
                 this.resetRed();
+                this.exitBtn.visible = true;
+                GD.sendGameStart(GD.level)
             }
             else if(GD.countDown != num)
             {
-                SoundManager.getInstance().playEffect('count_down')
+                //SoundManager.getInstance().playEffect('count_down')
 
                 GD.countDown = num
                 this.readyText.text = '' + num;
@@ -578,7 +582,7 @@ class GameUI extends game.BaseUI {
                 this.alarm = 2;
                 if(GD.speed > oo.speed)//超速
                 {
-                    SoundManager.getInstance().playEffect('photo')
+                    SoundManager.getInstance().playEffect('error')
                     GD.startTime -= GameData.FailDecTime
                     this.showFailMC();
 
@@ -593,7 +597,13 @@ class GameUI extends game.BaseUI {
             else if(this.alarm == 2)
             {
                 this.alarm = 3;
-                SoundManager.getInstance().playEffect('pass')
+                var rate = GD.speed / oo.speed
+                if(rate > 0.9)
+                    SoundManager.getInstance().playEffect('score4')
+                else if(rate > 0.5)
+                    SoundManager.getInstance().playEffect('score3')
+                else
+                    SoundManager.getInstance().playEffect('score2')
             }
             else if(this.alarm  == 3)//过了红线
             {

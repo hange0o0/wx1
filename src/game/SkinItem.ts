@@ -68,6 +68,21 @@ class SkinItem extends game.BaseItem{
                 //this.rateText.text = '观看广告'+max+'次'
                 //this.btn.label = '观看'
                 break;
+            case 7:
+                //var str = SM.adType == 'cd'?"在《别碰小广告》游戏中坚持"+SM.adValue+"秒，即可开启空间":"在《别碰小广告》游戏中获得"+SM.adValue+"分，即可开启空间"
+
+                MyWindow.Alert("在《别碰小广告》游戏中坚持"+carVO.buyValue+"秒，即可解锁车辆",()=>{
+                    CarManager.getInstance().openWX5({
+                        skinid:this.data,
+                        key:'cd',
+                        value:carVO.buyValue,
+                        callBack:'unlockSkin',
+                    })
+                },'开始挑战')
+
+                //this.rateText.text = '观看广告'+max+'次'
+                //this.btn.label = '观看'
+                break;
         }
 
     }
@@ -148,6 +163,10 @@ class SkinItem extends game.BaseItem{
                 case 6:
                     this.rateText.text = '推荐游戏'
                     this.btn.label = '推荐'
+                    break
+                case 7:
+                    this.rateText.text = '挑战解锁'
+                    this.btn.label = '挑战'
                     break
             }
             this.barMC.width = 240*Math.min(v/max,1)

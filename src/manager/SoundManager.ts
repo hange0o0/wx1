@@ -27,6 +27,7 @@ class SoundManager {
     private bgKey :string;
     private lastBGKey :string;
     private isLoad:boolean=false;
+    private wxChannel;
 
     private bgTimer;
     public pkKey = [];
@@ -127,6 +128,15 @@ class SoundManager {
     public stopBgSound(){
         this.lastBGKey = this.bgKey;
         this.bgKey = null;
+        if(window['wx'])
+        {
+            if(this.wxChannel) {
+                this.wxChannel.destroy()
+            }
+            this.currentKey = null;
+            return;
+        }
+
         try{
             // if(this.tween){
             //     this.tween.pause();
@@ -144,6 +154,16 @@ class SoundManager {
 
     public playEffect(v:string, fun?,thisObj?){
         if(!this.soundPlaying) return;
+
+        if(window['wx'])
+        {
+            const innerAudioContext = window['wx'].createInnerAudioContext()
+            innerAudioContext.autoplay = true
+            innerAudioContext.src = "resource/sound/" + v +".mp3";
+            return;
+        }
+
+
         //console.log('call:',v)
         var url = "resource/sound/" + v +".mp3"
         var loader: egret.URLLoader = new egret.URLLoader();
@@ -171,13 +191,25 @@ class SoundManager {
         if(!this.bgPlaying) return;
         if(this.bgKey == key) return;
 
-        this.bgKey = key;
+
 
         var url = "resource/sound/" + key +".mp3"
         if(this.currentKey == url) return;
+
+
+        this.stopBgSound()
+        this.bgKey = key;
         this.currentKey=url;
 
 
+        if(window['wx'])
+        {
+            const innerAudioContext = this.wxChannel = window['wx'].createInnerAudioContext()
+            innerAudioContext.autoplay = true
+            innerAudioContext.src =url;
+            innerAudioContext.loop =true;
+            return;
+        }
         
         try{
 
